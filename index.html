@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flow's Mama — חזיית הנקה של אודיה צור</title>
+  <meta name="description" content="חזיית הנקה עם כיס פטנט פנימי, 92% כותנה ו-8% ליקרה. נוחה, נושמת ועוצרת דליפות. מבית אודיה צור.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream:  { DEFAULT: '#F2E8D5', dark: '#EAD9BE', light: '#F8F3EA' },
+            navy:   { DEFAULT: '#2A4B7C', dark: '#1C3459', light: '#3D6BA8' },
+            gold:   '#C9A96E',
+            'body-text': '#4A3F35',
+            muted:  '#8C7B6B',
+          },
+          fontFamily: {
+            display: ['"Frank Ruhl Libre"', 'Georgia', 'serif'],
+            body:    ['"Heebo"', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-io:  cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      background-color: #F2E8D5;
+      font-family: 'Heebo', system-ui, sans-serif;
+      color: #4A3F35;
+      overflow-x: hidden;
+    }
+
+    /* ── Noise texture ─────────────────────────────────── */
+    .textured::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      filter: url(#noise);
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Scroll reveal ─────────────────────────────────── */
+    /* Elements visible by default; JS adds .will-animate before observing */
+    .reveal {
+      transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
+    }
+    .will-animate.reveal {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    .will-animate.reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-stagger > *:nth-child(1) { transition-delay: 0ms; }
+    .reveal-stagger > *:nth-child(2) { transition-delay: 90ms; }
+    .reveal-stagger > *:nth-child(3) { transition-delay: 180ms; }
+    .reveal-stagger > *:nth-child(4) { transition-delay: 270ms; }
+
+    /* ── Buttons ───────────────────────────────────────── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #2A4B7C;
+      color: #F2E8D5;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      padding: 0.875rem 2rem;
+      border-radius: 100px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(42,75,124,0.15), 0 6px 24px rgba(42,75,124,0.10);
+      transition: transform 0.3s var(--spring), box-shadow 0.3s var(--ease-out), background-color 0.2s var(--ease-io);
+      text-decoration: none;
+    }
+    .btn-primary:hover  { background: #1C3459; box-shadow: 0 4px 16px rgba(42,75,124,0.25), 0 12px 40px rgba(42,75,124,0.15); transform: translateY(-2px); }
+    .btn-primary:active { transform: translateY(0) scale(0.98); box-shadow: 0 1px 4px rgba(42,75,124,0.10); }
+    .btn-primary:focus-visible { outline: 2px solid #2A4B7C; outline-offset: 3px; }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: #2A4B7C;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      padding: 0.875rem 2rem;
+      border-radius: 100px;
+      border: 2px solid rgba(42,75,124,0.3);
+      cursor: pointer;
+      transition: transform 0.3s var(--spring), border-color 0.2s var(--ease-io), background-color 0.2s var(--ease-io);
+      text-decoration: none;
+    }
+    .btn-ghost:hover { border-color: #2A4B7C; background: rgba(42,75,124,0.05); transform: translateY(-1px); }
+    .btn-ghost:active { transform: scale(0.98); }
+    .btn-ghost:focus-visible { outline: 2px solid #2A4B7C; outline-offset: 3px; }
+
+    /* ── Nav ───────────────────────────────────────────── */
+    #navbar {
+      transition: background-color 0.3s var(--ease-io), box-shadow 0.3s var(--ease-io), backdrop-filter 0.3s var(--ease-io);
+    }
+    #navbar.scrolled {
+      background-color: rgba(242,232,213,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 rgba(42,75,124,0.10), 0 4px 24px rgba(42,75,124,0.06);
+    }
+
+    /* ── Mobile drawer ─────────────────────────────────── */
+    #mobile-drawer {
+      transform: translateX(100%);
+      transition: transform 0.35s var(--ease-out);
+    }
+    #mobile-drawer.open { transform: translateX(0); }
+
+    /* ── Feature cards ─────────────────────────────────── */
+    .feature-card {
+      transition: transform 0.35s var(--spring), box-shadow 0.35s var(--ease-out);
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 32px rgba(42,75,124,0.14), 0 2px 8px rgba(42,75,124,0.08);
+    }
+
+    /* ── Swatch buttons ────────────────────────────────── */
+    .swatch-btn {
+      transition: transform 0.25s var(--spring), box-shadow 0.25s var(--ease-out);
+    }
+    .swatch-btn.selected {
+      box-shadow: 0 0 0 3px #2A4B7C, 0 0 0 5px #F2E8D5;
+      transform: scale(1.12);
+    }
+    .swatch-btn:hover { transform: scale(1.08); }
+    .swatch-btn:focus-visible { outline: 2px solid #2A4B7C; outline-offset: 4px; }
+
+    /* ── Size buttons ──────────────────────────────────── */
+    .size-btn {
+      transition: background-color 0.2s var(--ease-io), color 0.2s var(--ease-io), border-color 0.2s var(--ease-io), transform 0.2s var(--spring);
+    }
+    .size-btn:hover { border-color: #2A4B7C; color: #2A4B7C; }
+    .size-btn.selected { background: #2A4B7C; color: #F2E8D5; border-color: #2A4B7C; }
+    .size-btn:active { transform: scale(0.96); }
+    .size-btn:focus-visible { outline: 2px solid #2A4B7C; outline-offset: 2px; }
+
+    /* ── Delivery toggle ───────────────────────────────── */
+    .delivery-btn {
+      transition: background-color 0.2s var(--ease-io), color 0.2s var(--ease-io), box-shadow 0.2s var(--ease-out);
+    }
+    .delivery-btn.active { background: #2A4B7C; color: #F2E8D5; box-shadow: 0 2px 8px rgba(42,75,124,0.20); }
+
+    /* ── Checkout modal ────────────────────────────────── */
+    #checkout-modal {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s var(--ease-io);
+    }
+    #checkout-modal.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    #modal-panel {
+      transform: translateY(40px) scale(0.97);
+      transition: transform 0.4s var(--spring);
+    }
+    #checkout-modal.open #modal-panel {
+      transform: translateY(0) scale(1);
+    }
+
+    /* ── Form inputs ───────────────────────────────────── */
+    .form-input {
+      width: 100%;
+      background: #F8F3EA;
+      border: 1.5px solid #EAD9BE;
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.9375rem;
+      color: #4A3F35;
+      transition: border-color 0.2s var(--ease-io), box-shadow 0.2s var(--ease-io);
+      outline: none;
+    }
+    .form-input::placeholder { color: #8C7B6B; opacity: 0.7; }
+    .form-input:focus { border-color: #2A4B7C; box-shadow: 0 0 0 3px rgba(42,75,124,0.12); }
+    .form-input.error { border-color: #DC7B7B; box-shadow: 0 0 0 3px rgba(220,123,123,0.15); }
+
+    .form-label {
+      display: block;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #8C7B6B;
+      text-transform: uppercase;
+      margin-bottom: 0.375rem;
+    }
+    .field-error {
+      font-size: 0.75rem;
+      color: #C0392B;
+      margin-top: 0.25rem;
+      display: none;
+    }
+    .field-error.visible { display: block; }
+
+    /* ── Toast ─────────────────────────────────────────── */
+    #toast {
+      transform: translateX(-140%);
+      transition: transform 0.4s var(--spring);
+      pointer-events: none;
+    }
+    #toast.open { transform: translateX(0); pointer-events: all; }
+
+    /* ── Shake animation ───────────────────────────────── */
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-6px); }
+      40%      { transform: translateX(6px); }
+      60%      { transform: translateX(-4px); }
+      80%      { transform: translateX(4px); }
+    }
+    .shake { animation: shake 0.4s var(--ease-io); }
+
+    /* ── Spinner ───────────────────────────────────────── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 2px solid rgba(242,232,213,0.4);
+      border-top-color: #F2E8D5;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+  </style>
+</head>
+
+<body class="bg-cream font-body text-body-text">
+
+  <!-- SVG Noise Filter -->
+  <svg style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+    <defs>
+      <filter id="noise" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+        <feColorMatrix type="saturate" values="0"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- ═══════════════════════════════════════════════════
+       NAVBAR
+  ════════════════════════════════════════════════════ -->
+  <nav id="navbar" class="fixed top-0 inset-x-0 z-30 px-6 md:px-10 py-3 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#" class="flex-shrink-0">
+      <img src="brand_assets/Flow Mama Logo.jpeg" alt="Flow's Mama" class="h-12 w-auto">
+    </a>
+
+    <!-- Desktop nav links (center) -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#story"   class="font-body text-sm font-medium text-body-text hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/50">אודות</a>
+      <a href="#product" class="font-body text-sm font-medium text-body-text hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/50">החזייה</a>
+      <a href="#buy"     class="font-body text-sm font-medium text-body-text hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/50">לרכישה</a>
+    </div>
+
+    <!-- Desktop CTA -->
+    <a href="#buy" class="hidden md:inline-flex btn-primary text-sm px-5 py-3">לרכישה עכשיו</a>
+
+    <!-- Mobile hamburger -->
+    <button id="hamburger-btn" class="md:hidden flex flex-col gap-1.5 p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 rounded-lg" aria-label="פתח תפריט" aria-expanded="false">
+      <span class="ham-line block w-6 h-0.5 bg-navy rounded transition-transform duration-300 origin-center"></span>
+      <span class="ham-line block w-6 h-0.5 bg-navy rounded transition-opacity duration-300"></span>
+      <span class="ham-line block w-6 h-0.5 bg-navy rounded transition-transform duration-300 origin-center"></span>
+    </button>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div id="mobile-drawer-backdrop" class="fixed inset-0 z-40 bg-navy/30 backdrop-blur-sm hidden"></div>
+  <div id="mobile-drawer" class="fixed top-0 right-0 h-full w-72 z-50 bg-cream-light shadow-2xl flex flex-col pt-20 pb-10 px-8">
+    <button id="drawer-close" class="absolute top-5 left-5 p-2 rounded-full hover:bg-cream-dark transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" aria-label="סגור תפריט">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="#2A4B7C" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <nav class="flex flex-col gap-6 mt-4">
+      <a href="#story"   class="font-display text-2xl text-navy hover:text-navy-light transition-colors duration-200" onclick="closeDrawer()">אודות</a>
+      <a href="#product" class="font-display text-2xl text-navy hover:text-navy-light transition-colors duration-200" onclick="closeDrawer()">החזייה</a>
+      <a href="#buy"     class="font-display text-2xl text-navy hover:text-navy-light transition-colors duration-200" onclick="closeDrawer()">לרכישה</a>
+    </nav>
+    <div class="mt-auto">
+      <a href="#buy" class="btn-primary w-full justify-center" onclick="closeDrawer()">לרכישה עכשיו</a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════════════════ -->
+  <section class="relative min-h-screen flex items-center overflow-hidden textured pt-20">
+    <!-- Background gradients -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 50%, rgba(42,75,124,0.07) 0%, transparent 65%), radial-gradient(ellipse 60% 80% at 80% 20%, rgba(201,169,110,0.10) 0%, transparent 60%);"></div>
+    </div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10 w-full py-16">
+      <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+
+        <!-- Text column -->
+        <div class="flex-1 order-2 md:order-1 text-center md:text-right">
+          <p class="font-body text-xs font-medium tracking-[0.25em] text-muted uppercase mb-4">BY ODEYA TSUR</p>
+
+          <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-navy font-bold leading-[1.05] mb-6" style="letter-spacing:-0.02em;">
+            חזייה שעובדת<br>
+            <span style="color:#3D6BA8;">בקצב שלך</span>
+          </h1>
+
+          <p class="font-body text-lg text-body-text/80 leading-relaxed mb-8 max-w-md mx-auto md:mx-0">
+            פריסה קדמית. רוך כותנה. הכיס שמחזיק את כל מה שצריך — בדיוק במקום הנכון.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 mb-8">
+            <a href="#buy" class="btn-primary">לרכישה עכשיו</a>
+            <a href="#story" class="btn-ghost">קראי עוד</a>
+          </div>
+
+          <!-- Tagline pill -->
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-navy/20 bg-navy/5">
+            <span class="font-body italic text-xs tracking-[0.18em] text-navy/70">YOU'V GOT THE FLOW</span>
+          </div>
+        </div>
+
+        <!-- Image column -->
+        <div class="flex-shrink-0 order-1 md:order-2 w-full md:w-auto flex justify-center">
+          <div class="relative rounded-3xl overflow-hidden w-64 sm:w-72 md:w-80 lg:w-96 shadow-[0_8px_48px_rgba(42,75,124,0.15),0_2px_12px_rgba(42,75,124,0.08)]">
+            <img id="hero-product-img" src="https://placehold.co/480x600/EAD9BE/2A4B7C?text=Flow%27s+Mama" alt="חזיית הנקה Flow's Mama" class="w-full h-full object-cover block">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy/20 via-transparent to-transparent pointer-events-none"></div>
+            <div class="absolute inset-0 bg-cream/5 mix-blend-multiply pointer-events-none"></div>
+            <!-- Floating badge -->
+            <div class="absolute bottom-4 start-4 bg-cream-light/90 backdrop-blur-sm rounded-2xl px-4 py-2.5 shadow-[0_4px_20px_rgba(42,75,124,0.15)]">
+              <p class="font-body text-xs font-semibold text-navy leading-tight">✦ כיס פטנט פנימי</p>
+              <p class="font-body text-xs text-muted mt-0.5">אין דליפות. אין דאגות.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       BRAND STORY
+  ════════════════════════════════════════════════════ -->
+  <section id="story" class="relative py-24 bg-cream-light overflow-hidden textured">
+    <!-- Decorative gradient -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 90% 50%, rgba(201,169,110,0.07) 0%, transparent 60%);"></div>
+    </div>
+
+    <!-- Big decorative quote mark -->
+    <div class="absolute top-8 start-8 font-display text-[180px] leading-none text-navy/05 select-none pointer-events-none" aria-hidden="true">"</div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-6 md:px-10">
+      <div class="reveal">
+        <p class="font-body text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-4 text-center">הסיפור שלנו</p>
+        <h2 class="font-display text-4xl md:text-5xl text-navy font-bold text-center mb-12 leading-tight">
+          נולדה מלילות ארוכים<br>ומסירות אימהית
+        </h2>
+      </div>
+
+      <div class="reveal grid md:grid-cols-2 gap-10 items-start">
+        <div class="space-y-5">
+          <p class="font-body text-base text-body-text/85 leading-[1.85]">
+            Flow's Mama נולדה מתסכול פשוט — חזיות הנקה שהרגישו קליניות, לא נוחות, ופשוט לא עבדו עם החיים האמיתיים של אמא מיניקה.
+          </p>
+          <p class="font-body text-base text-body-text/85 leading-[1.85]">
+            אודיה צור, אמא צעירה בעצמה, תכננה את החזייה שרצתה שתהיה קיימת. רכה מספיק לשינה. פרקטית מספיק לכל הנקה. ועם חידוש אחד שמשנה הכל...
+          </p>
+          <p class="font-body text-base text-body-text/85 leading-[1.85]">
+            כיס פנימי נסתר משמר את תחבושת ההנקה בדיוק במקום שצריך — מול התחבושת, לא מול העור. לא חלב שדולף. לא כתמים על החולצה. רק שקט ונוחות.
+          </p>
+        </div>
+        <div class="space-y-5">
+          <p class="font-body text-base text-body-text/85 leading-[1.85]">
+            החזייה עשויה מ-92% כותנה לנשימה ורוך, ו-8% ליקרה לגמישות שמחזיקה בדיוק במקום. היא נלבשת כמו חולצה — ללא אבזמים מסובכים, ללא פחד. פשוט משיכה קדמית ויש גישה.
+          </p>
+          <p class="font-body text-base text-body-text/85 leading-[1.85]">
+            כי אמא מיניקה צריכה חזייה שעובדת בשבילה — לא כנגדה.
+          </p>
+          <p class="font-display text-xl text-navy/80 italic mt-6">— אודיה צור</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       PRODUCT FEATURES
+  ════════════════════════════════════════════════════ -->
+  <section id="product" class="relative py-24 bg-cream overflow-hidden textured">
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%, rgba(42,75,124,0.04) 0%, transparent 60%);"></div>
+    </div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
+      <div class="text-center mb-14 reveal">
+        <p class="font-body text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-3">הפרטים חשובים</p>
+        <h2 class="font-display text-4xl md:text-5xl text-navy font-bold leading-tight">החזייה, מוסברת</h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 reveal-stagger">
+
+        <!-- Card 1: Materials -->
+        <div class="reveal feature-card bg-cream-light rounded-3xl p-8 shadow-[0_2px_8px_rgba(42,75,124,0.06),0_6px_28px_rgba(42,75,124,0.07)] relative overflow-hidden">
+          <div class="w-14 h-14 rounded-2xl bg-navy/08 flex items-center justify-center mb-6" style="background:rgba(42,75,124,0.08);">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 3C8.477 3 4 7.477 4 13s4.477 10 10 10 10-4.477 10-10S19.523 3 14 3z" stroke="#2A4B7C" stroke-width="1.6"/><path d="M14 8v10M9 13h10" stroke="#2A4B7C" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <h3 class="font-display text-xl text-navy font-bold mb-3">92% כותנה · 8% ליקרה</h3>
+          <p class="font-body text-sm text-body-text/80 leading-relaxed">נושמת כמו כותנה. מחזיקה כמו שייפווייר. השילוב שמשמר נוחות בכל הנקה, כל שעה.</p>
+          <div class="flex flex-wrap gap-2 mt-5">
+            <span class="text-xs font-medium text-navy bg-navy/08 px-3 py-1 rounded-full" style="background:rgba(42,75,124,0.08);">נושמת</span>
+            <span class="text-xs font-medium text-navy bg-navy/08 px-3 py-1 rounded-full" style="background:rgba(42,75,124,0.08);">רכה</span>
+            <span class="text-xs font-medium text-navy bg-navy/08 px-3 py-1 rounded-full" style="background:rgba(42,75,124,0.08);">גמישות מדויקת</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Fit -->
+        <div class="reveal feature-card bg-cream-light rounded-3xl p-8 shadow-[0_2px_8px_rgba(42,75,124,0.06),0_6px_28px_rgba(42,75,124,0.07)] relative overflow-hidden">
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6" style="background:rgba(42,75,124,0.08);">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 14h16M14 6l-8 8 8 8" stroke="#2A4B7C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="font-display text-xl text-navy font-bold mb-3">נלבשת כמו חולצה</h3>
+          <p class="font-body text-sm text-body-text/80 leading-relaxed">פריסה קדמית — הגישה מקדימה. ללא אבזמים מסובכים, ללא זוויות מביכות. גישה חלקה ואינטואיטיבית בדיוק כשצריך.</p>
+          <div class="flex flex-wrap gap-2 mt-5">
+            <span class="text-xs font-medium text-navy px-3 py-1 rounded-full" style="background:rgba(42,75,124,0.08);">פריסה קדמית</span>
+            <span class="text-xs font-medium text-navy px-3 py-1 rounded-full" style="background:rgba(42,75,124,0.08);">גישה קלה</span>
+            <span class="text-xs font-medium text-navy px-3 py-1 rounded-full" style="background:rgba(42,75,124,0.08);">חלקה</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Patent Pocket (inverted) -->
+        <div class="reveal feature-card bg-navy rounded-3xl p-8 shadow-[0_8px_40px_rgba(42,75,124,0.25),0_2px_10px_rgba(42,75,124,0.15)] relative overflow-hidden">
+          <div class="absolute top-0 end-0 w-40 h-40 pointer-events-none" aria-hidden="true">
+            <div style="position:absolute;top:-20px;right:-20px;width:160px;height:160px;background:radial-gradient(circle, rgba(201,169,110,0.15) 0%, transparent 65%);border-radius:50%;"></div>
+          </div>
+          <div class="relative">
+            <div class="flex items-start gap-3 mb-6">
+              <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:rgba(242,232,213,0.12);">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="5" y="8" width="18" height="13" rx="2.5" stroke="#C9A96E" stroke-width="1.6"/><path d="M9 8V7a5 5 0 0110 0v1" stroke="#C9A96E" stroke-width="1.6"/><circle cx="14" cy="14.5" r="2" fill="#C9A96E"/></svg>
+              </div>
+              <span class="mt-1 text-xs font-bold tracking-[0.18em] text-gold uppercase px-3 py-1 rounded-full border border-gold/40">פטנט</span>
+            </div>
+            <h3 class="font-display text-xl text-cream font-bold mb-3" style="color:#C9A96E;">הכיס הפטנט</h3>
+            <p class="font-body text-sm text-cream/80 leading-relaxed">כיס פנימי שומר על תחבושת ההנקה בדיוק כנגד עצמה — לא כנגד העור. הפטמה פוגשת תחבושת, לא בד. חלב אם לא מטפטף על החולצה.</p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="text-xs font-medium text-cream/90 px-3 py-1 rounded-full border border-cream/20">ללא דליפות</span>
+              <span class="text-xs font-medium text-cream/90 px-3 py-1 rounded-full border border-cream/20">ממוקם בדיוק</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       PRODUCT SELECTION + ORDER
+  ════════════════════════════════════════════════════ -->
+  <section id="buy" class="relative py-24 bg-cream-light overflow-hidden textured">
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%, rgba(42,75,124,0.05) 0%, transparent 60%);"></div>
+    </div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
+      <div class="text-center mb-14 reveal">
+        <p class="font-body text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-3">בחרי את שלך</p>
+        <h2 class="font-display text-4xl md:text-5xl text-navy font-bold">לרכישה</h2>
+      </div>
+
+      <div class="reveal flex flex-col lg:flex-row gap-12 items-start">
+
+        <!-- Product image + thumbnails -->
+        <div class="w-full lg:w-5/12 flex flex-col items-center gap-5">
+          <div class="relative rounded-3xl overflow-hidden w-full max-w-sm shadow-[0_8px_40px_rgba(42,75,124,0.12),0_2px_10px_rgba(42,75,124,0.07)]">
+            <img id="product-main-img" src="https://placehold.co/480x580/EAD9BE/2A4B7C?text=Flow%27s+Mama" alt="חזיית הנקה" class="w-full block">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy/15 via-transparent to-transparent pointer-events-none"></div>
+          </div>
+
+          <!-- Color thumbnails -->
+          <div class="flex gap-3">
+            <button class="thumb-btn w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-navy ring-offset-2 ring-offset-cream-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy transition-all duration-200" data-color="gray" aria-label="אפור עם תחרה שחורה">
+              <img src="https://placehold.co/80x80/9A9A9A/FFFFFF?text=א" alt="אפור" class="w-full h-full object-cover">
+            </button>
+            <button class="thumb-btn w-16 h-16 rounded-2xl overflow-hidden ring-offset-2 ring-offset-cream-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy transition-all duration-200" data-color="white" aria-label="לבן עם תחרה לבנה">
+              <img src="https://placehold.co/80x80/F5F0EC/4A3F35?text=ל" alt="לבן" class="w-full h-full object-cover">
+            </button>
+            <button class="thumb-btn w-16 h-16 rounded-2xl overflow-hidden ring-offset-2 ring-offset-cream-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy transition-all duration-200" data-color="yellow" aria-label="צהוב בננה קלאסי">
+              <img src="https://placehold.co/80x80/F5DC5A/4A3F35?text=צ" alt="צהוב בננה" class="w-full h-full object-cover">
+            </button>
+          </div>
+        </div>
+
+        <!-- Selection controls -->
+        <div class="flex-1 w-full">
+          <p class="font-body text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-2">חזיית הנקה</p>
+          <h3 class="font-display text-3xl text-navy font-bold mb-1">Flow's Mama</h3>
+          <p class="font-display text-2xl text-navy-light font-medium mb-8">₪250</p>
+
+          <!-- Color selector -->
+          <div class="mb-7">
+            <label class="font-body text-xs font-semibold tracking-[0.12em] text-muted uppercase mb-3 block">
+              צבע: <span id="selected-color-label" class="text-navy normal-case tracking-normal font-medium"></span>
+            </label>
+            <div class="flex gap-3 items-center flex-wrap">
+              <button class="swatch-btn w-11 h-11 rounded-full border-2 border-[#9A9A9A] focus-visible:outline-none" data-color="gray" data-color-label="אפור עם תחרה שחורה" aria-label="אפור עם תחרה שחורה" style="background:#9A9A9A;"></button>
+              <button class="swatch-btn w-11 h-11 rounded-full border-2 border-[#d8cfc8] focus-visible:outline-none" data-color="white" data-color-label="לבן עם תחרה לבנה" aria-label="לבן עם תחרה לבנה" style="background:#F5F0EC;"></button>
+              <button class="swatch-btn w-11 h-11 rounded-full border-2 border-[#e8cc2a] focus-visible:outline-none" data-color="yellow" data-color-label="צהוב בננה קלאסי" aria-label="צהוב בננה קלאסי" style="background:#F5DC5A;"></button>
+            </div>
+            <p id="color-error" class="field-error">יש לבחור צבע</p>
+          </div>
+
+          <!-- Size selector -->
+          <div class="mb-7">
+            <div class="flex items-baseline justify-between mb-3">
+              <label class="font-body text-xs font-semibold tracking-[0.12em] text-muted uppercase">מידה</label>
+              <button type="button" class="font-body text-xs text-navy/70 underline underline-offset-2 hover:text-navy transition-colors duration-200" onclick="document.getElementById('size-guide').classList.toggle('hidden')">מדריך מידות</button>
+            </div>
+            <!-- Size guide tooltip -->
+            <div id="size-guide" class="hidden mb-4 bg-cream rounded-2xl p-4 border border-cream-dark text-xs font-body text-body-text/80 leading-relaxed">
+              <strong class="text-navy">מדריך מידות:</strong><br>
+              XS — מידה 34–36 · S — מידה 36–38 · M — מידה 38–40 · L — מידה 40–42 · XL — מידה 42–44
+            </div>
+            <div class="flex gap-2 flex-wrap">
+              <button class="size-btn px-5 py-2.5 rounded-full border-2 border-cream-dark font-body text-sm font-medium text-body-text" data-size="XS">XS</button>
+              <button class="size-btn px-5 py-2.5 rounded-full border-2 border-cream-dark font-body text-sm font-medium text-body-text" data-size="S">S</button>
+              <button class="size-btn px-5 py-2.5 rounded-full border-2 border-cream-dark font-body text-sm font-medium text-body-text" data-size="M">M</button>
+              <button class="size-btn px-5 py-2.5 rounded-full border-2 border-cream-dark font-body text-sm font-medium text-body-text" data-size="L">L</button>
+              <button class="size-btn px-5 py-2.5 rounded-full border-2 border-cream-dark font-body text-sm font-medium text-body-text" data-size="XL">XL</button>
+            </div>
+            <p id="size-error" class="field-error">יש לבחור מידה</p>
+          </div>
+
+          <!-- Delivery toggle -->
+          <div class="mb-8">
+            <label class="font-body text-xs font-semibold tracking-[0.12em] text-muted uppercase mb-3 block">אופן קבלה</label>
+            <div class="inline-flex rounded-2xl bg-cream-dark p-1 gap-1">
+              <button class="delivery-btn active px-4 py-2 rounded-xl font-body text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" data-delivery="shipping">משלוח ₪20</button>
+              <button class="delivery-btn px-4 py-2 rounded-xl font-body text-sm font-medium text-body-text transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" data-delivery="pickup">איסוף עצמי חינם</button>
+            </div>
+          </div>
+
+          <!-- Price summary -->
+          <div class="flex items-center justify-between py-4 border-t border-b border-cream-dark mb-7">
+            <span class="font-body text-sm text-muted">סה"כ לתשלום</span>
+            <span id="price-total" class="font-display text-2xl text-navy font-bold">₪270</span>
+          </div>
+
+          <!-- CTAs -->
+          <div class="flex flex-col gap-3">
+            <button id="buy-now-btn" type="button" class="btn-primary w-full justify-center text-base py-4">
+              הזמנה עכשיו ←
+            </button>
+            <p class="font-body text-xs text-center text-muted">התשלום יתואם עמך לאחר קבלת ההזמנה</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════════ -->
+  <footer class="relative bg-navy py-16 overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 100% at 50% 100%, rgba(255,255,255,0.04) 0%, transparent 60%);"></div>
+    </div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
+      <div class="grid md:grid-cols-3 gap-10 mb-12">
+
+        <!-- Brand -->
+        <div>
+          <p class="font-display text-2xl font-bold text-cream mb-2">Flow's Mama</p>
+          <p class="font-body italic text-xs tracking-[0.2em] text-cream/60 mb-1">YOU'V GOT THE FLOW</p>
+          <p class="font-body text-xs text-cream/40">By Odeya Tsur</p>
+        </div>
+
+        <!-- Quick links -->
+        <div>
+          <p class="font-body text-xs font-semibold tracking-[0.18em] text-cream/40 uppercase mb-5">ניווט מהיר</p>
+          <nav class="flex flex-col gap-3">
+            <a href="#story"   class="font-body text-sm text-cream/70 hover:text-cream transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream/50 w-fit">אודות</a>
+            <a href="#product" class="font-body text-sm text-cream/70 hover:text-cream transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream/50 w-fit">החזייה</a>
+            <a href="#buy"     class="font-body text-sm text-cream/70 hover:text-cream transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream/50 w-fit">לרכישה</a>
+          </nav>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <p class="font-body text-xs font-semibold tracking-[0.18em] text-cream/40 uppercase mb-5">צרי קשר</p>
+          <div class="space-y-3">
+            <a href="mailto:o.woolfson@gmail.com" class="flex items-center gap-2 font-body text-sm text-cream/70 hover:text-cream transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream/50 w-fit">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 5.5l6.5 4 6.5-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              o.woolfson@gmail.com
+            </a>
+            <div class="flex items-center gap-2 font-body text-sm text-cream/70">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="3.5" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.2"/><circle cx="11.5" cy="4.5" r="0.75" fill="currentColor"/></svg>
+              @flowsmama
+            </div>
+            <div class="font-body text-xs text-cream/50 mt-2 space-y-1">
+              <p>איסוף עצמי: ירושלים · מבשרת ציון · טל שחר</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="border-t border-cream/10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+        <p class="font-body text-xs text-cream/40">© 2024 Flow's Mama. כל הזכויות שמורות.</p>
+        <p class="font-body text-xs text-cream/30 italic">עוצב באהבה לכל אמא מיניקה.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════
+       CHECKOUT MODAL
+  ════════════════════════════════════════════════════ -->
+  <div id="checkout-modal" class="fixed inset-0 z-50 flex items-end md:items-center justify-center p-0 md:p-6" role="dialog" aria-modal="true" aria-label="טופס הזמנה" hidden>
+    <!-- Backdrop -->
+    <div id="modal-backdrop" class="absolute inset-0 bg-navy/40 backdrop-blur-sm"></div>
+
+    <!-- Panel -->
+    <div id="modal-panel" class="relative bg-cream-light w-full md:max-w-lg rounded-t-3xl md:rounded-3xl shadow-[0_20px_80px_rgba(42,75,124,0.25)] max-h-[92vh] overflow-y-auto">
+
+      <!-- Panel header -->
+      <div class="sticky top-0 bg-cream-light/95 backdrop-blur-sm border-b border-cream-dark px-6 py-4 flex items-center justify-between rounded-t-3xl md:rounded-t-3xl z-10">
+        <div>
+          <h2 class="font-display text-xl text-navy font-bold">השלמת הזמנה</h2>
+          <div id="order-summary-header" class="flex items-center gap-2 mt-1">
+            <span id="modal-color-dot" class="w-3 h-3 rounded-full inline-block" style="background:#9A9A9A;"></span>
+            <span id="modal-summary-text" class="font-body text-xs text-muted"></span>
+          </div>
+        </div>
+        <button id="modal-close-btn" class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-cream-dark transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" aria-label="סגור">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="transition:transform 0.3s var(--spring);">
+            <path d="M4 4l10 10M14 4L4 14" stroke="#2A4B7C" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Form -->
+      <form id="order-form" novalidate class="px-6 py-6 space-y-5">
+
+        <!-- Personal info -->
+        <div>
+          <label class="form-label" for="f-name">שם מלא</label>
+          <input class="form-input" type="text" id="f-name" name="name" autocomplete="name" placeholder="ישראלה ישראלי" required>
+          <p class="field-error" id="err-name">יש להזין שם מלא</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="form-label" for="f-phone">טלפון</label>
+            <input class="form-input" type="tel" id="f-phone" name="phone" autocomplete="tel" placeholder="050-0000000" required>
+            <p class="field-error" id="err-phone">מספר טלפון לא תקין</p>
+          </div>
+          <div>
+            <label class="form-label" for="f-email">אימייל</label>
+            <input class="form-input" type="email" id="f-email" name="email" autocomplete="email" placeholder="you@example.com" required>
+            <p class="field-error" id="err-email">כתובת אימייל לא תקינה</p>
+          </div>
+        </div>
+
+        <!-- Delivery section (dynamic) -->
+        <div id="shipping-fields">
+          <div class="mb-5">
+            <label class="form-label" for="f-address">כתובת</label>
+            <input class="form-input" type="text" id="f-address" name="address" autocomplete="street-address" placeholder="רחוב הדוגמה 12, דירה 5">
+            <p class="field-error" id="err-address">יש להזין כתובת</p>
+          </div>
+          <div class="grid grid-cols-5 gap-3">
+            <div class="col-span-3">
+              <label class="form-label" for="f-city">עיר</label>
+              <input class="form-input" type="text" id="f-city" name="city" autocomplete="address-level2" placeholder="תל אביב">
+              <p class="field-error" id="err-city">יש להזין עיר</p>
+            </div>
+            <div class="col-span-2">
+              <label class="form-label" for="f-postal">מיקוד</label>
+              <input class="form-input" type="text" id="f-postal" name="postal" autocomplete="postal-code" inputmode="numeric" placeholder="6100000">
+              <p class="field-error" id="err-postal">יש להזין מיקוד</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="pickup-fields" class="hidden">
+          <label class="form-label" for="f-pickup">מיקום איסוף</label>
+          <select class="form-input" id="f-pickup" name="pickupLocation">
+            <option value="">-- בחרי מיקום --</option>
+            <option value="ירושלים">ירושלים</option>
+            <option value="מבשרת ציון">מבשרת ציון</option>
+            <option value="טל שחר">טל שחר</option>
+          </select>
+          <p class="field-error" id="err-pickup">יש לבחור מיקום איסוף</p>
+        </div>
+
+        <!-- Divider -->
+        <div class="flex items-center gap-3">
+          <div class="flex-1 h-px bg-cream-dark"></div>
+          <span class="font-body text-xs text-muted">סיכום הזמנה</span>
+          <div class="flex-1 h-px bg-cream-dark"></div>
+        </div>
+
+        <!-- Order summary in modal -->
+        <div class="bg-cream rounded-2xl p-4 border border-cream-dark">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span id="modal-color-dot2" class="w-5 h-5 rounded-full inline-block border border-cream-dark" style="background:#9A9A9A;"></span>
+              <div>
+                <p class="font-body text-sm font-medium text-navy" id="modal-product-label">Flow's Mama Nursing Bra</p>
+                <p class="font-body text-xs text-muted" id="modal-variant-label">—</p>
+              </div>
+            </div>
+            <p class="font-display text-lg font-bold text-navy" id="modal-price-label">₪270</p>
+          </div>
+        </div>
+
+        <!-- Payment note -->
+        <div class="flex items-start gap-3 bg-navy/05 rounded-2xl p-4" style="background:rgba(42,75,124,0.05);">
+          <svg class="flex-shrink-0 mt-0.5" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="#2A4B7C" stroke-width="1.3"/><path d="M9 8v5M9 6h.01" stroke="#2A4B7C" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <p class="font-body text-xs text-navy/80 leading-relaxed">
+            <strong class="font-semibold">אין צורך בתשלום עכשיו.</strong><br>
+            לאחר קבלת ההזמנה, ניצור איתך קשר לתיאום התשלום ומועד המשלוח.
+          </p>
+        </div>
+
+        <!-- Submit -->
+        <button id="submit-btn" type="submit" class="btn-primary w-full justify-center text-base py-4">
+          <span id="submit-text">אישור הזמנה ←</span>
+          <span id="submit-spinner" class="spinner hidden"></span>
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       TOAST
+  ════════════════════════════════════════════════════ -->
+  <div id="toast" class="fixed top-5 start-5 z-[60] max-w-xs w-auto" role="alert" aria-live="polite">
+    <div id="toast-inner" class="flex items-start gap-3 bg-cream-light rounded-2xl px-5 py-4 shadow-[0_4px_24px_rgba(42,75,124,0.15)] border border-cream-dark">
+      <span id="toast-icon" class="flex-shrink-0 mt-0.5 text-lg"></span>
+      <p id="toast-msg" class="font-body text-sm text-navy leading-snug"></p>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       JAVASCRIPT
+  ════════════════════════════════════════════════════ -->
+  <script>
+  (function () {
+    'use strict';
+
+    // ── State ──────────────────────────────────────────
+    let selectedColor    = null;
+    let selectedSize     = null;
+    let deliveryType     = 'shipping';
+    let toastTimer       = null;
+
+    const COLOR_LABELS = {
+      gray:   'אפור עם תחרה שחורה',
+      white:  'לבן עם תחרה לבנה',
+      yellow: 'צהוב בננה קלאסי',
+    };
+    const COLOR_HEX = { gray: '#9A9A9A', white: '#F5F0EC', yellow: '#F5DC5A' };
+    const PRODUCT_IMGS = {
+      gray:   'https://placehold.co/480x580/9A9A9A/FFFFFF?text=Flow%27s+Mama',
+      white:  'https://placehold.co/480x580/F5F0EC/4A3F35?text=Flow%27s+Mama',
+      yellow: 'https://placehold.co/480x580/F5DC5A/4A3F35?text=Flow%27s+Mama',
+      default:'https://placehold.co/480x580/EAD9BE/2A4B7C?text=Flow%27s+Mama',
+    };
+
+    // ── Nav scroll ─────────────────────────────────────
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 80);
+    }, { passive: true });
+
+    // ── Mobile menu ────────────────────────────────────
+    const hamburgerBtn   = document.getElementById('hamburger-btn');
+    const mobileDrawer   = document.getElementById('mobile-drawer');
+    const drawerBackdrop = document.getElementById('mobile-drawer-backdrop');
+    const drawerClose    = document.getElementById('drawer-close');
+    const hamLines       = hamburgerBtn.querySelectorAll('.ham-line');
+
+    function openDrawer() {
+      drawerBackdrop.classList.remove('hidden');
+      mobileDrawer.classList.add('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'true');
+      hamLines[0].style.transform = 'rotate(45deg) translate(4px, 4px)';
+      hamLines[1].style.opacity   = '0';
+      hamLines[2].style.transform = 'rotate(-45deg) translate(4px, -4px)';
+    }
+    window.closeDrawer = function () {
+      drawerBackdrop.classList.add('hidden');
+      mobileDrawer.classList.remove('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+      hamLines[0].style.transform = '';
+      hamLines[1].style.opacity   = '';
+      hamLines[2].style.transform = '';
+    };
+    hamburgerBtn.addEventListener('click', openDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+    drawerBackdrop.addEventListener('click', closeDrawer);
+
+    // ── Scroll reveal ──────────────────────────────────
+    const isPreview = new URLSearchParams(location.search).has('preview');
+    const revealObserver = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => {
+      if (isPreview) {
+        el.classList.add('visible'); // show everything for screenshots
+      } else {
+        el.classList.add('will-animate');
+        revealObserver.observe(el);
+      }
+    });
+
+    // ── Color swatches ─────────────────────────────────
+    const swatchBtns         = document.querySelectorAll('.swatch-btn');
+    const thumbBtns          = document.querySelectorAll('.thumb-btn');
+    const heroProductImg     = document.getElementById('hero-product-img');
+    const productMainImg     = document.getElementById('product-main-img');
+    const selectedColorLabel = document.getElementById('selected-color-label');
+
+    swatchBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedColor = btn.dataset.color;
+        swatchBtns.forEach(b => b.classList.remove('selected'));
+        thumbBtns.forEach(b => {
+          b.classList.toggle('ring-2', b.dataset.color === selectedColor);
+          b.classList.toggle('ring-navy', b.dataset.color === selectedColor);
+          b.classList.toggle('ring-offset-2', b.dataset.color === selectedColor);
+        });
+        btn.classList.add('selected');
+        selectedColorLabel.textContent = COLOR_LABELS[selectedColor] ?? '';
+        const img = PRODUCT_IMGS[selectedColor] ?? PRODUCT_IMGS.default;
+        productMainImg.src = img;
+        heroProductImg.src  = img;
+        clearError('color-error');
+      });
+    });
+
+    thumbBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const matchingSwatch = document.querySelector(`.swatch-btn[data-color="${btn.dataset.color}"]`);
+        if (matchingSwatch) matchingSwatch.click();
+      });
+    });
+
+    // ── Size buttons ───────────────────────────────────
+    const sizeBtns = document.querySelectorAll('.size-btn');
+    sizeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedSize = btn.dataset.size;
+        sizeBtns.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        clearError('size-error');
+      });
+    });
+
+    // ── Delivery toggle ────────────────────────────────
+    const deliveryBtns    = document.querySelectorAll('.delivery-btn');
+    const shippingFields  = document.getElementById('shipping-fields');
+    const pickupFields    = document.getElementById('pickup-fields');
+    const priceTotal      = document.getElementById('price-total');
+
+    function updateDelivery(type) {
+      deliveryType = type;
+      deliveryBtns.forEach(b => b.classList.toggle('active', b.dataset.delivery === type));
+      shippingFields.classList.toggle('hidden', type !== 'shipping');
+      pickupFields.classList.toggle('hidden',  type !== 'pickup');
+      priceTotal.textContent = type === 'shipping' ? '₪270' : '₪250';
+      document.getElementById('modal-price-label').textContent = type === 'shipping' ? '₪270' : '₪250';
+    }
+    deliveryBtns.forEach(btn => btn.addEventListener('click', () => updateDelivery(btn.dataset.delivery)));
+
+    // ── Checkout modal ─────────────────────────────────
+    const modal        = document.getElementById('checkout-modal');
+    const modalBackdrop= document.getElementById('modal-backdrop');
+    const modalCloseBtn= document.getElementById('modal-close-btn');
+    const buyNowBtn    = document.getElementById('buy-now-btn');
+
+    function openModal() {
+      if (!selectedColor || !selectedSize) {
+        if (!selectedColor) showError('color-error');
+        if (!selectedSize)  showError('size-error');
+        buyNowBtn.classList.add('shake');
+        buyNowBtn.addEventListener('animationend', () => buyNowBtn.classList.remove('shake'), { once: true });
+        document.getElementById('buy').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      updateModalSummary();
+      modal.hidden = false;
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => modal.classList.add('open'));
+      });
+      document.addEventListener('keydown', handleModalKey);
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('f-name').focus(), 400);
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.addEventListener('transitionend', () => {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+      }, { once: true });
+      document.removeEventListener('keydown', handleModalKey);
+    }
+
+    function handleModalKey(e) {
+      if (e.key === 'Escape') closeModal();
+    }
+
+    function updateModalSummary() {
+      const hex = COLOR_HEX[selectedColor] ?? '#9A9A9A';
+      document.getElementById('modal-color-dot').style.background  = hex;
+      document.getElementById('modal-color-dot2').style.background = hex;
+      const summary = `${COLOR_LABELS[selectedColor] ?? ''} · מידה ${selectedSize ?? ''}`;
+      document.getElementById('modal-summary-text').textContent   = summary;
+      document.getElementById('modal-variant-label').textContent  = summary;
+      document.getElementById('modal-price-label').textContent    = deliveryType === 'shipping' ? '₪270' : '₪250';
+    }
+
+    buyNowBtn.addEventListener('click', openModal);
+    modalCloseBtn.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', closeModal);
+
+    // ── Form validation ────────────────────────────────
+    function showError(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('visible');
+    }
+    function clearError(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('visible');
+    }
+    function inputError(inputEl, errId) {
+      inputEl.classList.add('error');
+      showError(errId);
+    }
+    function inputClear(inputEl, errId) {
+      inputEl.classList.remove('error');
+      clearError(errId);
+    }
+
+    function validateForm() {
+      let valid = true;
+      const name   = document.getElementById('f-name');
+      const phone  = document.getElementById('f-phone');
+      const email  = document.getElementById('f-email');
+      const address= document.getElementById('f-address');
+      const city   = document.getElementById('f-city');
+      const postal = document.getElementById('f-postal');
+      const pickup = document.getElementById('f-pickup');
+
+      if (!name.value.trim() || name.value.trim().length < 2) { inputError(name, 'err-name'); valid = false; } else inputClear(name, 'err-name');
+      if (!phone.value.trim() || !/^[+\d\s\-()]{7,20}$/.test(phone.value.trim())) { inputError(phone, 'err-phone'); valid = false; } else inputClear(phone, 'err-phone');
+      if (!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { inputError(email, 'err-email'); valid = false; } else inputClear(email, 'err-email');
+
+      if (deliveryType === 'shipping') {
+        if (!address.value.trim() || address.value.trim().length < 4) { inputError(address, 'err-address'); valid = false; } else inputClear(address, 'err-address');
+        if (!city.value.trim()) { inputError(city, 'err-city'); valid = false; }    else inputClear(city, 'err-city');
+        if (!postal.value.trim()) { inputError(postal, 'err-postal'); valid = false; } else inputClear(postal, 'err-postal');
+      } else {
+        if (!pickup.value) { inputError(pickup, 'err-pickup'); valid = false; } else inputClear(pickup, 'err-pickup');
+      }
+
+      return valid;
+    }
+
+    // Live clear on input
+    ['f-name','f-phone','f-email','f-address','f-city','f-postal'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', () => { el.classList.remove('error'); });
+    });
+
+    // ── Form submit ────────────────────────────────────
+    const orderForm   = document.getElementById('order-form');
+    const submitBtn   = document.getElementById('submit-btn');
+    const submitText  = document.getElementById('submit-text');
+    const submitSpinner = document.getElementById('submit-spinner');
+
+    function setLoading(on) {
+      submitBtn.disabled = on;
+      submitText.classList.toggle('hidden', on);
+      submitSpinner.classList.toggle('hidden', !on);
+    }
+
+    orderForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!validateForm()) return;
+      setLoading(true);
+
+      const payload = {
+        name:         document.getElementById('f-name').value.trim(),
+        phone:        document.getElementById('f-phone').value.trim(),
+        email:        document.getElementById('f-email').value.trim(),
+        deliveryType,
+        color:        selectedColor,
+        size:         selectedSize,
+      };
+      if (deliveryType === 'shipping') {
+        payload.address = document.getElementById('f-address').value.trim();
+        payload.city    = document.getElementById('f-city').value.trim();
+        payload.postal  = document.getElementById('f-postal').value.trim();
+      } else {
+        payload.pickupLocation = document.getElementById('f-pickup').value;
+      }
+
+      try {
+        const res  = await fetch('/api/order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error ?? 'שגיאה בשליחת ההזמנה');
+        closeModal();
+        showToast('success', `ההזמנה נשלחה! 🎉 מספר הזמנה: ${data.orderId}`);
+        orderForm.reset();
+        selectedColor = null;
+        selectedSize  = null;
+        swatchBtns.forEach(b => b.classList.remove('selected'));
+        sizeBtns.forEach(b => b.classList.remove('selected'));
+        document.getElementById('selected-color-label').textContent = '';
+      } catch (err) {
+        showToast('error', err.message);
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    // ── Toast ──────────────────────────────────────────
+    const toast    = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-msg');
+    const toastIcon= document.getElementById('toast-icon');
+
+    function showToast(type, message) {
+      toastMsg.textContent = message;
+      toastIcon.textContent = type === 'success' ? '✓' : '✕';
+      toast.classList.add('open');
+      const inner = document.getElementById('toast-inner');
+      inner.style.borderColor = type === 'success' ? '#EAD9BE' : '#DC7B7B';
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('open'), 5000);
+    }
+
+  })();
+  </script>
+</body>
+</html>
