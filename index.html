@@ -134,12 +134,7 @@
       box-shadow: 0 1px 0 rgba(42,75,124,0.10), 0 4px 24px rgba(42,75,124,0.06);
     }
 
-    /* ── Mobile drawer ─────────────────────────────────── */
-    #mobile-drawer {
-      transform: translateX(100%);
-      transition: transform 0.35s var(--ease-out);
-    }
-    #mobile-drawer.open { transform: translateX(0); }
+
 
     /* ── Feature cards ─────────────────────────────────── */
     .feature-card {
@@ -282,39 +277,16 @@
       <span class="font-body text-navy/50 tracking-widest" style="font-size:0.45rem; letter-spacing:0.22em;">YOU'VE GOT THE FLOW</span>
     </a>
 
-    <!-- Desktop nav links (center) -->
-    <div class="hidden md:flex items-center gap-8">
-      <a href="#story"   class="font-body text-sm font-medium text-body-text hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/50">אודות</a>
-      <a href="#product" class="font-body text-sm font-medium text-body-text hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/50">החזייה</a>
-      <a href="#buy"     class="font-body text-sm font-medium text-body-text hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/50">לרכישה</a>
+    <!-- Nav links (always visible) -->
+    <div class="flex items-center gap-4 md:gap-8">
+      <a href="#story"   class="font-body text-xs md:text-sm font-medium text-body-text hover:text-navy transition-colors duration-200">אודות</a>
+      <a href="#product" class="font-body text-xs md:text-sm font-medium text-body-text hover:text-navy transition-colors duration-200">החזייה</a>
+      <a href="#buy"     class="font-body text-xs md:text-sm font-medium text-body-text hover:text-navy transition-colors duration-200">לרכישה</a>
     </div>
 
-    <!-- Desktop CTA -->
-    <a href="#buy" class="hidden md:inline-flex btn-primary text-sm px-5 py-3">לרכישה עכשיו</a>
-
-    <!-- Mobile hamburger -->
-    <button id="hamburger-btn" class="flex md:hidden flex-col gap-1.5 p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 rounded-lg" aria-label="פתח תפריט" aria-expanded="false">
-      <span class="ham-line block w-6 h-0.5 bg-navy rounded transition-transform duration-300 origin-center"></span>
-      <span class="ham-line block w-6 h-0.5 bg-navy rounded transition-opacity duration-300"></span>
-      <span class="ham-line block w-6 h-0.5 bg-navy rounded transition-transform duration-300 origin-center"></span>
-    </button>
+    <!-- CTA -->
+    <a href="#buy" class="btn-primary text-xs md:text-sm px-3 md:px-5 py-2 md:py-3">לרכישה עכשיו</a>
   </nav>
-
-  <!-- Mobile drawer -->
-  <div id="mobile-drawer-backdrop" class="fixed inset-0 z-40 bg-navy/30 backdrop-blur-sm hidden"></div>
-  <div id="mobile-drawer" class="fixed top-0 right-0 h-full w-72 z-50 bg-cream-light shadow-2xl flex flex-col pt-20 pb-10 px-8">
-    <button id="drawer-close" class="absolute top-5 start-5 p-2 rounded-full hover:bg-cream-dark transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" aria-label="סגור תפריט">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="#2A4B7C" stroke-width="1.8" stroke-linecap="round"/></svg>
-    </button>
-    <nav class="flex flex-col gap-6 mt-4">
-      <a href="#story"   class="font-display text-2xl text-navy hover:text-navy-light transition-colors duration-200" onclick="closeDrawer()">אודות</a>
-      <a href="#product" class="font-display text-2xl text-navy hover:text-navy-light transition-colors duration-200" onclick="closeDrawer()">החזייה</a>
-      <a href="#buy"     class="font-display text-2xl text-navy hover:text-navy-light transition-colors duration-200" onclick="closeDrawer()">לרכישה</a>
-    </nav>
-    <div class="mt-auto">
-      <a href="#buy" class="btn-primary w-full justify-center" onclick="closeDrawer()">לרכישה עכשיו</a>
-    </div>
-  </div>
 
   <!-- ═══════════════════════════════════════════════════
        HERO
@@ -821,32 +793,6 @@
       navbar.classList.toggle('scrolled', window.scrollY > 80);
     }, { passive: true });
 
-    // ── Mobile menu ────────────────────────────────────
-    const hamburgerBtn   = document.getElementById('hamburger-btn');
-    const mobileDrawer   = document.getElementById('mobile-drawer');
-    const drawerBackdrop = document.getElementById('mobile-drawer-backdrop');
-    const drawerClose    = document.getElementById('drawer-close');
-    const hamLines       = hamburgerBtn.querySelectorAll('.ham-line');
-
-    function openDrawer() {
-      drawerBackdrop.classList.remove('hidden');
-      mobileDrawer.classList.add('open');
-      hamburgerBtn.setAttribute('aria-expanded', 'true');
-      hamLines[0].style.transform = 'rotate(45deg) translate(4px, 4px)';
-      hamLines[1].style.opacity   = '0';
-      hamLines[2].style.transform = 'rotate(-45deg) translate(4px, -4px)';
-    }
-    window.closeDrawer = function () {
-      drawerBackdrop.classList.add('hidden');
-      mobileDrawer.classList.remove('open');
-      hamburgerBtn.setAttribute('aria-expanded', 'false');
-      hamLines[0].style.transform = '';
-      hamLines[1].style.opacity   = '';
-      hamLines[2].style.transform = '';
-    };
-    hamburgerBtn.addEventListener('click', openDrawer);
-    drawerClose.addEventListener('click', closeDrawer);
-    drawerBackdrop.addEventListener('click', closeDrawer);
 
     // ── Scroll reveal ──────────────────────────────────
     const isPreview = new URLSearchParams(location.search).has('preview');
