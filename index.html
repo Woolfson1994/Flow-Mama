@@ -30,6 +30,13 @@
     }
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+    const _supabase = supabase.createClient(
+      'https://rhypwmsqwwtnnaavmsgj.supabase.co',
+      'sb_publishable_Crb4yVJpjLswEIKkCmlo8g_XKLb3rUh'
+    );
+  </script>
 
   <style>
     :root {
@@ -1036,15 +1043,27 @@
       }
 
       try {
-        const res  = await fetch('/api/order', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error ?? 'שגיאה בשליחת ההזמנה');
+        const { data, error } = await _supabase
+          .from('orders')
+          .insert([{
+            name:            payload.name,
+            phone:           payload.phone,
+            email:           payload.email,
+            delivery_type:   payload.deliveryType,
+            address:         payload.address         || null,
+            city:            payload.city            || null,
+            postal:          payload.postal          || null,
+            pickup_location: payload.pickupLocation  || null,
+            color:           payload.color,
+            size:            payload.size,
+            total_price:     deliveryType === 'shipping' ? 270 : 250,
+            status:          'pending',
+          }])
+          .select('id')
+          .single();
+        if (error) throw new Error(error.message);
         closeModal();
-        showToast('success', `ההזמנה נשלחה! 🎉 מספר הזמנה: ${data.orderId}`);
+        showToast('success', `ההזמנה נשלחה! 🎉 מספר הזמנה: ${data.id.slice(0, 8).toUpperCase()}`);
         orderForm.reset();
         selectedColor = null;
         selectedSize  = null;
