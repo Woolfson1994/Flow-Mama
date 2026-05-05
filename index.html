@@ -1043,7 +1043,7 @@
       }
 
       try {
-        const { data, error } = await _supabase
+        const { error } = await _supabase
           .from('orders')
           .insert([{
             name:            payload.name,
@@ -1058,12 +1058,10 @@
             size:            payload.size,
             total_price:     deliveryType === 'shipping' ? 270 : 250,
             status:          'pending',
-          }])
-          .select('id')
-          .single();
+          }]);
         if (error) throw new Error(error.message);
         closeModal();
-        showToast('success', `ההזמנה נשלחה! 🎉 מספר הזמנה: ${data.id.slice(0, 8).toUpperCase()}`);
+        showToast('success', 'ההזמנה נשלחה! 🎉 ניצור איתך קשר בקרוב.');
         orderForm.reset();
         selectedColor = null;
         selectedSize  = null;
