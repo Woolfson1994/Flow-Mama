@@ -252,6 +252,36 @@
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
     }
+
+    /* ── Photo marquee ─────────────────────────────────── */
+    @keyframes marquee-ltr {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes marquee-rtl {
+      0%   { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+    .marquee-track { overflow: hidden; }
+    .marquee-inner {
+      display: flex;
+      gap: 10px;
+      width: max-content;
+    }
+    .marquee-inner img {
+      height: 200px;
+      width: auto;
+      object-fit: cover;
+      border-radius: 14px;
+      flex-shrink: 0;
+      display: block;
+    }
+    @media (max-width: 640px) {
+      .marquee-inner img { height: 140px; }
+    }
+    .marquee-ltr { animation: marquee-ltr 50s linear infinite; }
+    .marquee-rtl { animation: marquee-rtl 55s linear infinite; }
+    .marquee-track:hover .marquee-inner { animation-play-state: paused; }
   </style>
 </head>
 
@@ -352,6 +382,62 @@
       אם כבר כובשות את העולם אז שיהיה לנו נוח
     </p>
   </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       PHOTO GALLERY MARQUEE
+  ════════════════════════════════════════════════════ -->
+  <section class="py-8 bg-cream overflow-hidden">
+    <!-- Row 1 — scrolls forward -->
+    <div class="marquee-track mb-2.5">
+      <div class="marquee-inner marquee-ltr">
+        <!-- Set A -->
+        <img src="picture/pic_1.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_5.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_7.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_12.JPG" alt="Flow Mama lifestyle">
+        <img src="picture/pic_13.JPG" alt="Flow Mama lifestyle">
+        <img src="picture/pic_4.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_6.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_8.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_14.JPG" alt="Flow Mama lifestyle">
+        <!-- Set B (duplicate for seamless loop) -->
+        <img src="picture/pic_1.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_5.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_7.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_12.JPG" alt="Flow Mama lifestyle">
+        <img src="picture/pic_13.JPG" alt="Flow Mama lifestyle">
+        <img src="picture/pic_4.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_6.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_8.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_14.JPG" alt="Flow Mama lifestyle">
+      </div>
+    </div>
+    <!-- Row 2 — scrolls backward -->
+    <div class="marquee-track">
+      <div class="marquee-inner marquee-rtl">
+        <!-- Set A -->
+        <img src="picture/pic_16.JPG" alt="Flow Mama product">
+        <img src="picture/pic_9.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_17.JPG" alt="Flow Mama product">
+        <img src="picture/pic_2.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_18.JPG" alt="Flow Mama product">
+        <img src="picture/pic_3.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_15.JPG" alt="Flow Mama lifestyle">
+        <img src="picture/pic_10.JPG" alt="Flow Mama product">
+        <img src="picture/pic_11.JPG" alt="Flow Mama product">
+        <!-- Set B (duplicate for seamless loop) -->
+        <img src="picture/pic_16.JPG" alt="Flow Mama product">
+        <img src="picture/pic_9.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_17.JPG" alt="Flow Mama product">
+        <img src="picture/pic_2.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_18.JPG" alt="Flow Mama product">
+        <img src="picture/pic_3.JPG"  alt="Flow Mama lifestyle">
+        <img src="picture/pic_15.JPG" alt="Flow Mama lifestyle">
+        <img src="picture/pic_10.JPG" alt="Flow Mama product">
+        <img src="picture/pic_11.JPG" alt="Flow Mama product">
+      </div>
+    </div>
+  </section>
 
   <!-- ═══════════════════════════════════════════════════
        BRAND STORY
