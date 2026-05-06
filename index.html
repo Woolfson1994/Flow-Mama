@@ -253,35 +253,19 @@
       animation: spin 0.7s linear infinite;
     }
 
-    /* ── Photo marquee ─────────────────────────────────── */
-    @keyframes marquee-ltr {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+    /* ── Hero gallery scroll ───────────────────────────── */
+    @keyframes scroll-up {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-50%); }
     }
-    @keyframes marquee-rtl {
-      0%   { transform: translateX(-50%); }
-      100% { transform: translateX(0); }
+    @keyframes scroll-down {
+      from { transform: translateY(-50%); }
+      to   { transform: translateY(0); }
     }
-    .marquee-track { overflow: hidden; }
-    .marquee-inner {
-      display: flex;
-      gap: 10px;
-      width: max-content;
-    }
-    .marquee-inner img {
-      height: 200px;
-      width: auto;
-      object-fit: cover;
-      border-radius: 14px;
-      flex-shrink: 0;
-      display: block;
-    }
-    @media (max-width: 640px) {
-      .marquee-inner img { height: 140px; }
-    }
-    .marquee-ltr { animation: marquee-ltr 50s linear infinite; }
-    .marquee-rtl { animation: marquee-rtl 55s linear infinite; }
-    .marquee-track:hover .marquee-inner { animation-play-state: paused; }
+    .gallery-col-up   { animation: scroll-up   28s linear infinite; }
+    .gallery-col-down { animation: scroll-down 34s linear infinite; }
+    .hero-gallery:hover .gallery-col-up,
+    .hero-gallery:hover .gallery-col-down { animation-play-state: paused; }
   </style>
 </head>
 
@@ -356,16 +340,53 @@
           </div>
         </div>
 
-        <!-- Image column -->
+        <!-- Gallery column -->
         <div class="flex-shrink-0 order-1 md:order-2 w-full md:w-auto flex justify-center">
-          <div class="relative rounded-3xl overflow-hidden w-full max-w-[256px] sm:max-w-[288px] md:max-w-[320px] lg:max-w-[384px] shadow-[0_8px_48px_rgba(42,75,124,0.15),0_2px_12px_rgba(42,75,124,0.08)]">
-            <img id="hero-product-img" src="picture/yallow.JPG" alt="חזיית הנקה Flow Mama" class="w-full h-full object-cover object-top block">
-            <div class="absolute inset-0 bg-gradient-to-t from-navy/20 via-transparent to-transparent pointer-events-none"></div>
-            <div class="absolute inset-0 bg-cream/5 mix-blend-multiply pointer-events-none"></div>
-            <!-- Floating badge -->
-            <div class="absolute bottom-4 start-4 bg-cream-light/90 backdrop-blur-sm rounded-2xl px-4 py-2.5 shadow-[0_4px_20px_rgba(42,75,124,0.15)]">
-              <p class="font-body text-xs font-semibold text-navy leading-tight">✦ כיס פטנט פנימי</p>
-              <p class="font-body text-xs text-muted mt-0.5">אין דליפות. אין דאגות.</p>
+          <div class="hero-gallery relative overflow-hidden rounded-3xl shadow-[0_8px_48px_rgba(42,75,124,0.15),0_2px_12px_rgba(42,75,124,0.08)]"
+               style="width:min(340px,100%); height:480px;">
+            <!-- Fade edges top & bottom -->
+            <div class="absolute inset-x-0 top-0 h-16 z-10 pointer-events-none" style="background:linear-gradient(to bottom,#F2E8D5,transparent);"></div>
+            <div class="absolute inset-x-0 bottom-0 h-16 z-10 pointer-events-none" style="background:linear-gradient(to top,#F2E8D5,transparent);"></div>
+
+            <div class="flex gap-3 h-full px-0">
+              <!-- Column 1 — scrolls up -->
+              <div class="flex-1 overflow-hidden">
+                <div class="gallery-col-up flex flex-col gap-3">
+                  <!-- Set A -->
+                  <img src="picture/pic_13.JPG" alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_1.JPG"  alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_5.JPG"  alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_12.JPG" alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_7.JPG"  alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_16.JPG" alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <!-- Set B (duplicate) -->
+                  <img src="picture/pic_13.JPG" alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_1.JPG"  alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_5.JPG"  alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_12.JPG" alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_7.JPG"  alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_16.JPG" alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                </div>
+              </div>
+              <!-- Column 2 — scrolls down -->
+              <div class="flex-1 overflow-hidden">
+                <div class="gallery-col-down flex flex-col gap-3">
+                  <!-- Set A -->
+                  <img src="picture/pic_4.JPG"  alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_6.JPG"  alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_8.JPG"  alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_14.JPG" alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_9.JPG"  alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_17.JPG" alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <!-- Set B (duplicate) -->
+                  <img src="picture/pic_4.JPG"  alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_6.JPG"  alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_8.JPG"  alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_14.JPG" alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_9.JPG"  alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                  <img src="picture/pic_17.JPG" alt="" class="w-full rounded-2xl object-cover" style="aspect-ratio:3/4;">
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -382,62 +403,6 @@
       אם כבר כובשות את העולם אז שיהיה לנו נוח
     </p>
   </div>
-
-  <!-- ═══════════════════════════════════════════════════
-       PHOTO GALLERY MARQUEE
-  ════════════════════════════════════════════════════ -->
-  <section class="py-8 bg-cream overflow-hidden">
-    <!-- Row 1 — scrolls forward -->
-    <div class="marquee-track mb-2.5">
-      <div class="marquee-inner marquee-ltr">
-        <!-- Set A -->
-        <img src="picture/pic_1.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_5.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_7.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_12.JPG" alt="Flow Mama lifestyle">
-        <img src="picture/pic_13.JPG" alt="Flow Mama lifestyle">
-        <img src="picture/pic_4.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_6.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_8.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_14.JPG" alt="Flow Mama lifestyle">
-        <!-- Set B (duplicate for seamless loop) -->
-        <img src="picture/pic_1.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_5.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_7.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_12.JPG" alt="Flow Mama lifestyle">
-        <img src="picture/pic_13.JPG" alt="Flow Mama lifestyle">
-        <img src="picture/pic_4.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_6.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_8.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_14.JPG" alt="Flow Mama lifestyle">
-      </div>
-    </div>
-    <!-- Row 2 — scrolls backward -->
-    <div class="marquee-track">
-      <div class="marquee-inner marquee-rtl">
-        <!-- Set A -->
-        <img src="picture/pic_16.JPG" alt="Flow Mama product">
-        <img src="picture/pic_9.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_17.JPG" alt="Flow Mama product">
-        <img src="picture/pic_2.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_18.JPG" alt="Flow Mama product">
-        <img src="picture/pic_3.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_15.JPG" alt="Flow Mama lifestyle">
-        <img src="picture/pic_10.JPG" alt="Flow Mama product">
-        <img src="picture/pic_11.JPG" alt="Flow Mama product">
-        <!-- Set B (duplicate for seamless loop) -->
-        <img src="picture/pic_16.JPG" alt="Flow Mama product">
-        <img src="picture/pic_9.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_17.JPG" alt="Flow Mama product">
-        <img src="picture/pic_2.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_18.JPG" alt="Flow Mama product">
-        <img src="picture/pic_3.JPG"  alt="Flow Mama lifestyle">
-        <img src="picture/pic_15.JPG" alt="Flow Mama lifestyle">
-        <img src="picture/pic_10.JPG" alt="Flow Mama product">
-        <img src="picture/pic_11.JPG" alt="Flow Mama product">
-      </div>
-    </div>
-  </section>
 
   <!-- ═══════════════════════════════════════════════════
        BRAND STORY
