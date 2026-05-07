@@ -958,6 +958,14 @@
         productMainImg.src = img;
         heroProductImg.src  = img;
         clearError('color-error');
+        // Hide L size for white bra
+        const lBtn = document.querySelector('.size-btn[data-size="L"]');
+        if (selectedColor === 'white') {
+          lBtn.style.display = 'none';
+          if (selectedSize === 'L') { selectedSize = null; sizeBtns.forEach(b => b.classList.remove('selected')); }
+        } else {
+          lBtn.style.display = '';
+        }
       });
     });
 
