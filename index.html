@@ -214,6 +214,7 @@
     .size-btn.selected { background: #2A4B7C; color: #F2E8D5; border-color: #2A4B7C; }
     .size-btn:active { transform: scale(0.96); }
     .size-btn:focus-visible { outline: 2px solid #2A4B7C; outline-offset: 2px; }
+    .size-btn.size-hidden { display: none !important; }
 
     /* ── Delivery toggle ───────────────────────────────── */
     .delivery-btn {
@@ -958,17 +959,7 @@
         productMainImg.src = img;
         heroProductImg.src  = img;
         clearError('color-error');
-        // Hide L size for white bra
-        const lBtn = document.querySelector('.size-btn[data-size="L"]');
-        if (selectedColor === 'white') {
-          lBtn.style.display = 'none';
-          if (selectedSize === 'L') {
-            selectedSize = null;
-            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
-          }
-        } else {
-          lBtn.style.display = '';
-        }
+        updateSizeAvailability();
       });
     });
 
@@ -978,6 +969,20 @@
         if (matchingSwatch) matchingSwatch.click();
       });
     });
+
+    function updateSizeAvailability() {
+      const lBtn = document.querySelector('.size-btn[data-size="L"]');
+      if (!lBtn) return;
+      if (selectedColor === 'white') {
+        lBtn.classList.add('size-hidden');
+        if (selectedSize === 'L') {
+          selectedSize = null;
+          document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+        }
+      } else {
+        lBtn.classList.remove('size-hidden');
+      }
+    }
 
     // ── Size buttons ───────────────────────────────────
     const sizeBtns = document.querySelectorAll('.size-btn');
