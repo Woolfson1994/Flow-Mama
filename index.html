@@ -957,7 +957,7 @@
         selectedColorLabel.textContent = COLOR_LABELS[selectedColor] ?? '';
         const img = PRODUCT_IMGS[selectedColor] ?? PRODUCT_IMGS.default;
         productMainImg.src = img;
-        heroProductImg.src  = img;
+        if (heroProductImg) heroProductImg.src = img;
         clearError('color-error');
         updateSizeAvailability();
       });
