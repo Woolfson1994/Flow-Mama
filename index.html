@@ -962,7 +962,10 @@
         const lBtn = document.querySelector('.size-btn[data-size="L"]');
         if (selectedColor === 'white') {
           lBtn.style.display = 'none';
-          if (selectedSize === 'L') { selectedSize = null; sizeBtns.forEach(b => b.classList.remove('selected')); }
+          if (selectedSize === 'L') {
+            selectedSize = null;
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+          }
         } else {
           lBtn.style.display = '';
         }
