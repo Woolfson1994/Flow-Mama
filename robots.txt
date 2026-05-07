@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://flow-mama.co.il/sitemap.xml
