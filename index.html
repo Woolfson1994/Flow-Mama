@@ -1181,7 +1181,7 @@
     // ── Sticky mobile buy bar ──────────────────────────
     const stickyBar     = document.getElementById('sticky-buy-bar');
     const stickyBuyBtn  = document.getElementById('sticky-buy-btn');
-    stickyBuyBtn.addEventListener('click', () => openModal());
+    stickyBuyBtn.addEventListener('click', () => openModal(stickyBuyBtn));
 
     const buyBtnObserver = new IntersectionObserver(
       ([entry]) => {
@@ -1198,12 +1198,13 @@
     const modalCloseBtn= document.getElementById('modal-close-btn');
     const buyNowBtn    = document.getElementById('buy-now-btn');
 
-    function openModal() {
+    function openModal(triggerBtn) {
       if (!selectedColor || !selectedSize) {
         if (!selectedColor) showError('color-error');
         if (!selectedSize)  showError('size-error');
-        buyNowBtn.classList.add('shake');
-        buyNowBtn.addEventListener('animationend', () => buyNowBtn.classList.remove('shake'), { once: true });
+        const shakeTarget = triggerBtn || buyNowBtn;
+        shakeTarget.classList.add('shake');
+        shakeTarget.addEventListener('animationend', () => shakeTarget.classList.remove('shake'), { once: true });
         document.getElementById('buy').scrollIntoView({ behavior: 'smooth', block: 'start' });
         return;
       }
@@ -1331,7 +1332,7 @@
             name:            payload.name,
             phone:           payload.phone,
             email:           payload.email,
-            delivery_type:   payload.deliveryType,
+            delivery_type:   deliveryType === 'pickup' ? 'משלוח לבית' : 'נקודת איסוף',
             address:         payload.address         || null,
             city:            payload.city            || null,
             postal:          payload.postal          || null,
@@ -1350,6 +1351,9 @@
         swatchBtns.forEach(b => b.classList.remove('selected'));
         sizeBtns.forEach(b => b.classList.remove('selected'));
         document.getElementById('selected-color-label').textContent = '';
+        productMainImg.src = PRODUCT_IMGS.default;
+        updateDelivery('shipping');
+        updateWhatsAppLinks();
       } catch (err) {
         showToast('error', err.message);
       } finally {
