@@ -744,8 +744,8 @@
           <div class="mb-8">
             <label class="font-body text-xs font-semibold tracking-[0.12em] text-muted uppercase mb-3 block">אופן קבלה</label>
             <div class="flex w-full rounded-2xl bg-cream-dark p-1 gap-1">
-              <button class="delivery-btn active flex-1 text-center px-4 py-2 rounded-xl font-body text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" data-delivery="shipping">משלוח לנקודת איסוף ₪20</button>
-              <button class="delivery-btn flex-1 text-center px-4 py-2 rounded-xl font-body text-sm font-medium text-body-text transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" data-delivery="pickup">איסוף עצמי חינם</button>
+              <button class="delivery-btn active flex-1 text-center px-4 py-2 rounded-xl font-body text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" data-delivery="shipping">נקודת איסוף ₪20</button>
+              <button class="delivery-btn flex-1 text-center px-4 py-2 rounded-xl font-body text-sm font-medium text-body-text transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" data-delivery="pickup">משלוח לבית ₪45</button>
             </div>
           </div>
 
@@ -814,7 +814,7 @@
               @flowmama_youvegotheflow
             </a>
             <div class="font-body text-xs text-cream/50 mt-2 space-y-1">
-              <p>איסוף עצמי: ירושלים · מבשרת ציון · טל שחר</p>
+              <p>נקודת איסוף ₪20 | משלוח לבית ₪45</p>
             </div>
           </div>
         </div>
@@ -878,7 +878,7 @@
         </div>
 
         <!-- Delivery section (dynamic) -->
-        <div id="shipping-fields">
+        <div id="shipping-fields" class="hidden">
           <div class="mb-5">
             <label class="form-label" for="f-address">כתובת</label>
             <input class="form-input" type="text" id="f-address" name="address" autocomplete="street-address" placeholder="רחוב הדוגמה 12, דירה 5">
@@ -1083,11 +1083,11 @@
     function updateDelivery(type) {
       deliveryType = type;
       deliveryBtns.forEach(b => b.classList.toggle('active', b.dataset.delivery === type));
-      shippingFields.classList.toggle('hidden', type !== 'shipping');
-      pickupFields.classList.toggle('hidden',  type !== 'pickup');
-      priceTotal.textContent = type === 'shipping' ? '₪270' : '₪250';
-      document.getElementById('modal-price-label').textContent = type === 'shipping' ? '₪270' : '₪250';
-      document.getElementById('bit-price').textContent = type === 'shipping' ? '₪270' : '₪250';
+      shippingFields.classList.toggle('hidden', type !== 'pickup');
+      pickupFields.classList.add('hidden');
+      priceTotal.textContent = type === 'pickup' ? '₪295' : '₪270';
+      document.getElementById('modal-price-label').textContent = type === 'pickup' ? '₪295' : '₪270';
+      document.getElementById('bit-price').textContent = type === 'pickup' ? '₪295' : '₪270';
     }
     deliveryBtns.forEach(btn => btn.addEventListener('click', () => updateDelivery(btn.dataset.delivery)));
 
@@ -1136,7 +1136,7 @@
       const summary = `${COLOR_LABELS[selectedColor] ?? ''} · מידה ${selectedSize ?? ''}`;
       document.getElementById('modal-summary-text').textContent   = summary;
       document.getElementById('modal-variant-label').textContent  = summary;
-      document.getElementById('modal-price-label').textContent    = deliveryType === 'shipping' ? '₪270' : '₪250';
+      document.getElementById('modal-price-label').textContent    = deliveryType === 'pickup' ? '₪295' : '₪270';
     }
 
     buyNowBtn.addEventListener('click', openModal);
@@ -1175,12 +1175,10 @@
       if (!phone.value.trim() || !/^[+\d\s\-()]{7,20}$/.test(phone.value.trim())) { inputError(phone, 'err-phone'); valid = false; } else inputClear(phone, 'err-phone');
       if (!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { inputError(email, 'err-email'); valid = false; } else inputClear(email, 'err-email');
 
-      if (deliveryType === 'shipping') {
+      if (deliveryType === 'pickup') {
         if (!address.value.trim() || address.value.trim().length < 4) { inputError(address, 'err-address'); valid = false; } else inputClear(address, 'err-address');
         if (!city.value.trim()) { inputError(city, 'err-city'); valid = false; }    else inputClear(city, 'err-city');
         if (!postal.value.trim()) { inputError(postal, 'err-postal'); valid = false; } else inputClear(postal, 'err-postal');
-      } else {
-        if (!pickup.value) { inputError(pickup, 'err-pickup'); valid = false; } else inputClear(pickup, 'err-pickup');
       }
 
       return valid;
@@ -1217,12 +1215,10 @@
         color:        selectedColor,
         size:         selectedSize,
       };
-      if (deliveryType === 'shipping') {
+      if (deliveryType === 'pickup') {
         payload.address = document.getElementById('f-address').value.trim();
         payload.city    = document.getElementById('f-city').value.trim();
         payload.postal  = document.getElementById('f-postal').value.trim();
-      } else {
-        payload.pickupLocation = document.getElementById('f-pickup').value;
       }
 
       try {
@@ -1239,7 +1235,7 @@
             pickup_location: payload.pickupLocation  || null,
             color:           payload.color,
             size:            payload.size,
-            total_price:     deliveryType === 'shipping' ? 270 : 250,
+            total_price:     deliveryType === 'pickup' ? 295 : 270,
             status:          'pending',
           }]);
         if (error) throw new Error(error.message);
