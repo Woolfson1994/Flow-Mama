@@ -1000,6 +1000,38 @@
   }
   </script>
 
+  <!-- Sticky mobile buy bar -->
+  <div id="sticky-buy-bar" aria-hidden="true">
+    <div>
+      <p class="font-body text-xs text-muted">סה"כ לתשלום</p>
+      <p id="sticky-price" class="font-display text-xl text-navy font-bold">₪270</p>
+    </div>
+    <button id="sticky-buy-btn" type="button" class="btn-primary justify-center text-sm py-3 px-6">
+      הזמיני עכשיו ←
+    </button>
+  </div>
+
+  <!-- Floating social buttons -->
+  <div class="fixed left-0 top-1/2 z-40 flex flex-col gap-2" style="transform:translateY(-50%);">
+    <a href="https://www.instagram.com/flowmama_youvegotheflow?igsh=MWZ3b3JmczNtemQzdA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+       class="flex items-center justify-center w-12 h-12 rounded-r-2xl transition-transform duration-200 hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/50"
+       style="background:#2A4B7C; box-shadow:2px 2px 14px rgba(42,75,124,0.3);">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="3" width="14" height="14" rx="4.5" stroke="white" stroke-width="1.5"/>
+        <circle cx="10" cy="10" r="3.5" stroke="white" stroke-width="1.5"/>
+        <circle cx="14.5" cy="5.5" r="1" fill="white"/>
+      </svg>
+    </a>
+    <a id="float-whatsapp-btn" href="https://wa.me/972504777045?text=היי%20אודיה%2C%20ראיתי%20את%20חזיית%20ההנקה%20ורוצה%20לשמוע%20עוד%20😊" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
+       class="flex items-center justify-center w-12 h-12 rounded-r-2xl transition-transform duration-200 hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/50"
+       style="background:#2A4B7C; box-shadow:2px 2px 14px rgba(42,75,124,0.3);">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 2a8 8 0 0 0-6.93 11.97L2 18l4.13-1.05A8 8 0 1 0 10 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M7 8.5c.4.9 1 1.8 1.9 2.6.9.8 1.8 1.3 2.8 1.6l1-.9c.1-.1.3-.1.5 0l1.6 1.2c.1.1.1.4 0 .5l-.8 1c-.4.4-1 .5-1.5.3C9.5 13.5 6.5 10.5 6 7.5c-.2-.5 0-1.1.4-1.5l1-.8c.1-.1.4-.1.5 0l1.2 1.6c.1.1.1.3 0 .4L7 8.5Z" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
   <script>
   (function () {
     'use strict';
@@ -1343,36 +1375,5 @@
   })();
   </script>
 
-  <!-- Sticky mobile buy bar -->
-  <div id="sticky-buy-bar" aria-hidden="true">
-    <div>
-      <p class="font-body text-xs text-muted">סה"כ לתשלום</p>
-      <p id="sticky-price" class="font-display text-xl text-navy font-bold">₪270</p>
-    </div>
-    <button id="sticky-buy-btn" type="button" class="btn-primary justify-center text-sm py-3 px-6">
-      הזמיני עכשיו ←
-    </button>
-  </div>
-
-  <!-- Floating social buttons -->
-  <div class="fixed left-0 top-1/2 z-40 flex flex-col gap-2" style="transform:translateY(-50%);">
-    <a href="https://www.instagram.com/flowmama_youvegotheflow?igsh=MWZ3b3JmczNtemQzdA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-       class="flex items-center justify-center w-12 h-12 rounded-r-2xl transition-transform duration-200 hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/50"
-       style="background:#2A4B7C; box-shadow:2px 2px 14px rgba(42,75,124,0.3);">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="3" y="3" width="14" height="14" rx="4.5" stroke="white" stroke-width="1.5"/>
-        <circle cx="10" cy="10" r="3.5" stroke="white" stroke-width="1.5"/>
-        <circle cx="14.5" cy="5.5" r="1" fill="white"/>
-      </svg>
-    </a>
-    <a id="float-whatsapp-btn" href="https://wa.me/972504777045?text=היי%20אודיה%2C%20ראיתי%20את%20חזיית%20ההנקה%20ורוצה%20לשמוע%20עוד%20😊" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
-       class="flex items-center justify-center w-12 h-12 rounded-r-2xl transition-transform duration-200 hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/50"
-       style="background:#2A4B7C; box-shadow:2px 2px 14px rgba(42,75,124,0.3);">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10 2a8 8 0 0 0-6.93 11.97L2 18l4.13-1.05A8 8 0 1 0 10 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-        <path d="M7 8.5c.4.9 1 1.8 1.9 2.6.9.8 1.8 1.3 2.8 1.6l1-.9c.1-.1.3-.1.5 0l1.6 1.2c.1.1.1.4 0 .5l-.8 1c-.4.4-1 .5-1.5.3C9.5 13.5 6.5 10.5 6 7.5c-.2-.5 0-1.1.4-1.5l1-.8c.1-.1.4-.1.5 0l1.2 1.6c.1.1.1.3 0 .4L7 8.5Z" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </a>
-  </div>
 </body>
 </html>
