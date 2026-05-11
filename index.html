@@ -280,6 +280,27 @@
     }
     .delivery-btn.active { background: #2A4B7C; color: #F2E8D5; box-shadow: 0 2px 8px rgba(42,75,124,0.20); }
 
+    /* ── Sticky mobile buy bar ─────────────────────────── */
+    #sticky-buy-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 39;
+      background: #F2E8D5;
+      border-top: 1.5px solid rgba(42,75,124,0.12);
+      box-shadow: 0 -4px 24px rgba(42,75,124,0.12);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    #sticky-buy-bar.visible { transform: translateY(0); }
+    @media (min-width: 768px) { #sticky-buy-bar { display: none !important; } }
+
     /* ── Checkout modal ────────────────────────────────── */
     #checkout-modal {
       opacity: 0;
@@ -610,7 +631,7 @@
         <video
           controls
           playsinline
-          preload="metadata"
+          preload="none"
           poster="picture/pic_13.JPG"
           class="w-full block"
           style="max-height:520px; object-fit:contain; background:#1a1a1a;">
@@ -632,13 +653,13 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 reveal">
         <div class="rounded-3xl overflow-hidden shadow-[0_4px_24px_rgba(42,75,124,0.10)] bg-white">
-          <img src="recomends/recomend1.jpeg" alt="המלצת לקוחה" class="w-full h-auto block">
+          <img src="recomends/recomend1.jpeg" alt="המלצת לקוחה" class="w-full h-auto block" loading="lazy">
         </div>
         <div class="rounded-3xl overflow-hidden shadow-[0_4px_24px_rgba(42,75,124,0.10)] bg-white">
-          <img src="recomends/recomend2.jpeg" alt="המלצת לקוחה" class="w-full h-auto block">
+          <img src="recomends/recomend2.jpeg" alt="המלצת לקוחה" class="w-full h-auto block" loading="lazy">
         </div>
         <div class="rounded-3xl overflow-hidden shadow-[0_4px_24px_rgba(42,75,124,0.10)] bg-white">
-          <img src="recomends/recomend3.jpeg" alt="המלצת לקוחה" class="w-full h-auto block">
+          <img src="recomends/recomend3.jpeg" alt="המלצת לקוחה" class="w-full h-auto block" loading="lazy">
         </div>
       </div>
 
@@ -760,6 +781,11 @@
             <button id="buy-now-btn" type="button" class="btn-primary w-full justify-center text-base py-4">
               הזמיני עכשיו ←
             </button>
+            <a id="buy-whatsapp-btn" href="https://wa.me/972504777045?text=היי%20אודיה%2C%20ראיתי%20את%20חזיית%20ההנקה%20ורוצה%20לשמוע%20עוד%20😊" target="_blank" rel="noopener noreferrer"
+               class="flex items-center justify-center gap-2 w-full rounded-2xl border-2 border-navy/20 font-body text-sm font-medium text-navy py-3.5 hover:bg-navy/5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2a8 8 0 0 0-6.93 11.97L2 18l4.13-1.05A8 8 0 1 0 10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 8.5c.4.9 1 1.8 1.9 2.6.9.8 1.8 1.3 2.8 1.6l1-.9c.1-.1.3-.1.5 0l1.6 1.2c.1.1.1.4 0 .5l-.8 1c-.4.4-1 .5-1.5.3C9.5 13.5 6.5 10.5 6 7.5c-.2-.5 0-1.1.4-1.5l1-.8c.1-.1.4-.1.5 0l1.2 1.6c.1.1.1.3 0 .4L7 8.5Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              הזמיני דרך WhatsApp
+            </a>
             <p class="font-body text-xs text-center text-muted">התשלום יתואם עמך לאחר קבלת ההזמנה</p>
           </div>
         </div>
@@ -1042,6 +1068,7 @@
         if (heroProductImg) heroProductImg.src = img;
         clearError('color-error');
         updateSizeAvailability();
+        updateWhatsAppLinks();
       });
     });
 
@@ -1074,6 +1101,7 @@
         sizeBtns.forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         clearError('size-error');
+        updateWhatsAppLinks();
       });
     });
 
@@ -1088,11 +1116,49 @@
       deliveryBtns.forEach(b => b.classList.toggle('active', b.dataset.delivery === type));
       shippingFields.classList.toggle('hidden', type !== 'pickup');
       pickupFields.classList.add('hidden');
-      priceTotal.textContent = type === 'pickup' ? '₪295' : '₪270';
-      document.getElementById('modal-price-label').textContent = type === 'pickup' ? '₪295' : '₪270';
-      document.getElementById('bit-price').textContent = type === 'pickup' ? '₪295' : '₪270';
+      const price = type === 'pickup' ? '₪295' : '₪270';
+      priceTotal.textContent = price;
+      document.getElementById('sticky-price').textContent = price;
+      document.getElementById('modal-price-label').textContent = price;
+      document.getElementById('bit-price').textContent = price;
+      updateWhatsAppLinks();
     }
     deliveryBtns.forEach(btn => btn.addEventListener('click', () => updateDelivery(btn.dataset.delivery)));
+
+    // ── WhatsApp dynamic link ──────────────────────────
+    const floatWA = document.getElementById('float-whatsapp-btn');
+    const buyWA   = document.getElementById('buy-whatsapp-btn');
+    const WA_BASE = 'https://wa.me/972504777045?text=';
+    const WA_FALLBACK = 'היי אודיה, ראיתי את חזיית ההנקה ורוצה לשמוע עוד 😊';
+
+    function updateWhatsAppLinks() {
+      let msg;
+      if (selectedColor && selectedSize) {
+        const deliveryLabel = deliveryType === 'pickup' ? 'משלוח לבית' : 'נקודת איסוף';
+        const price         = deliveryType === 'pickup' ? '₪295' : '₪270';
+        msg = `היי אודיה! רוצה להזמין 😊\n👗 צבע: ${COLOR_LABELS[selectedColor]}\n📏 מידה: ${selectedSize}\n🚚 משלוח: ${deliveryLabel} (${price})`;
+      } else {
+        msg = WA_FALLBACK;
+      }
+      const url = WA_BASE + encodeURIComponent(msg);
+      floatWA.href = url;
+      buyWA.href   = url;
+    }
+    updateWhatsAppLinks();
+
+    // ── Sticky mobile buy bar ──────────────────────────
+    const stickyBar     = document.getElementById('sticky-buy-bar');
+    const stickyBuyBtn  = document.getElementById('sticky-buy-btn');
+    stickyBuyBtn.addEventListener('click', () => openModal());
+
+    const buyBtnObserver = new IntersectionObserver(
+      ([entry]) => {
+        const show = !entry.isIntersecting;
+        stickyBar.classList.toggle('visible', show);
+        stickyBar.setAttribute('aria-hidden', show ? 'false' : 'true');
+      },
+      { threshold: 0, rootMargin: '0px 0px -60px 0px' }
+    );
 
     // ── Checkout modal ─────────────────────────────────
     const modal        = document.getElementById('checkout-modal');
@@ -1143,6 +1209,7 @@
     }
 
     buyNowBtn.addEventListener('click', openModal);
+    buyBtnObserver.observe(buyNowBtn);
     modalCloseBtn.addEventListener('click', closeModal);
     modalBackdrop.addEventListener('click', closeModal);
 
@@ -1276,10 +1343,21 @@
   })();
   </script>
 
+  <!-- Sticky mobile buy bar -->
+  <div id="sticky-buy-bar" aria-hidden="true">
+    <div>
+      <p class="font-body text-xs text-muted">סה"כ לתשלום</p>
+      <p id="sticky-price" class="font-display text-xl text-navy font-bold">₪270</p>
+    </div>
+    <button id="sticky-buy-btn" type="button" class="btn-primary justify-center text-sm py-3 px-6">
+      הזמיני עכשיו ←
+    </button>
+  </div>
+
   <!-- Floating social buttons -->
   <div class="fixed left-0 top-1/2 z-40 flex flex-col gap-2" style="transform:translateY(-50%);">
     <a href="https://www.instagram.com/flowmama_youvegotheflow?igsh=MWZ3b3JmczNtemQzdA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-       class="flex items-center justify-center w-11 h-11 rounded-r-2xl transition-transform duration-200 hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/50"
+       class="flex items-center justify-center w-12 h-12 rounded-r-2xl transition-transform duration-200 hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/50"
        style="background:#2A4B7C; box-shadow:2px 2px 14px rgba(42,75,124,0.3);">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="3" y="3" width="14" height="14" rx="4.5" stroke="white" stroke-width="1.5"/>
@@ -1287,8 +1365,8 @@
         <circle cx="14.5" cy="5.5" r="1" fill="white"/>
       </svg>
     </a>
-    <a href="https://wa.me/972504777045?text=היי%20אודיה%2C%20ראיתי%20את%20חזיית%20ההנקה%20ורוצה%20לשמוע%20עוד%20😊" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
-       class="flex items-center justify-center w-11 h-11 rounded-r-2xl transition-transform duration-200 hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/50"
+    <a id="float-whatsapp-btn" href="https://wa.me/972504777045?text=היי%20אודיה%2C%20ראיתי%20את%20חזיית%20ההנקה%20ורוצה%20לשמוע%20עוד%20😊" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
+       class="flex items-center justify-center w-12 h-12 rounded-r-2xl transition-transform duration-200 hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/50"
        style="background:#2A4B7C; box-shadow:2px 2px 14px rgba(42,75,124,0.3);">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M10 2a8 8 0 0 0-6.93 11.97L2 18l4.13-1.05A8 8 0 1 0 10 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
