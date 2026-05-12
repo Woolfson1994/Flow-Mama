@@ -777,9 +777,10 @@
           <!-- Delivery toggle -->
           <div class="mb-8">
             <label class="font-body text-xs font-semibold tracking-[0.12em] text-muted uppercase mb-3 block">אופן קבלה</label>
-            <div class="flex w-full rounded-2xl bg-cream-dark p-1 gap-1">
-              <button class="delivery-btn active flex-1 text-center px-4 py-2 rounded-xl font-body text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" data-delivery="shipping">נקודת איסוף ₪20</button>
-              <button class="delivery-btn flex-1 text-center px-4 py-2 rounded-xl font-body text-sm font-medium text-body-text transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" data-delivery="pickup">משלוח לבית ₪45</button>
+            <div class="grid grid-cols-3 w-full rounded-2xl bg-cream-dark p-1 gap-1">
+              <button class="delivery-btn active text-center px-2 py-2 rounded-xl font-body text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" data-delivery="shipping">נקודת איסוף ₪20</button>
+              <button class="delivery-btn text-center px-2 py-2 rounded-xl font-body text-xs font-medium text-body-text transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" data-delivery="pickup">משלוח לבית ₪45</button>
+              <button class="delivery-btn text-center px-2 py-2 rounded-xl font-body text-xs font-medium text-body-text transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" data-delivery="selfpickup">איסוף עצמי חינם</button>
             </div>
           </div>
 
@@ -853,7 +854,8 @@
               @flowmama_youvegotheflow
             </a>
             <div class="font-body text-xs text-cream/50 mt-2 space-y-1">
-              <p>נקודת איסוף ₪20 | משלוח לבית ₪45</p>
+              <p>נקודת איסוף ₪20 | משלוח לבית ₪45 | איסוף עצמי חינם</p>
+              <p>ירושלים · מבשרת ציון · טל שחר</p>
             </div>
           </div>
         </div>
@@ -1160,8 +1162,8 @@
       deliveryType = type;
       deliveryBtns.forEach(b => b.classList.toggle('active', b.dataset.delivery === type));
       shippingFields.classList.toggle('hidden', type !== 'pickup');
-      pickupFields.classList.add('hidden');
-      const price = type === 'pickup' ? '₪295' : '₪270';
+      pickupFields.classList.toggle('hidden', type !== 'selfpickup');
+      const price = type === 'pickup' ? '₪295' : type === 'selfpickup' ? '₪250' : '₪270';
       priceTotal.textContent = price;
       document.getElementById('sticky-price').textContent = price;
       document.getElementById('modal-price-label').textContent = price;
@@ -1179,8 +1181,8 @@
     function updateWhatsAppLinks() {
       let msg;
       if (selectedColor && selectedSize) {
-        const deliveryLabel = deliveryType === 'pickup' ? 'משלוח לבית' : 'נקודת איסוף';
-        const price         = deliveryType === 'pickup' ? '₪295' : '₪270';
+        const deliveryLabel = deliveryType === 'pickup' ? 'משלוח לבית' : deliveryType === 'selfpickup' ? 'איסוף עצמי' : 'נקודת איסוף';
+        const price         = deliveryType === 'pickup' ? '₪295' : deliveryType === 'selfpickup' ? '₪250' : '₪270';
         msg = `היי אודיה! רוצה להזמין 😊\n👗 צבע: ${COLOR_LABELS[selectedColor]}\n📏 מידה: ${selectedSize}\n🚚 משלוח: ${deliveryLabel} (${price})`;
       } else {
         msg = WA_FALLBACK;
@@ -1251,7 +1253,7 @@
       const summary = `${COLOR_LABELS[selectedColor] ?? ''} · מידה ${selectedSize ?? ''}`;
       document.getElementById('modal-summary-text').textContent   = summary;
       document.getElementById('modal-variant-label').textContent  = summary;
-      document.getElementById('modal-price-label').textContent    = deliveryType === 'pickup' ? '₪295' : '₪270';
+      document.getElementById('modal-price-label').textContent    = deliveryType === 'pickup' ? '₪295' : deliveryType === 'selfpickup' ? '₪250' : '₪270';
     }
 
     buyNowBtn.addEventListener('click', openModal);
@@ -1295,6 +1297,8 @@
         if (!address.value.trim() || address.value.trim().length < 4) { inputError(address, 'err-address'); valid = false; } else inputClear(address, 'err-address');
         if (!city.value.trim()) { inputError(city, 'err-city'); valid = false; }    else inputClear(city, 'err-city');
         if (!postal.value.trim()) { inputError(postal, 'err-postal'); valid = false; } else inputClear(postal, 'err-postal');
+      } else if (deliveryType === 'selfpickup') {
+        if (!pickup.value) { inputError(pickup, 'err-pickup'); valid = false; } else inputClear(pickup, 'err-pickup');
       }
 
       return valid;
@@ -1336,6 +1340,8 @@
         payload.address = document.getElementById('f-address').value.trim();
         payload.city    = document.getElementById('f-city').value.trim();
         payload.postal  = document.getElementById('f-postal').value.trim();
+      } else if (deliveryType === 'selfpickup') {
+        payload.pickupLocation = document.getElementById('f-pickup').value;
       }
 
       try {
@@ -1345,20 +1351,20 @@
             name:            payload.name,
             phone:           payload.phone,
             email:           payload.email,
-            delivery_type:   deliveryType === 'pickup' ? 'משלוח לבית' : 'נקודת איסוף',
+            delivery_type:   deliveryType === 'pickup' ? 'משלוח לבית' : deliveryType === 'selfpickup' ? 'איסוף עצמי' : 'נקודת איסוף',
             address:         payload.address         || null,
             city:            payload.city            || null,
             postal:          payload.postal          || null,
             pickup_location: payload.pickupLocation  || null,
             color:           payload.color,
             size:            payload.size,
-            total_price:     deliveryType === 'pickup' ? 295 : 270,
+            total_price:     deliveryType === 'pickup' ? 295 : deliveryType === 'selfpickup' ? 250 : 270,
             status:          'pending',
           }]);
         if (error) throw new Error(error.message);
 
         // GA4 purchase conversion event
-        const orderValue = deliveryType === 'pickup' ? 295 : 270;
+        const orderValue = deliveryType === 'pickup' ? 295 : deliveryType === 'selfpickup' ? 250 : 270;
         if (typeof gtag === 'function') {
           gtag('event', 'purchase', {
             transaction_id: Date.now().toString(),
