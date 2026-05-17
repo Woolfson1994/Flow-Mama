@@ -115,6 +115,23 @@ git push origin main
 
 ---
 
+## Order Notification Emails (EmailJS)
+
+When a customer places an order, the site sends a Hebrew notification email to Odeya — automatically, without leaving the page. To activate it:
+
+1. Sign up at [emailjs.com](https://www.emailjs.com) (free tier: 200 emails/month).
+2. **Add Email Service** — connect Gmail (`odeya265@gmail.com`) — copy the **Service ID**.
+3. **Create a Template** addressed to `odeya265@gmail.com` with variables:
+   `{{name}}`, `{{phone}}`, `{{email}}`, `{{color}}`, `{{size}}`, `{{delivery}}`, `{{address}}`, `{{total}}`, `{{created_at}}`. Copy the **Template ID**.
+4. **Account → General** — copy the **Public Key**.
+5. In `index.html`, replace `YOUR_EMAILJS_PUBLIC_KEY`, `YOUR_EMAILJS_SERVICE_ID`, `YOUR_EMAILJS_TEMPLATE_ID` in the `EMAILJS` config block.
+
+Notes:
+- The send is fire-and-forget: a failed email never blocks an order — orders always reach Supabase.
+- Until configured, the feature is a no-op (no errors), so it's safe to deploy without the keys.
+
+---
+
 ## Meta Pixel Setup
 
 The Meta Pixel base code is installed in `index.html`. To activate it:

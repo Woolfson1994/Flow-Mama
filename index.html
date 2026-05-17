@@ -152,11 +152,27 @@
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
     const _supabase = supabase.createClient(
       'https://rhypwmsqwwtnnaavmsgj.supabase.co',
       'sb_publishable_Crb4yVJpjLswEIKkCmlo8g_XKLb3rUh'
     );
+
+    // EmailJS — order notification to Odeya on every new order.
+    // Setup (one-time): emailjs.com → create a Gmail service + a template, then
+    // paste the 3 IDs below. Template variables expected:
+    //   {{name}} {{phone}} {{email}} {{color}} {{size}}
+    //   {{delivery}} {{address}} {{total}} {{created_at}}
+    const EMAILJS = {
+      publicKey:  'YOUR_EMAILJS_PUBLIC_KEY',
+      serviceId:  'YOUR_EMAILJS_SERVICE_ID',
+      templateId: 'YOUR_EMAILJS_TEMPLATE_ID',
+    };
+    const EMAIL_ENABLED =
+      typeof emailjs !== 'undefined' &&
+      EMAILJS.publicKey !== 'YOUR_EMAILJS_PUBLIC_KEY';
+    if (EMAIL_ENABLED) emailjs.init({ publicKey: EMAILJS.publicKey });
   </script>
 
   <style>
@@ -1344,6 +1360,13 @@
         payload.pickupLocation = document.getElementById('f-pickup').value;
       }
 
+      const orderValue =
+        deliveryType === 'pickup'     ? 295 :
+        deliveryType === 'selfpickup' ? 250 : 270;
+      const deliveryLabel =
+        deliveryType === 'pickup'     ? 'משלוח לבית' :
+        deliveryType === 'selfpickup' ? 'איסוף עצמי' : 'נקודת איסוף';
+
       try {
         const { error } = await _supabase
           .from('orders')
@@ -1351,20 +1374,38 @@
             name:            payload.name,
             phone:           payload.phone,
             email:           payload.email,
-            delivery_type:   deliveryType === 'pickup' ? 'משלוח לבית' : deliveryType === 'selfpickup' ? 'איסוף עצמי' : 'נקודת איסוף',
+            delivery_type:   deliveryLabel,
             address:         payload.address         || null,
             city:            payload.city            || null,
             postal:          payload.postal          || null,
             pickup_location: payload.pickupLocation  || null,
             color:           payload.color,
             size:            payload.size,
-            total_price:     deliveryType === 'pickup' ? 295 : deliveryType === 'selfpickup' ? 250 : 270,
+            total_price:     orderValue,
             status:          'pending',
           }]);
         if (error) throw new Error(error.message);
 
+        // Notify Odeya by email — fire-and-forget, never blocks the order flow.
+        if (EMAIL_ENABLED) {
+          const addressLine =
+            deliveryType === 'pickup'
+              ? `${payload.address}, ${payload.city} ${payload.postal}`
+              : (payload.pickupLocation || '—');
+          emailjs.send(EMAILJS.serviceId, EMAILJS.templateId, {
+            name:       payload.name,
+            phone:      payload.phone,
+            email:      payload.email,
+            color:      COLOR_LABELS[payload.color] || payload.color,
+            size:       payload.size,
+            delivery:   deliveryLabel,
+            address:    addressLine,
+            total:      `₪${orderValue}`,
+            created_at: new Date().toLocaleString('he-IL', { timeZone: 'Asia/Jerusalem' }),
+          }).catch(err => console.error('Email notification failed:', err));
+        }
+
         // GA4 purchase conversion event
-        const orderValue = deliveryType === 'pickup' ? 295 : deliveryType === 'selfpickup' ? 250 : 270;
         if (typeof gtag === 'function') {
           gtag('event', 'purchase', {
             transaction_id: Date.now().toString(),
