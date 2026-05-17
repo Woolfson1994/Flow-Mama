@@ -1,10 +1,10 @@
 import puppeteer from 'puppeteer';
 import { readdir, mkdir } from 'node:fs/promises';
-import { join, dirname } from 'node:path';
+import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const SCREENSHOTS_DIR = join(__dirname, 'temporary screenshots');
+const SCREENSHOTS_DIR = resolve(__dirname, '..', 'temporary screenshots');
 
 async function getNextNumber() {
   try {

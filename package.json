@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node serve.mjs",
-    "screenshot": "node screenshot.mjs http://localhost:3000"
+    "start": "node scripts/serve.mjs",
+    "screenshot": "node scripts/screenshot.mjs http://localhost:3000"
   },
   "dependencies": {
     "puppeteer": "^22.0.0"

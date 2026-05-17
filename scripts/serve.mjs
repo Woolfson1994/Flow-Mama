@@ -15,7 +15,7 @@ import { dirname } from 'node:path';
 const PORT = 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const PROJECT_ROOT = __dirname;
+const PROJECT_ROOT = resolve(__dirname, '..');
 const ORDERS_FILE = join(PROJECT_ROOT, 'orders.json');
 
 const MIME_TYPES = {

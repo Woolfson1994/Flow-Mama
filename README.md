@@ -37,13 +37,13 @@ Flow-Mama/
 ├── index.html          # Entire website — HTML, CSS, and JS in one file
 ├── vercel.json         # Vercel deployment config + security headers
 ├── package.json        # Dev tooling (local server + screenshot script)
-├── serve.mjs           # Local dev server (port 3000)
-├── screenshot.mjs      # Puppeteer screenshot utility
-├── orders.json         # Local order log (dev only, not used in production)
 ├── robots.txt          # SEO crawl rules
 ├── sitemap.xml         # SEO sitemap
 ├── CNAME               # Custom domain: flow-mama.co.il
 ├── favicon.png         # Site icon
+├── scripts/            # Dev tooling
+│   ├── serve.mjs       # Local dev server (port 3000)
+│   └── screenshot.mjs  # Puppeteer screenshot utility
 ├── picture/            # Product + lifestyle images and demo video
 │   ├── gray.JPG        # Product photo — gray color
 │   ├── white.JPG       # Product photo — white color
@@ -56,6 +56,8 @@ Flow-Mama/
 └── brand_assets/       # Logo
     └── Flow Mama Logo.jpeg
 ```
+
+> `orders.json` is generated on first run of the dev server and is gitignored (dev-only, not used in production).
 
 ---
 

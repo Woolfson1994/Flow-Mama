@@ -3,3 +3,4 @@ temporary screenshots/
 .DS_Store
 *.pdf
 export_orders.py
+orders.json
