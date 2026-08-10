@@ -3,4 +3,5 @@ temporary screenshots/
 .DS_Store
 *.pdf
 export_orders.py
+supabase/.temp/
 orders.json
