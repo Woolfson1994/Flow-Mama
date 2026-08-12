@@ -66,7 +66,6 @@ function buildHtml(order: Record<string, unknown>): string {
     .map(([key, label]) => {
       let val = String(order[key]);
       if (key === "created_at") val = formatDate(val);
-      else if (key === "delivery_type") val = val === "shipping" ? "משלוח" : "איסוף עצמי";
       else if (key === "total_price") val = `₪${val}`;
       return `<tr><td style="padding:6px 14px;color:#666;white-space:nowrap;">${escapeHtml(label)}</td><td style="padding:6px 14px;font-weight:600;">${escapeHtml(val)}</td></tr>`;
     })
@@ -92,7 +91,6 @@ function buildCsv(orders: Record<string, unknown>[]): string {
     const row = FIELD_LABELS.map(([key]) => {
       let val = order[key] == null ? "" : String(order[key]);
       if (key === "created_at" && val) val = formatDate(val);
-      else if (key === "delivery_type") val = val === "shipping" ? "משלוח" : "איסוף עצמי";
       else if (key === "total_price" && val) val = `₪${val}`;
       return csvField(val);
     });
