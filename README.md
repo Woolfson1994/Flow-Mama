@@ -146,4 +146,4 @@ The Meta Pixel base code is installed in `index.html`. To activate it:
 
 - **Email:** odeya265@gmail.com
 - **WhatsApp:** 050-477-7045
-- **Instagram:** [@flowmama_youvegotheflow](https://www.instagram.com/flowmama_youvegotheflow)
+- **Instagram:** [@flowmama_bra](https://www.instagram.com/flowmama_bra/)
