@@ -174,51 +174,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            cream:  { DEFAULT: '#F2E8D5', dark: '#EAD9BE', light: '#F8F3EA' },
-            navy:   { DEFAULT: '#2A4B7C', dark: '#1C3459', light: '#3D6BA8' },
-            gold:   '#C9A96E',
-            'body-text': '#4A3F35',
-            muted:  '#8C7B6B',
-          },
-          fontFamily: {
-            display: ['"Frank Ruhl Libre"', 'Georgia', 'serif'],
-            body:    ['"Heebo"', 'system-ui', 'sans-serif'],
-          },
-        }
-      }
-    }
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script>
-    const _supabase = supabase.createClient(
-      'https://rhypwmsqwwtnnaavmsgj.supabase.co',
-      'sb_publishable_Crb4yVJpjLswEIKkCmlo8g_XKLb3rUh'
-    );
-
-    // EmailJS — order notification to Odeya on every new order.
-    // Setup (one-time): emailjs.com → create a Gmail service + a template, then
-    // paste the 3 IDs below. Template variables expected:
-    //   {{name}} {{phone}} {{email}} {{color}} {{size}}
-    //   {{delivery}} {{address}} {{total}} {{created_at}}
-    const EMAILJS = {
-      publicKey:  'YOUR_EMAILJS_PUBLIC_KEY',
-      serviceId:  'YOUR_EMAILJS_SERVICE_ID',
-      templateId: 'YOUR_EMAILJS_TEMPLATE_ID',
-    };
-    const EMAIL_ENABLED =
-      typeof emailjs !== 'undefined' &&
-      EMAILJS.publicKey !== 'YOUR_EMAILJS_PUBLIC_KEY';
-    if (EMAIL_ENABLED) emailjs.init({ publicKey: EMAILJS.publicKey });
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
     /* ── Design tokens ─────────────────────────────────── */
@@ -692,6 +648,11 @@
       .reveal, .arch img, .feature-card, .btn-primary, .btn-ghost { transition: none; }
     }
   </style>
+  <!-- Static Tailwind CSS (v3.4.17 output, captured from the page).
+       NOTE: the Tailwind CDN is no longer loaded. A Tailwind utility class that is not
+       already used somewhere on this page will have NO effect — add plain CSS in the
+       <style> block above instead, or regenerate this block. -->
+  <style id="tw-static">*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.visible{visibility:visible}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0px}.start-5{inset-inline-start:1.25rem}.top-0{top:0px}.top-5{top:1.25rem}.z-10{z-index:10}.z-50{z-index:50}.z-\[60\]{z-index:60}.my-7{margin-top:1.75rem;margin-bottom:1.75rem}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-5{margin-bottom:1.25rem}.mt-0\.5{margin-top:0.125rem}.mt-1{margin-top:0.25rem}.mt-3{margin-top:0.75rem}.inline-block{display:inline-block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-3{height:0.75rem}.h-5{height:1.25rem}.h-px{height:1px}.max-h-\[92vh\]{max-height:92vh}.w-10{width:2.5rem}.w-3{width:0.75rem}.w-44{width:11rem}.w-5{width:1.25rem}.w-auto{width:auto}.w-full{width:100%}.max-w-xs{max-width:20rem}.flex-1{flex:1 1 0%}.flex-shrink-0{flex-shrink:0}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-end{align-items:flex-end}.items-center{align-items:center}.items-baseline{align-items:baseline}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-3{gap:0.75rem}.gap-2{gap:0.5rem}.gap-4{gap:1rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem * var(--tw-space-y-reverse))}.overflow-y-auto{overflow-y:auto}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-t-\[32px\]{border-top-left-radius:32px;border-top-right-radius:32px}.border{border-width:1px}.border-cream-dark{--tw-border-opacity:1;border-color:rgb(234 217 190 / var(--tw-border-opacity, 1))}.bg-cream{--tw-bg-opacity:1;background-color:rgb(242 232 213 / var(--tw-bg-opacity, 1))}.bg-cream-light{--tw-bg-opacity:1;background-color:rgb(248 243 234 / var(--tw-bg-opacity, 1))}.p-0{padding:0px}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.text-center{text-align:center}.font-body{font-family:"Heebo", system-ui, sans-serif}.font-display{font-family:"Frank Ruhl Libre", Georgia, serif}.text-2xl{font-size:1.5rem;line-height:2rem}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-snug{line-height:1.375}.tracking-\[0\.12em\]{letter-spacing:0.12em}.tracking-\[0\.2em\]{letter-spacing:0.2em}.text-body-text{--tw-text-opacity:1;color:rgb(74 63 53 / var(--tw-text-opacity, 1))}.text-muted{--tw-text-opacity:1;color:rgb(140 123 107 / var(--tw-text-opacity, 1))}.text-navy{--tw-text-opacity:1;color:rgb(42 75 124 / var(--tw-text-opacity, 1))}.text-navy\/70{color:rgb(42 75 124 / 0.7)}.focus-visible\:outline-none:focus-visible{outline:2px solid transparent;outline-offset:2px}.focus-visible\:ring-2:focus-visible{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus-visible\:ring-navy\/40:focus-visible{--tw-ring-color:rgb(42 75 124 / 0.4)}@media (min-width: 640px){.sm\:col-span-2{grid-column:span 2 / span 2}.sm\:col-span-3{grid-column:span 3 / span 3}.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.sm\:grid-cols-5{grid-template-columns:repeat(5, minmax(0, 1fr))}.sm\:px-7{padding-left:1.75rem;padding-right:1.75rem}.sm\:py-7{padding-top:1.75rem;padding-bottom:1.75rem}}@media (min-width: 768px){.md\:max-w-lg{max-width:32rem}.md\:items-center{align-items:center}.md\:rounded-\[32px\]{border-radius:32px}.md\:p-6{padding:1.5rem}}</style>
 </head>
 
 <body class="bg-cream font-body text-body-text">
@@ -1007,7 +968,7 @@
         <!-- Product image + thumbnails -->
         <div class="buy-media">
           <div class="buy-photo">
-            <img id="product-main-img" src="picture/gray.JPG" alt="חזיית הנקה Flow Mama אפורה עם תחרה שחורה — כיס פטנט, 92% כותנה, מידה M L XL">
+            <img id="product-main-img" loading="lazy" decoding="async" src="picture/gray.JPG" alt="חזיית הנקה Flow Mama אפורה עם תחרה שחורה — כיס פטנט, 92% כותנה, מידה M L XL">
           </div>
 
           <!-- Color thumbnails -->
@@ -1327,6 +1288,31 @@
       </svg>
     </a>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+    const _supabase = supabase.createClient(
+      'https://rhypwmsqwwtnnaavmsgj.supabase.co',
+      'sb_publishable_Crb4yVJpjLswEIKkCmlo8g_XKLb3rUh'
+    );
+
+    // EmailJS — optional, currently NOT active (order emails are sent by the Supabase
+    // Edge Function). To use it, also add the EmailJS library script above this block:
+    //   https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js
+    // Setup (one-time): emailjs.com → create a Gmail service + a template, then
+    // paste the 3 IDs below. Template variables expected:
+    //   {{name}} {{phone}} {{email}} {{color}} {{size}}
+    //   {{delivery}} {{address}} {{total}} {{created_at}}
+    const EMAILJS = {
+      publicKey:  'YOUR_EMAILJS_PUBLIC_KEY',
+      serviceId:  'YOUR_EMAILJS_SERVICE_ID',
+      templateId: 'YOUR_EMAILJS_TEMPLATE_ID',
+    };
+    const EMAIL_ENABLED =
+      typeof emailjs !== 'undefined' &&
+      EMAILJS.publicKey !== 'YOUR_EMAILJS_PUBLIC_KEY';
+    if (EMAIL_ENABLED) emailjs.init({ publicKey: EMAILJS.publicKey });
+  </script>
 
   <script>
   (function () {

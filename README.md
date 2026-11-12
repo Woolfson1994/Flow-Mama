@@ -21,7 +21,7 @@ A single-page Hebrew (RTL) e-commerce website for **Flow Mama** — a premium nu
 | Layer | Technology |
 |-------|------------|
 | Frontend | Pure HTML / CSS / JS — single `index.html` file |
-| Styling | Tailwind CSS (CDN, configured inline) |
+| Styling | Custom CSS (design tokens in the main `<style>` block) + a small static Tailwind v3 utility stylesheet embedded in `<style id="tw-static">`. The Tailwind CDN is **not** loaded (for page speed), so a utility class not already used on the page has no effect — write plain CSS instead |
 | Database | Supabase (orders table) |
 | Analytics | Google Analytics 4 (G-7K20Z2MYWE) |
 | Ads | Meta Pixel (replace placeholder ID in `index.html`) |
