@@ -176,6 +176,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -195,7 +196,6 @@
       }
     }
   </script>
-  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
@@ -492,7 +492,7 @@
     <!-- Top row: logo + CTA -->
     <div class="flex items-center justify-between py-3">
       <a href="#" class="flex-shrink-0 flex flex-col items-end leading-none">
-        <span class="font-display font-bold text-navy" style="font-size:1.25rem; letter-spacing:0.12em;">FLOW MAMA</span>
+        <span class="font-display font-medium text-navy" style="font-size:1.3rem; letter-spacing:0.14em;">FLOW MAMA</span>
         <span class="font-body text-navy/50" style="font-size:0.45rem; letter-spacing:0.22em;">YOU'VE GOT THE FLOW</span>
       </a>
     </div>
@@ -524,7 +524,7 @@
         <div class="flex-1 order-2 md:order-1 text-center md:text-right">
           <p class="font-body text-xs font-medium tracking-[0.25em] text-muted uppercase mb-4">BY ODEYA TSUR</p>
 
-          <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-navy font-bold leading-[1.05] mb-6" style="letter-spacing:-0.02em;">
+          <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-navy font-medium leading-[1.05] mb-6" style="letter-spacing:-0.02em;">
             חזיות הנקה<br>
             <span style="color:#3D6BA8;">בקצב שלך</span>
           </h1>
@@ -616,12 +616,12 @@
     </div>
 
     <!-- Big decorative quote mark -->
-    <div class="absolute top-8 start-8 font-display text-[180px] leading-none text-navy/05 select-none pointer-events-none" aria-hidden="true">"</div>
+    <div class="absolute top-8 start-8 font-display text-[180px] leading-none select-none pointer-events-none" style="color:rgba(42,75,124,0.06);" aria-hidden="true">"</div>
 
     <div class="relative z-10 max-w-4xl mx-auto px-6 md:px-10">
       <div class="reveal">
         <p class="font-body text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-4 text-center">הסיפור שלנו</p>
-        <h2 class="font-display text-4xl md:text-5xl text-navy font-bold text-center mb-12 leading-tight">
+        <h2 class="font-display text-4xl md:text-5xl text-navy font-normal text-center mb-12 leading-tight" style="letter-spacing:-0.01em;">
           נולדה מלילות ארוכים<br>ומסירות אימהית
         </h2>
       </div>
@@ -650,7 +650,7 @@
 
     <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
       <div class="text-center mb-14 reveal">
-        <h2 class="font-display text-4xl md:text-5xl text-navy font-bold leading-tight">הפרטים החשובים</h2>
+        <h2 class="font-display text-4xl md:text-5xl text-navy font-normal leading-tight" style="letter-spacing:-0.01em;">הפרטים החשובים</h2>
       </div>
 
       <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 reveal-stagger">
@@ -660,7 +660,7 @@
           <div class="w-14 h-14 rounded-2xl bg-navy/08 flex items-center justify-center mb-6" style="background:rgba(42,75,124,0.08);">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 3C8.477 3 4 7.477 4 13s4.477 10 10 10 10-4.477 10-10S19.523 3 14 3z" stroke="#2A4B7C" stroke-width="1.6"/><path d="M14 8v10M9 13h10" stroke="#2A4B7C" stroke-width="1.6" stroke-linecap="round"/></svg>
           </div>
-          <h3 class="font-display text-xl text-navy font-bold mb-3">92% כותנה · 8% לייקרה</h3>
+          <h3 class="font-display text-xl text-navy font-medium mb-3">92% כותנה · 8% לייקרה</h3>
         </div>
 
         <!-- Card 2: Fit -->
@@ -668,24 +668,21 @@
           <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6" style="background:rgba(42,75,124,0.08);">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 14h16M14 6l-8 8 8 8" stroke="#2A4B7C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <h3 class="font-display text-xl text-navy font-bold mb-3">נלבשת כמו חולצה</h3>
+          <h3 class="font-display text-xl text-navy font-medium mb-3">נלבשת כמו חולצה</h3>
           <p class="font-body text-sm text-body-text/80 leading-relaxed">גזרת מעטפת להנקה קדמית ולשליפה קלה</p>
         </div>
 
         <!-- Card 3: Patent Pocket (inverted) -->
-        <div class="reveal feature-card bg-navy rounded-3xl p-8 shadow-[0_8px_40px_rgba(42,75,124,0.25),0_2px_10px_rgba(42,75,124,0.15)] relative overflow-hidden">
-          <div class="absolute top-0 end-0 w-40 h-40 pointer-events-none" aria-hidden="true">
-            <div style="position:absolute;top:-20px;right:-20px;width:160px;height:160px;background:radial-gradient(circle, rgba(201,169,110,0.15) 0%, transparent 65%);border-radius:50%;"></div>
-          </div>
+        <div class="reveal feature-card rounded-3xl p-8 shadow-[0_2px_8px_rgba(42,75,124,0.06),0_10px_36px_rgba(42,75,124,0.10)] relative overflow-hidden" style="background:linear-gradient(155deg,#E4EBF4 0%,#F8F3EA 100%); border:1px solid rgba(42,75,124,0.12);">
           <div class="relative">
             <div class="flex items-start gap-3 mb-6">
-              <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:rgba(242,232,213,0.12);">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="5" y="8" width="18" height="13" rx="2.5" stroke="#C9A96E" stroke-width="1.6"/><path d="M9 8V7a5 5 0 0110 0v1" stroke="#C9A96E" stroke-width="1.6"/><circle cx="14" cy="14.5" r="2" fill="#C9A96E"/></svg>
+              <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:rgba(255,255,255,0.7);">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="5" y="8" width="18" height="13" rx="2.5" stroke="#A8864A" stroke-width="1.6"/><path d="M9 8V7a5 5 0 0110 0v1" stroke="#A8864A" stroke-width="1.6"/><circle cx="14" cy="14.5" r="2" fill="#A8864A"/></svg>
               </div>
-              <span class="mt-1 text-xs font-bold tracking-[0.18em] text-gold uppercase px-3 py-1 rounded-full border border-gold/40">פטנט</span>
+              <span class="mt-1 text-xs font-semibold tracking-[0.18em] uppercase px-3 py-1 rounded-full" style="color:#8C6A2F; background:rgba(201,169,110,0.16); border:1px solid rgba(201,169,110,0.45);">פטנט</span>
             </div>
-            <h3 class="font-display text-xl text-cream font-bold mb-3" style="color:#C9A96E;">כיס הקסם</h3>
-            <p class="font-body text-sm text-cream/80 leading-relaxed">כיס פנימי בגובה של הפטמה דרכו אנחנו מכניסות את הרפידה. הרפידה פוגשת את הפטמה ובכך מונעת טפטופים ורטיבות של החולצה והגוף.</p>
+            <h3 class="font-display text-xl text-navy font-medium mb-3">כיס הקסם</h3>
+            <p class="font-body text-sm text-body-text/80 leading-relaxed">כיס פנימי בגובה של הפטמה דרכו אנחנו מכניסות את הרפידה. הרפידה פוגשת את הפטמה ובכך מונעת טפטופים ורטיבות של החולצה והגוף.</p>
           </div>
         </div>
 
@@ -699,7 +696,7 @@
   <section class="relative py-24 bg-cream-light overflow-hidden textured">
     <div class="max-w-3xl mx-auto px-6 md:px-10">
       <div class="text-center mb-10 reveal">
-        <h2 class="font-display text-3xl md:text-4xl text-navy font-bold leading-snug">רגע לפני שמזמינות —<br>תראו איך זה עובד 🤍</h2>
+        <h2 class="font-display text-3xl md:text-4xl text-navy font-normal leading-snug" style="letter-spacing:-0.01em;">רגע לפני שמזמינות —<br>תראו איך זה עובד 🤍</h2>
       </div>
       <div class="reveal rounded-3xl overflow-hidden shadow-[0_8px_48px_rgba(42,75,124,0.18)]">
         <video
@@ -722,7 +719,7 @@
     <div class="max-w-5xl mx-auto px-6 md:px-10">
       <div class="text-center mb-12 reveal">
         <p class="font-body text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-3">מה אומרות הלקוחות</p>
-        <h2 class="font-display text-3xl md:text-4xl text-navy font-bold">הן כבר מרגישות את ה-Flow ❤️</h2>
+        <h2 class="font-display text-3xl md:text-4xl text-navy font-normal" style="letter-spacing:-0.01em;">הן כבר מרגישות את ה-Flow ❤️</h2>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 reveal">
@@ -739,17 +736,17 @@
 
       <!-- Audio testimonial -->
       <div class="reveal mt-6 flex justify-center">
-        <div class="w-full max-w-sm rounded-3xl shadow-[0_4px_24px_rgba(42,75,124,0.10)] bg-navy px-7 py-6 flex flex-col items-center gap-4">
-          <div class="w-12 h-12 rounded-2xl flex items-center justify-center" style="background:rgba(242,232,213,0.12);">
+        <div class="w-full max-w-sm rounded-3xl shadow-[0_2px_8px_rgba(42,75,124,0.06),0_8px_32px_rgba(42,75,124,0.09)] bg-cream-light px-7 py-6 flex flex-col items-center gap-4" style="border:1px solid rgba(42,75,124,0.10);">
+          <div class="w-12 h-12 rounded-2xl flex items-center justify-center" style="background:rgba(42,75,124,0.07);">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 1a4 4 0 0 1 4 4v7a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4Z" stroke="#C9A96E" stroke-width="1.6"/>
-              <path d="M19 11a7 7 0 0 1-14 0" stroke="#C9A96E" stroke-width="1.6" stroke-linecap="round"/>
-              <line x1="12" y1="18" x2="12" y2="22" stroke="#C9A96E" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M12 1a4 4 0 0 1 4 4v7a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4Z" stroke="#2A4B7C" stroke-width="1.6"/>
+              <path d="M19 11a7 7 0 0 1-14 0" stroke="#2A4B7C" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="12" y1="18" x2="12" y2="22" stroke="#2A4B7C" stroke-width="1.6" stroke-linecap="round"/>
             </svg>
           </div>
           <div class="text-center">
-            <p class="font-display text-base font-bold" style="color:#C9A96E;">המלצה קולית מלקוחה</p>
-            <p class="font-body text-xs text-cream/60 mt-1">הקשיבי מה היא אמרה 🤍</p>
+            <p class="font-display text-lg font-medium text-navy">המלצה קולית מלקוחה</p>
+            <p class="font-body text-xs text-muted mt-1">הקשיבי מה היא אמרה 🤍</p>
           </div>
           <audio controls preload="metadata" class="w-full" style="accent-color:#C9A96E;">
             <source src="recomends/audio-recommend.m4a" type="audio/mp4">
@@ -771,7 +768,7 @@
     <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
       <div class="text-center mb-14 reveal">
         <p class="font-body text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-3">בחרי את שלך</p>
-        <h2 class="font-display text-4xl md:text-5xl text-navy font-bold">לרכישה</h2>
+        <h2 class="font-display text-4xl md:text-5xl text-navy font-normal" style="letter-spacing:-0.01em;">לרכישה</h2>
       </div>
 
       <div class="reveal flex flex-col lg:flex-row gap-12 items-start">
@@ -800,7 +797,7 @@
         <!-- Selection controls -->
         <div class="flex-1 w-full">
           <p class="font-body text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-2">חזיית הנקה</p>
-          <h3 class="font-display text-3xl text-navy font-bold mb-1">Flow Mama</h3>
+          <h3 class="font-display text-3xl text-navy font-medium mb-1">Flow Mama</h3>
           <p class="font-display text-2xl text-navy-light font-medium mb-8">₪250</p>
 
           <!-- Color selector -->
@@ -872,9 +869,9 @@
   <!-- ═══════════════════════════════════════════════════
        FOOTER
   ════════════════════════════════════════════════════ -->
-  <footer class="relative bg-navy py-16 overflow-hidden">
+  <footer class="relative bg-cream-dark py-16 overflow-hidden" style="border-top:1px solid rgba(42,75,124,0.10);">
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 100% at 50% 100%, rgba(255,255,255,0.04) 0%, transparent 60%);"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 100% at 50% 100%, rgba(255,255,255,0.35) 0%, transparent 60%);"></div>
     </div>
 
     <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
@@ -882,39 +879,39 @@
 
         <!-- Brand -->
         <div>
-          <p class="font-display text-2xl font-bold text-cream mb-2">Flow Mama</p>
-          <p class="font-body italic text-xs tracking-[0.2em] text-cream/60 mb-1">YOU'VE GOT THE FLOW</p>
-          <p class="font-body text-xs text-cream/40">By Odeya Tsur</p>
-          <p class="font-body text-xs text-cream/50 mt-3 tracking-[0.12em] uppercase">🇮🇱 Made in Israel</p>
+          <p class="font-display text-2xl font-medium text-navy mb-2" style="letter-spacing:0.04em;">Flow Mama</p>
+          <p class="font-body italic text-xs tracking-[0.2em] text-navy/70 mb-1">YOU'VE GOT THE FLOW</p>
+          <p class="font-body text-xs text-muted">By Odeya Tsur</p>
+          <p class="font-body text-xs text-muted mt-3 tracking-[0.12em] uppercase">🇮🇱 Made in Israel</p>
         </div>
 
         <!-- Quick links -->
         <div>
-          <p class="font-body text-xs font-semibold tracking-[0.18em] text-cream/40 uppercase mb-5">ניווט מהיר</p>
+          <p class="font-body text-xs font-semibold tracking-[0.18em] text-muted uppercase mb-5">ניווט מהיר</p>
           <nav class="flex flex-col gap-3">
-            <a href="#story"   class="font-body text-sm text-cream/70 hover:text-cream transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream/50 w-fit">אודות</a>
-            <a href="#product" class="font-body text-sm text-cream/70 hover:text-cream transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream/50 w-fit">החזייה</a>
-            <a href="#buy"     class="font-body text-sm text-cream/70 hover:text-cream transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream/50 w-fit">לרכישה</a>
+            <a href="#story"   class="font-body text-sm text-body-text/80 hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/40 w-fit">אודות</a>
+            <a href="#product" class="font-body text-sm text-body-text/80 hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/40 w-fit">החזייה</a>
+            <a href="#buy"     class="font-body text-sm text-body-text/80 hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/40 w-fit">לרכישה</a>
           </nav>
         </div>
 
         <!-- Contact -->
         <div>
-          <p class="font-body text-xs font-semibold tracking-[0.18em] text-cream/40 uppercase mb-5">צרי קשר</p>
+          <p class="font-body text-xs font-semibold tracking-[0.18em] text-muted uppercase mb-5">צרי קשר</p>
           <div class="space-y-3">
-            <a href="mailto:odeya265@gmail.com" class="flex items-center gap-2 font-body text-sm text-cream/70 hover:text-cream transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream/50 w-fit">
+            <a href="mailto:odeya265@gmail.com" class="flex items-center gap-2 font-body text-sm text-body-text/80 hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/40 w-fit">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 5.5l6.5 4 6.5-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
               odeya265@gmail.com
             </a>
-            <a href="https://wa.me/972504777045?text=היי%20אודיה%2C%20ראיתי%20את%20חזיית%20ההנקה%20ורוצה%20לשמוע%20עוד%20😊" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 font-body text-sm text-cream/70 hover:text-cream transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream/50 w-fit">
+            <a href="https://wa.me/972504777045?text=היי%20אודיה%2C%20ראיתי%20את%20חזיית%20ההנקה%20ורוצה%20לשמוע%20עוד%20😊" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 font-body text-sm text-body-text/80 hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/40 w-fit">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A6.5 6.5 0 0 0 2.07 10.9L1.5 14.5l3.7-.57A6.5 6.5 0 1 0 8 1.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M5.5 6.5c.3.7.8 1.4 1.5 2s1.4 1.1 2.2 1.3l.8-.8c.1-.1.3-.1.4 0l1.3 1c.1.1.1.3 0 .4l-.7.8c-.3.3-.8.4-1.2.3C7.4 11 5 8.6 4.5 6.2c-.1-.4 0-.9.3-1.2l.8-.7c.1-.1.3-.1.4 0l1 1.3c.1.1.1.3 0 .4l-.5.5Z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
               050-477-7045
             </a>
-            <a href="https://www.instagram.com/flowmama_bra/?utm_source=qr" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 font-body text-sm text-cream/70 hover:text-cream transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cream/50 w-fit">
+            <a href="https://www.instagram.com/flowmama_bra/?utm_source=qr" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 font-body text-sm text-body-text/80 hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/40 w-fit">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="3.5" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.2"/><circle cx="11.5" cy="4.5" r="0.75" fill="currentColor"/></svg>
               @flowmama_bra
             </a>
-            <div class="font-body text-xs text-cream/50 mt-2 space-y-1">
+            <div class="font-body text-xs text-muted mt-2 space-y-1">
               <p>נקודת איסוף ₪20 | משלוח לבית ₪45 | איסוף עצמי חינם</p>
               <p>ירושלים · מבשרת ציון · טל שחר</p>
             </div>
@@ -923,9 +920,9 @@
 
       </div>
 
-      <div class="border-t border-cream/10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2">
-        <p class="font-body text-xs text-cream/40">© <span id="footer-year">2026</span> Flow Mama. כל הזכויות שמורות.</p>
-        <p class="font-body text-xs text-cream/30 italic">עוצב באהבה לכל אמא מיניקה.</p>
+      <div class="border-t border-navy/10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+        <p class="font-body text-xs text-muted">© <span id="footer-year">2026</span> Flow Mama. כל הזכויות שמורות.</p>
+        <p class="font-body text-xs text-muted/80 italic">עוצב באהבה לכל אמא מיניקה.</p>
       </div>
     </div>
   </footer>
@@ -943,7 +940,7 @@
       <!-- Panel header -->
       <div class="sticky top-0 bg-white border-b border-cream-dark px-6 py-4 flex items-center justify-between rounded-t-3xl md:rounded-t-3xl z-10">
         <div>
-          <h2 class="font-display text-xl text-navy font-bold">השלמת הזמנה</h2>
+          <h2 class="font-display text-xl text-navy font-medium">השלמת הזמנה</h2>
           <div id="order-summary-header" class="flex items-center gap-2 mt-1">
             <span id="modal-color-dot" class="w-3 h-3 rounded-full inline-block" style="background:#9A9A9A;"></span>
             <span id="modal-summary-text" class="font-body text-xs text-muted"></span>
