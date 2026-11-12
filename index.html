@@ -12,7 +12,7 @@
   <meta http-equiv="content-language" content="he-IL">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="apple-touch-icon" href="/favicon.png">
-  <link rel="preload" as="image" href="/picture/pic_13.JPG" fetchpriority="high">
+  <link rel="preload" as="image" href="/picture/pic_7.JPG" fetchpriority="high">
 
   <!-- Open Graph (WhatsApp / Facebook preview) -->
   <meta property="og:title" content="חזיות הנקה Flow Mama | כיס פטנט, 92% כותנה">
@@ -221,19 +221,73 @@
   </script>
 
   <style>
+    /* ── Design tokens ─────────────────────────────────── */
     :root {
+      --navy: #2A4B7C;
+      --navy-dark: #1C3459;
+      --navy-light: #3D6BA8;
+      --cream: #F2E8D5;
+      --cream-light: #F8F3EA;
+      --cream-dark: #EAD9BE;
+      --gold: #C9A96E;
+      --gold-deep: #8C6A2F;
+      --ink: #4A3F35;
+      --muted: #8C7B6B;
+      --line: rgba(42,75,124,0.14);
+      --line-soft: rgba(42,75,124,0.08);
+
+      --r-sm: 14px;
+      --r-md: 22px;
+      --r-lg: 32px;
+      --arch: 999px 999px var(--r-md) var(--r-md);
+
+      --sh-1: 0 1px 2px rgba(42,75,124,0.05), 0 6px 20px rgba(42,75,124,0.06);
+      --sh-2: 0 2px 6px rgba(42,75,124,0.06), 0 18px 48px rgba(42,75,124,0.12);
+      --sh-3: 0 4px 12px rgba(42,75,124,0.08), 0 30px 80px rgba(42,75,124,0.18);
+
+      --sp-section: clamp(4.5rem, 9vw, 8rem);
+      --gutter: clamp(1.25rem, 4vw, 2.5rem);
+
       --spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
       --ease-io:  cubic-bezier(0.65, 0, 0.35, 1);
     }
 
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 96px; }
 
     body {
-      background-color: #F2E8D5;
+      background-color: var(--cream);
       font-family: 'Heebo', system-ui, sans-serif;
-      color: #4A3F35;
+      color: var(--ink);
+      line-height: 1.7;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: rgba(42,75,124,0.18); }
+
+    /* ── Layout helpers ────────────────────────────────── */
+    .sec { position: relative; padding-block: var(--sp-section); overflow: clip; }
+    .wrap { position: relative; z-index: 1; width: 100%; max-width: 1160px; margin-inline: auto; padding-inline: var(--gutter); }
+    .wrap-narrow { max-width: 880px; }
+
+    .eyebrow {
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .eyebrow-rule { display: inline-flex; align-items: center; gap: 0.9rem; }
+    .eyebrow-rule::before, .eyebrow-rule::after { content: ''; width: 28px; height: 1px; background: var(--line); }
+
+    .h-display {
+      font-family: 'Frank Ruhl Libre', Georgia, serif;
+      font-weight: 400;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      line-height: 1.12;
     }
 
     /* ── Noise texture ─────────────────────────────────── */
@@ -248,195 +302,377 @@
     }
 
     /* ── Scroll reveal ─────────────────────────────────── */
-    /* Elements visible by default; JS adds .will-animate before observing */
-    .reveal {
-      transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
-    }
-    .will-animate.reveal {
-      opacity: 0;
-      transform: translateY(24px);
-    }
+    .reveal { transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out); }
+    .will-animate.reveal { opacity: 0; transform: translateY(28px); }
     .will-animate.reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-stagger > *:nth-child(1) { transition-delay: 0ms; }
-    .reveal-stagger > *:nth-child(2) { transition-delay: 90ms; }
-    .reveal-stagger > *:nth-child(3) { transition-delay: 180ms; }
-    .reveal-stagger > *:nth-child(4) { transition-delay: 270ms; }
+    .reveal-stagger > *:nth-child(2) { transition-delay: 110ms; }
+    .reveal-stagger > *:nth-child(3) { transition-delay: 220ms; }
 
     /* ── Buttons ───────────────────────────────────────── */
     .btn-primary {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: #2A4B7C;
-      color: #F2E8D5;
+      background: var(--navy);
+      color: var(--cream-light);
       font-family: 'Heebo', sans-serif;
       font-size: 0.9375rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      padding: 0.875rem 2rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 0.95rem 2.1rem;
       border-radius: 100px;
-      border: 2px solid transparent;
+      border: 1px solid transparent;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(42,75,124,0.15), 0 6px 24px rgba(42,75,124,0.10);
-      transition: transform 0.3s var(--spring), box-shadow 0.3s var(--ease-out), background-color 0.2s var(--ease-io);
+      box-shadow: 0 2px 6px rgba(42,75,124,0.14), 0 10px 28px rgba(42,75,124,0.16);
+      transition: transform 0.35s var(--spring), box-shadow 0.35s var(--ease-out), background-color 0.25s var(--ease-io);
       text-decoration: none;
     }
-    .btn-primary:hover  { background: #1C3459; box-shadow: 0 4px 16px rgba(42,75,124,0.25), 0 12px 40px rgba(42,75,124,0.15); transform: translateY(-2px); }
-    .btn-primary:active { transform: translateY(0) scale(0.98); box-shadow: 0 1px 4px rgba(42,75,124,0.10); }
-    .btn-primary:focus-visible { outline: 2px solid #2A4B7C; outline-offset: 3px; }
+    .btn-primary:hover  { background: var(--navy-dark); box-shadow: 0 4px 12px rgba(42,75,124,0.2), 0 16px 44px rgba(42,75,124,0.2); transform: translateY(-2px); }
+    .btn-primary:active { transform: translateY(0) scale(0.98); box-shadow: 0 1px 4px rgba(42,75,124,0.12); }
+    .btn-primary:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+    .btn-primary:disabled { opacity: 0.7; cursor: wait; }
 
     .btn-ghost {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
       background: transparent;
-      color: #2A4B7C;
+      color: var(--navy);
       font-family: 'Heebo', sans-serif;
       font-size: 0.9375rem;
       font-weight: 500;
-      padding: 0.875rem 2rem;
+      letter-spacing: 0.04em;
+      padding: 0.95rem 2.1rem;
       border-radius: 100px;
-      border: 2px solid rgba(42,75,124,0.3);
+      border: 1px solid rgba(42,75,124,0.35);
       cursor: pointer;
-      transition: transform 0.3s var(--spring), border-color 0.2s var(--ease-io), background-color 0.2s var(--ease-io);
+      transition: transform 0.35s var(--spring), border-color 0.25s var(--ease-io), background-color 0.25s var(--ease-io);
       text-decoration: none;
     }
-    .btn-ghost:hover { border-color: #2A4B7C; background: rgba(42,75,124,0.05); transform: translateY(-1px); }
+    .btn-ghost:hover { border-color: var(--navy); background: rgba(42,75,124,0.05); transform: translateY(-2px); }
     .btn-ghost:active { transform: scale(0.98); }
-    .btn-ghost:focus-visible { outline: 2px solid #2A4B7C; outline-offset: 3px; }
+    .btn-ghost:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
 
     /* ── Nav ───────────────────────────────────────────── */
     #navbar {
-      transition: background-color 0.3s var(--ease-io), box-shadow 0.3s var(--ease-io), backdrop-filter 0.3s var(--ease-io);
+      position: fixed; top: 0; inset-inline: 0; z-index: 30;
+      padding-inline: var(--gutter);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas: "logo cta" "links links";
+      align-items: center;
     }
-    #navbar.scrolled {
-      background-color: rgba(242,232,213,0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 1px 0 rgba(42,75,124,0.10), 0 4px 24px rgba(42,75,124,0.06);
+    #navbar::before {
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background: rgba(242,232,213,0.94);
+      -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 var(--line-soft), 0 8px 30px rgba(42,75,124,0.06);
+      opacity: 0;
+      transition: opacity 0.35s var(--ease-io);
+    }
+    #navbar.scrolled::before { opacity: 1; }
+    .nav-logo { grid-area: logo; display: inline-flex; flex-direction: column; align-items: flex-start; line-height: 1; padding-block: 0.8rem; text-decoration: none; width: fit-content; border-radius: 6px; }
+    .nav-logo:focus-visible { outline: 2px solid var(--navy); outline-offset: 4px; }
+    .nav-logo .wm { font-family: 'Frank Ruhl Libre', serif; font-weight: 400; color: var(--navy); font-size: 1.3rem; letter-spacing: 0.2em; }
+    .nav-logo .tag { color: rgba(42,75,124,0.55); font-size: 0.45rem; letter-spacing: 0.3em; margin-top: 0.3rem; }
+    .nav-links { grid-area: links; display: flex; justify-content: center; gap: 2rem; padding-block: 0.45rem 0.6rem; border-top: 1px solid var(--line-soft); }
+    .nav-link {
+      position: relative; font-size: 0.8rem; font-weight: 400; letter-spacing: 0.06em; color: var(--ink);
+      text-decoration: none; padding-block: 0.2rem; transition: color 0.25s var(--ease-io);
+    }
+    .nav-link::after {
+      content: ''; position: absolute; inset-inline: 0; bottom: -1px; height: 1px; background: var(--navy);
+      transform: scaleX(0); transform-origin: center; transition: transform 0.4s var(--ease-out);
+    }
+    .nav-link:hover { color: var(--navy); }
+    .nav-link:hover::after, .nav-link:focus-visible::after { transform: scaleX(1); }
+    .nav-link:active { color: var(--navy-dark); }
+    .nav-link:focus-visible { outline: none; color: var(--navy); }
+    .nav-cta { grid-area: cta; font-size: 0.78rem; padding: 0.55rem 1.15rem; }
+    @media (min-width: 768px) {
+      #navbar { grid-template-columns: 1fr auto 1fr; grid-template-areas: "logo links cta"; min-height: 76px; }
+      .nav-links { border-top: 0; padding-block: 0; gap: 2.75rem; }
+      .nav-link { font-size: 0.875rem; }
+      .nav-cta { justify-self: end; font-size: 0.85rem; padding: 0.7rem 1.5rem; }
     }
 
+    /* ── Hero ──────────────────────────────────────────── */
+    .hero { position: relative; overflow: clip; padding-top: 7.25rem; padding-bottom: 3.5rem; }
+    .hero-grid { display: grid; gap: 3rem; align-items: center; }
+    .hero-copy { text-align: center; }
+    .hero-title { font-size: clamp(2.9rem, 9.5vw, 5.75rem); line-height: 1.02; margin-block: 1.1rem 1.5rem; font-weight: 500; }
+    .hero-lede { font-size: clamp(1rem, 1.5vw, 1.125rem); color: rgba(74,63,53,0.82); max-width: 30rem; margin-inline: auto; line-height: 1.8; }
+    .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-block: 2rem 1.75rem; }
+    .hero-pill { display: inline-flex; align-items: center; gap: 0.9rem; font-style: italic; font-size: 0.72rem; letter-spacing: 0.24em; color: rgba(42,75,124,0.7); }
+    .hero-pill::before, .hero-pill::after { content: ''; width: 28px; height: 1px; background: var(--line); }
 
+    .hero-visual { position: relative; width: min(400px, 78vw); margin-inline: auto; padding-bottom: 2.5rem; }
+    .arch { border-radius: var(--arch); overflow: hidden; position: relative; background: var(--cream-dark); }
+    .arch img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 1.4s var(--ease-out); }
+    .arch:hover img { transform: scale(1.045); }
+    .arch::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(42,75,124,0.16), transparent 45%); mix-blend-mode: multiply; pointer-events: none; }
+    .hero-main { aspect-ratio: 3 / 4; box-shadow: var(--sh-3); z-index: 1; }
+    .hero-outline { position: absolute; inset: -14px -14px 1.6rem; border: 1px solid var(--line); border-radius: var(--arch); pointer-events: none; }
+    .hero-second { position: absolute; z-index: 2; bottom: 0; inset-inline-start: -9%; width: 42%; aspect-ratio: 3 / 4; border: 6px solid var(--cream); box-shadow: var(--sh-2); }
+    @media (min-width: 900px) {
+      .hero { padding-top: 9.5rem; padding-bottom: 5rem; min-height: 100svh; display: flex; align-items: center; }
+      .hero-grid { grid-template-columns: 1.05fr 0.95fr; gap: 4rem; }
+      .hero-copy { text-align: start; }
+      .hero-lede { margin-inline: 0; }
+      .hero-actions { justify-content: flex-start; }
+      .hero-visual { width: min(430px, 100%); }
+      .hero-pill::before { display: none; }
+    }
+
+    /* ── Photo ribbon ──────────────────────────────────── */
+    .ribbon { overflow: hidden; padding-block: 0.5rem 0; direction: ltr; -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent); }
+    .ribbon-track { display: flex; gap: 14px; width: max-content; animation: ribbon 70s linear infinite; }
+    .ribbon:hover .ribbon-track { animation-play-state: paused; }
+    .ribbon-track img { height: clamp(150px, 20vw, 230px); aspect-ratio: 3 / 4; object-fit: cover; border-radius: 18px; display: block; flex-shrink: 0; }
+    .ribbon-track img:nth-child(even) { border-radius: 999px 999px 18px 18px; }
+    @keyframes ribbon { from { transform: translateX(0); } to { transform: translateX(calc(-50% - 7px)); } }
+
+    /* ── Brand sentence ────────────────────────────────── */
+    .sentence { text-align: center; padding: clamp(3rem, 7vw, 5rem) var(--gutter); }
+    .sentence p { font-family: 'Frank Ruhl Libre', serif; font-weight: 300; font-style: italic; color: rgba(42,75,124,0.78); font-size: clamp(1.25rem, 3.4vw, 2rem); letter-spacing: 0.03em; line-height: 1.5; max-width: 900px; margin-inline: auto; }
+    .ornament { display: flex; align-items: center; justify-content: center; gap: 0.9rem; }
+    .ornament::before, .ornament::after { content: ''; width: clamp(40px, 12vw, 110px); height: 1px; background: var(--line); }
+    .ornament i { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); display: block; }
+
+    /* ── Story ─────────────────────────────────────────── */
+    .story-grid { display: grid; gap: 3rem; }
+    .story-photo { width: min(340px, 74vw); margin-inline: auto; position: relative; }
+    .story-photo .arch { aspect-ratio: 3 / 4.2; box-shadow: var(--sh-2); }
+    .story-photo .hero-outline { inset: -12px -12px -12px; }
+    .story-head { text-align: center; margin-bottom: 2.5rem; }
+    .story-head h2 { font-size: clamp(2.1rem, 5vw, 3.25rem); margin-top: 1rem; }
+    .story-body p { font-size: 1.02rem; line-height: 1.95; color: rgba(74,63,53,0.88); margin-bottom: 1.35rem; }
+    .story-body .lead { font-size: 1.15rem; color: var(--ink); }
+    .story-body .statement { font-family: 'Frank Ruhl Libre', serif; font-size: clamp(1.35rem, 2.6vw, 1.7rem); color: var(--navy); line-height: 1.4; margin-block: 2rem; }
+    .story-body .panel { background: rgba(255,255,255,0.55); border: 1px solid var(--line-soft); border-inline-start: 2px solid var(--gold); border-radius: var(--r-sm); padding: 1.5rem 1.6rem; margin-block: 2rem; box-shadow: var(--sh-1); }
+    .story-body .signature { font-family: 'Frank Ruhl Libre', serif; font-style: italic; font-size: 1.4rem; color: rgba(42,75,124,0.85); margin-top: 2.25rem; margin-bottom: 0; display: flex; align-items: center; gap: 1rem; }
+    .story-body .signature::before { content: ''; width: 44px; height: 1px; background: var(--gold); }
+    .quote-mark { position: absolute; top: 1.5rem; inset-inline-start: 2rem; font-family: 'Frank Ruhl Libre', serif; font-size: 180px; line-height: 1; color: rgba(42,75,124,0.06); user-select: none; pointer-events: none; }
+    @media (min-width: 900px) {
+      .story-grid { grid-template-columns: 0.8fr 1.2fr; gap: 5rem; align-items: start; }
+      .story-photo { position: sticky; top: 120px; width: 100%; max-width: 380px; }
+      .story-head { text-align: start; }
+    }
 
     /* ── Feature cards ─────────────────────────────────── */
+    .sec-head { text-align: center; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+    .sec-head h2 { font-size: clamp(2.1rem, 5vw, 3.25rem); margin-top: 0.9rem; }
+    .features { display: grid; gap: 1.25rem; counter-reset: feat; }
+    @media (min-width: 768px) { .features { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
     .feature-card {
-      transition: transform 0.35s var(--spring), box-shadow 0.35s var(--ease-out);
+      counter-increment: feat;
+      position: relative; overflow: hidden;
+      background: var(--cream-light);
+      border: 1px solid var(--line-soft);
+      border-radius: var(--r-lg);
+      padding: 2.25rem 2rem 2.4rem;
+      box-shadow: var(--sh-1);
+      display: flex; flex-direction: column; min-height: 230px;
+      transition: transform 0.5s var(--spring), box-shadow 0.5s var(--ease-out), opacity 0.9s var(--ease-out);
     }
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 32px rgba(42,75,124,0.14), 0 2px 8px rgba(42,75,124,0.08);
+    .feature-card::before {
+      content: '0' counter(feat);
+      position: absolute; top: 1.6rem; inset-inline-end: 1.9rem;
+      font-family: 'Frank Ruhl Libre', serif; font-weight: 300; font-size: 2.6rem; line-height: 1;
+      color: rgba(42,75,124,0.14); letter-spacing: 0.02em;
     }
+    .feature-card:hover { transform: translateY(-6px); box-shadow: var(--sh-2); }
+    .feature-card.is-patent { background: linear-gradient(155deg, #E4EBF4 0%, #F8F3EA 100%); border-color: var(--line); }
+    .feature-icon { width: 60px; height: 60px; border-radius: 999px; display: flex; align-items: center; justify-content: center; background: rgba(42,75,124,0.07); flex-shrink: 0; }
+    .feature-card.is-patent .feature-icon { background: rgba(255,255,255,0.75); }
+    .feature-card h3 { font-family: 'Frank Ruhl Libre', serif; font-weight: 500; font-size: 1.4rem; color: var(--navy); margin-top: 2rem; line-height: 1.3; }
+    .feature-card p { font-size: 0.92rem; color: rgba(74,63,53,0.82); line-height: 1.75; margin-top: 0.6rem; }
+    .patent-tag { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; color: var(--gold-deep); background: rgba(201,169,110,0.16); border: 1px solid rgba(201,169,110,0.45); padding: 0.3rem 0.8rem; border-radius: 999px; }
 
-    /* ── Swatch buttons ────────────────────────────────── */
-    .swatch-btn {
-      transition: transform 0.25s var(--spring), box-shadow 0.25s var(--ease-out);
+    /* ── Video ─────────────────────────────────────────── */
+    .video-stage { display: flex; align-items: center; justify-content: center; gap: clamp(1.5rem, 5vw, 4rem); }
+    .video-side { display: none; width: 210px; flex-shrink: 0; }
+    .video-side .arch { aspect-ratio: 3 / 4; box-shadow: var(--sh-1); }
+    .video-side:first-child { margin-top: 5rem; }
+    .video-side:last-child { margin-bottom: 5rem; }
+    @media (min-width: 900px) { .video-side { display: block; } }
+    .video-frame { position: relative; width: min(320px, 82vw); aspect-ratio: 204 / 360; border-radius: 36px; overflow: hidden; background: var(--navy-dark); box-shadow: var(--sh-3); border: 8px solid var(--cream-light); outline: 1px solid var(--line); flex-shrink: 0; }
+    .video-frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .video-play {
+      position: absolute; inset: 0; margin: auto; width: 84px; height: 84px; border-radius: 999px; border: 0; cursor: pointer;
+      background: rgba(248,243,234,0.94); display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 30px rgba(28,52,89,0.35);
+      transition: transform 0.4s var(--spring), opacity 0.3s var(--ease-io);
     }
-    .swatch-btn.selected {
-      box-shadow: 0 0 0 3px #2A4B7C, 0 0 0 5px #F2E8D5;
-      transform: scale(1.12);
-    }
-    .swatch-btn:hover { transform: scale(1.08); }
-    .swatch-btn:focus-visible { outline: 2px solid #2A4B7C; outline-offset: 4px; }
+    .video-play::before { content: ''; position: absolute; inset: -10px; border-radius: 999px; border: 1px solid rgba(248,243,234,0.6); }
+    .video-play:hover { transform: scale(1.08); }
+    .video-play:active { transform: scale(0.96); }
+    .video-play:focus-visible { outline: 2px solid var(--cream-light); outline-offset: 14px; }
+    .video-play[hidden] { display: none; }
 
-    /* ── Size buttons ──────────────────────────────────── */
-    .size-btn {
-      transition: background-color 0.2s var(--ease-io), color 0.2s var(--ease-io), border-color 0.2s var(--ease-io), transform 0.2s var(--spring);
+    /* ── Testimonials ──────────────────────────────────── */
+    .testi-row { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0.5rem var(--gutter) 1.5rem; margin-inline: calc(var(--gutter) * -1); scrollbar-width: none; }
+    .testi-row::-webkit-scrollbar { display: none; }
+    .testi-card { flex: 0 0 82%; scroll-snap-align: center; background: var(--cream-light); border: 1px solid var(--line-soft); border-radius: var(--r-lg); padding: 0.9rem; box-shadow: var(--sh-1); display: flex; align-items: center; justify-content: center; aspect-ratio: 4 / 4.2; transition: transform 0.5s var(--spring), box-shadow 0.5s var(--ease-out); }
+    .testi-card img { max-width: 100%; max-height: 100%; width: auto; height: auto; border-radius: 18px; display: block; }
+    .testi-card:hover { transform: translateY(-5px); box-shadow: var(--sh-2); }
+    @media (min-width: 768px) {
+      .testi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; overflow: visible; padding: 0; margin-inline: 0; }
+      .testi-card { flex: none; }
     }
-    .size-btn:hover { border-color: #2A4B7C; color: #2A4B7C; }
-    .size-btn.selected { background: #2A4B7C; color: #F2E8D5; border-color: #2A4B7C; }
+    .audio-card { width: 100%; max-width: 420px; margin: 1.5rem auto 0; background: var(--cream-light); border: 1px solid var(--line-soft); border-radius: var(--r-lg); box-shadow: var(--sh-1); padding: 1.75rem 1.75rem 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; }
+    .audio-card audio { width: 100%; accent-color: var(--navy); }
+
+    /* ── Buy section ───────────────────────────────────── */
+    .buy-grid { display: grid; gap: 2.5rem; }
+    .buy-media { display: flex; flex-direction: column; align-items: center; gap: 1.1rem; }
+    .buy-photo { position: relative; width: 100%; max-width: 440px; aspect-ratio: 4 / 5; border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--sh-2); background: var(--cream-dark); }
+    .buy-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .buy-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(42,75,124,0.14), transparent 40%); mix-blend-mode: multiply; pointer-events: none; }
+    @media (min-width: 1024px) {
+      .buy-grid { grid-template-columns: 0.9fr 1.1fr; gap: 4.5rem; align-items: start; }
+      .buy-media { position: sticky; top: 110px; }
+    }
+    .thumb-btn { width: 68px; height: 68px; border-radius: 18px; overflow: hidden; border: 0; padding: 0; cursor: pointer; background: var(--cream-dark); opacity: 0.75; box-shadow: 0 0 0 1px var(--line-soft); transition: transform 0.35s var(--spring), opacity 0.3s var(--ease-io), box-shadow 0.3s var(--ease-io); }
+    .thumb-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .thumb-btn:hover { opacity: 1; transform: translateY(-3px); }
+    .thumb-btn:active { transform: scale(0.96); }
+    .thumb-btn.selected { opacity: 1; box-shadow: 0 0 0 2px var(--cream-light), 0 0 0 3.5px var(--navy); }
+    .thumb-btn:focus-visible { outline: 2px solid var(--navy); outline-offset: 4px; opacity: 1; }
+
+    .buy-title { font-size: clamp(2.2rem, 4.5vw, 3rem); margin-top: 0.5rem; letter-spacing: 0.01em; }
+    .buy-price { font-family: 'Frank Ruhl Libre', serif; font-size: 1.6rem; color: var(--navy-light); font-weight: 400; margin-top: 0.25rem; }
+    .opt-group { padding-block: 1.6rem; border-top: 1px solid var(--line-soft); }
+    .opt-label { display: block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.9rem; }
+    .opt-label span { color: var(--navy); letter-spacing: 0.02em; text-transform: none; font-size: 0.9rem; font-weight: 500; margin-inline-start: 0.35rem; }
+
+    .swatch-btn { width: 50px; height: 50px; border-radius: 999px; cursor: pointer; padding: 0; transition: transform 0.3s var(--spring), box-shadow 0.3s var(--ease-out); }
+    .swatch-btn.selected { box-shadow: 0 0 0 3px var(--cream-light), 0 0 0 4.5px var(--navy); transform: scale(1.06); }
+    .swatch-btn:hover { transform: scale(1.1); }
+    .swatch-btn:active { transform: scale(0.96); }
+    .swatch-btn:focus-visible { outline: 2px solid var(--navy); outline-offset: 5px; }
+
+    .size-btn { min-width: 64px; padding: 0.8rem 1.25rem; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,0.5); font-size: 0.95rem; font-weight: 500; color: var(--ink); cursor: pointer; transition: background-color 0.25s var(--ease-io), color 0.25s var(--ease-io), border-color 0.25s var(--ease-io), transform 0.3s var(--spring); }
+    .size-btn:hover { border-color: var(--navy); color: var(--navy); transform: translateY(-2px); }
+    .size-btn.selected { background: var(--navy); color: var(--cream-light); border-color: var(--navy); }
     .size-btn:active { transform: scale(0.96); }
-    .size-btn:focus-visible { outline: 2px solid #2A4B7C; outline-offset: 2px; }
+    .size-btn:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
     .size-btn.size-hidden { display: none !important; }
+    .size-guide-link { font-size: 0.78rem; color: rgba(42,75,124,0.75); text-decoration: underline; text-underline-offset: 3px; background: none; border: 0; cursor: pointer; padding: 0.2rem 0; border-radius: 4px; transition: color 0.2s var(--ease-io); }
+    .size-guide-link:hover { color: var(--navy); }
+    .size-guide-link:active { color: var(--navy-dark); }
+    .size-guide-link:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+    #size-guide { background: rgba(255,255,255,0.55); border: 1px solid var(--line-soft); border-radius: var(--r-sm); padding: 0.9rem 1.1rem; font-size: 0.8rem; line-height: 1.8; color: rgba(74,63,53,0.85); margin-bottom: 1rem; }
 
-    /* ── Delivery toggle ───────────────────────────────── */
+    .delivery-list { display: grid; gap: 0.6rem; }
     .delivery-btn {
-      transition: background-color 0.2s var(--ease-io), color 0.2s var(--ease-io), box-shadow 0.2s var(--ease-out);
+      display: flex; align-items: center; gap: 0.9rem; width: 100%; text-align: start;
+      padding: 0.95rem 1.15rem; border-radius: var(--r-sm);
+      border: 1px solid var(--line); background: rgba(255,255,255,0.45);
+      font-family: 'Heebo', sans-serif; font-size: 0.95rem; color: var(--ink); cursor: pointer;
+      transition: background-color 0.25s var(--ease-io), border-color 0.25s var(--ease-io), box-shadow 0.25s var(--ease-io), transform 0.3s var(--spring);
     }
-    .delivery-btn.active { background: #2A4B7C; color: #F2E8D5; box-shadow: 0 2px 8px rgba(42,75,124,0.20); }
+    .delivery-btn .dot { width: 20px; height: 20px; border-radius: 999px; border: 1.5px solid rgba(42,75,124,0.4); flex-shrink: 0; position: relative; transition: border-color 0.25s var(--ease-io); }
+    .delivery-btn .dot::after { content: ''; position: absolute; inset: 4px; border-radius: 999px; background: var(--navy); transform: scale(0); transition: transform 0.35s var(--spring); }
+    .delivery-btn .lbl { flex: 1; }
+    .delivery-btn .amt { font-family: 'Frank Ruhl Libre', serif; font-size: 1.05rem; color: var(--navy); }
+    .delivery-btn:hover { border-color: rgba(42,75,124,0.45); transform: translateY(-1px); }
+    .delivery-btn:active { transform: scale(0.99); }
+    .delivery-btn:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+    .delivery-btn.active { background: rgba(255,255,255,0.9); border-color: var(--navy); box-shadow: 0 0 0 1px var(--navy), var(--sh-1); color: var(--navy); font-weight: 500; }
+    .delivery-btn.active .dot { border-color: var(--navy); }
+    .delivery-btn.active .dot::after { transform: scale(1); }
+
+    .summary-card { background: rgba(255,255,255,0.6); border: 1px solid var(--line-soft); border-radius: var(--r-md); padding: 1.4rem; box-shadow: var(--sh-1); margin-top: 0.4rem; }
+    .summary-row { display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 1.1rem; margin-bottom: 1.2rem; border-bottom: 1px solid var(--line-soft); }
+    .summary-row #price-total { font-family: 'Frank Ruhl Libre', serif; font-size: 2rem; font-weight: 500; color: var(--navy); line-height: 1; }
+    .wa-btn { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; border-radius: 999px; border: 1px solid rgba(42,75,124,0.3); font-size: 0.9rem; font-weight: 500; color: var(--navy); padding: 0.9rem; text-decoration: none; transition: background-color 0.25s var(--ease-io), border-color 0.25s var(--ease-io), transform 0.3s var(--spring); }
+    .wa-btn:hover { background: rgba(42,75,124,0.05); border-color: var(--navy); transform: translateY(-2px); }
+    .wa-btn:active { transform: scale(0.98); }
+    .wa-btn:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+
+    /* ── Footer ────────────────────────────────────────── */
+    .site-footer { position: relative; background: var(--cream-dark); border-top: 1px solid var(--line); padding-block: clamp(3.5rem, 7vw, 5.5rem) 2rem; overflow: hidden; }
+    .footer-grid { display: grid; gap: 2.5rem; margin-bottom: 3rem; }
+    @media (min-width: 768px) { .footer-grid { grid-template-columns: 1.3fr 0.8fr 1.2fr; gap: 3rem; } }
+    .footer-wm { font-family: 'Frank Ruhl Libre', serif; font-weight: 400; font-size: 1.9rem; letter-spacing: 0.08em; color: var(--navy); }
+    .footer-h { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.2rem; }
+    .footer-link { display: flex; align-items: center; gap: 0.6rem; width: fit-content; font-size: 0.9rem; color: rgba(74,63,53,0.85); text-decoration: none; border-radius: 4px; transition: color 0.25s var(--ease-io), transform 0.35s var(--spring); }
+    .footer-link:hover { color: var(--navy); transform: translateX(-3px); }
+    .footer-link:active { color: var(--navy-dark); }
+    .footer-link:focus-visible { outline: 2px solid rgba(42,75,124,0.45); outline-offset: 4px; }
+    .footer-bottom { border-top: 1px solid var(--line); padding-top: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: var(--muted); }
+    @media (min-width: 640px) { .footer-bottom { flex-direction: row; justify-content: space-between; } }
 
     /* ── Sticky mobile buy bar ─────────────────────────── */
     #sticky-buy-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 39;
-      background: #F2E8D5;
-      border-top: 1.5px solid rgba(42,75,124,0.12);
-      box-shadow: 0 -4px 24px rgba(42,75,124,0.12);
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      transform: translateY(100%);
-      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 39;
+      background: rgba(248,243,234,0.96);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -8px 30px rgba(42,75,124,0.10);
+      padding: 10px 20px calc(10px + env(safe-area-inset-bottom));
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      transform: translateY(105%);
+      transition: transform 0.45s var(--ease-out);
     }
     #sticky-buy-bar.visible { transform: translateY(0); }
     @media (min-width: 768px) { #sticky-buy-bar { display: none !important; } }
 
+    /* ── Floating social buttons ───────────────────────── */
+    .float-social { position: fixed; left: 0; top: 50%; z-index: 38; display: flex; flex-direction: column; gap: 6px; transform: translateY(-50%); }
+    .float-social a { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 0 14px 14px 0; background: rgba(248,243,234,0.95); border: 1px solid var(--line); border-left: 0; color: var(--navy); box-shadow: var(--sh-1); transition: transform 0.35s var(--spring); }
+    .float-social a:hover { transform: translateX(4px); }
+    .float-social a:active { transform: translateX(1px) scale(0.96); }
+    .float-social a:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+    @media (max-width: 767px) {
+      .float-social { top: auto; bottom: calc(84px + env(safe-area-inset-bottom)); left: 12px; transform: none; gap: 8px; }
+      .float-social a { border-radius: 999px; border: 1px solid var(--line); width: 42px; height: 42px; box-shadow: var(--sh-2); }
+      .float-social a:hover { transform: translateY(-3px); }
+      .site-footer { padding-bottom: calc(6rem + env(safe-area-inset-bottom)); }
+      .story-body .lead { font-size: 1.06rem; }
+    }
+
     /* ── Checkout modal ────────────────────────────────── */
-    #checkout-modal {
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s var(--ease-io);
-    }
-    #checkout-modal.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-    #modal-panel {
-      transform: translateY(40px) scale(0.97);
-      transition: transform 0.4s var(--spring);
-    }
-    #checkout-modal.open #modal-panel {
-      transform: translateY(0) scale(1);
-    }
+    #checkout-modal { opacity: 0; pointer-events: none; transition: opacity 0.3s var(--ease-io); }
+    #checkout-modal.open { opacity: 1; pointer-events: all; }
+    #modal-backdrop { background: rgba(28,52,89,0.55); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+    #modal-panel { transform: translateY(48px) scale(0.98); transition: transform 0.5s var(--ease-out); background: var(--cream-light); box-shadow: 0 30px 90px rgba(28,52,89,0.35); }
+    #checkout-modal.open #modal-panel { transform: translateY(0) scale(1); }
+    .modal-head { background: rgba(248,243,234,0.96); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line-soft); }
+    .modal-grip { width: 44px; height: 4px; border-radius: 999px; background: var(--line); margin: 10px auto 0; }
+    @media (min-width: 768px) { .modal-grip { display: none; } }
+    #modal-close-btn { transition: background-color 0.2s var(--ease-io), transform 0.35s var(--spring); }
+    #modal-close-btn:hover { background: var(--cream-dark); transform: rotate(90deg); }
+    #modal-close-btn:active { transform: rotate(90deg) scale(0.92); }
+    .modal-box { background: rgba(255,255,255,0.7); border: 1px solid var(--line-soft); border-radius: var(--r-md); padding: 1.1rem 1.2rem; }
 
     /* ── Form inputs ───────────────────────────────────── */
     .form-input {
       width: 100%;
-      background: #F8F3EA;
-      border: 1.5px solid #EAD9BE;
-      border-radius: 12px;
-      padding: 0.75rem 1rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--r-sm);
+      padding: 0.9rem 1.05rem;
       font-family: 'Heebo', sans-serif;
-      font-size: 0.9375rem;
-      color: #4A3F35;
+      font-size: 1rem;
+      color: var(--ink);
       transition: border-color 0.2s var(--ease-io), box-shadow 0.2s var(--ease-io);
       outline: none;
     }
-    .form-input::placeholder { color: #8C7B6B; opacity: 0.7; }
-    .form-input:focus { border-color: #2A4B7C; box-shadow: 0 0 0 3px rgba(42,75,124,0.12); }
+    .form-input::placeholder { color: var(--muted); opacity: 0.6; }
+    .form-input:hover { border-color: rgba(42,75,124,0.35); }
+    .form-input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(42,75,124,0.12); }
     .form-input.error { border-color: #DC7B7B; box-shadow: 0 0 0 3px rgba(220,123,123,0.15); }
-
-    .form-label {
-      display: block;
-      font-family: 'Heebo', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      color: #8C7B6B;
-      text-transform: uppercase;
-      margin-bottom: 0.375rem;
-    }
-    .field-error {
-      font-size: 0.75rem;
-      color: #C0392B;
-      margin-top: 0.25rem;
-      display: none;
-    }
+    .form-label { display: block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase; margin-bottom: 0.45rem; }
+    .field-error { font-size: 0.75rem; color: #C0392B; margin-top: 0.3rem; display: none; }
     .field-error.visible { display: block; }
 
     /* ── Toast ─────────────────────────────────────────── */
-    #toast {
-      transform: translateX(150%);
-      transition: transform 0.4s var(--spring);
-      pointer-events: none;
-    }
+    #toast { transform: translateX(150%); transition: transform 0.4s var(--spring); pointer-events: none; }
     #toast.open { transform: translateX(0); pointer-events: all; }
 
-    /* ── Shake animation ───────────────────────────────── */
+    /* ── Shake / spinner ───────────────────────────────── */
     @keyframes shake {
       0%,100% { transform: translateX(0); }
       20%      { transform: translateX(-6px); }
@@ -445,31 +681,16 @@
       80%      { transform: translateX(4px); }
     }
     .shake { animation: shake 0.4s var(--ease-io); }
-
-    /* ── Spinner ───────────────────────────────────────── */
     @keyframes spin { to { transform: rotate(360deg); } }
-    .spinner {
-      display: inline-block;
-      width: 18px; height: 18px;
-      border: 2px solid rgba(242,232,213,0.4);
-      border-top-color: #F2E8D5;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
+    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(242,232,213,0.4); border-top-color: var(--cream); border-radius: 50%; animation: spin 0.7s linear infinite; }
 
-    /* ── Hero gallery scroll ───────────────────────────── */
-    @keyframes scroll-up {
-      from { transform: translateY(0); }
-      to   { transform: translateY(-50%); }
+    /* ── Reduced motion ────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .ribbon-track { animation: none; }
+      .will-animate.reveal { opacity: 1; transform: none; }
+      .reveal, .arch img, .feature-card, .btn-primary, .btn-ghost { transition: none; }
     }
-    @keyframes scroll-down {
-      from { transform: translateY(-50%); }
-      to   { transform: translateY(0); }
-    }
-    .gallery-col-up   { animation: scroll-up   28s linear infinite; }
-    .gallery-col-down { animation: scroll-down 34s linear infinite; }
-    .hero-gallery:hover .gallery-col-up,
-    .hero-gallery:hover .gallery-col-down { animation-play-state: paused; }
   </style>
 </head>
 
@@ -488,108 +709,63 @@
   <!-- ═══════════════════════════════════════════════════
        NAVBAR
   ════════════════════════════════════════════════════ -->
-  <nav id="navbar" class="fixed top-0 inset-x-0 z-30 px-6 md:px-10 flex flex-col md:flex-row md:items-center md:justify-between">
-    <!-- Top row: logo + CTA -->
-    <div class="flex items-center justify-between py-3">
-      <a href="#" class="flex-shrink-0 flex flex-col items-end leading-none">
-        <span class="font-display font-medium text-navy" style="font-size:1.3rem; letter-spacing:0.14em;">FLOW MAMA</span>
-        <span class="font-body text-navy/50" style="font-size:0.45rem; letter-spacing:0.22em;">YOU'VE GOT THE FLOW</span>
-      </a>
+  <nav id="navbar">
+    <a href="#" class="nav-logo">
+      <span class="wm">FLOW MAMA</span>
+      <span class="tag font-body">YOU'VE GOT THE FLOW</span>
+    </a>
+
+    <div class="nav-links">
+      <a href="#story"   class="nav-link">אודות</a>
+      <a href="#product" class="nav-link">החזייה</a>
+      <a href="#buy"     class="nav-link">לרכישה</a>
     </div>
 
-    <!-- Nav links row (mobile: below logo, desktop: centered) -->
-    <div class="flex items-center justify-center gap-6 md:gap-8 pb-2 md:pb-0 border-t border-navy/10 md:border-none pt-1 md:pt-0">
-      <a href="#story"   class="font-body text-xs md:text-sm font-medium text-body-text hover:text-navy transition-colors duration-200">אודות</a>
-      <a href="#product" class="font-body text-xs md:text-sm font-medium text-body-text hover:text-navy transition-colors duration-200">החזייה</a>
-      <a href="#buy"     class="font-body text-xs md:text-sm font-medium text-body-text hover:text-navy transition-colors duration-200">לרכישה</a>
-    </div>
-
-    <!-- Desktop CTA (hidden on mobile, shown on desktop) -->
-    <a href="#buy" class="hidden md:inline-flex btn-primary text-sm px-5 py-3">לרכישה עכשיו</a>
+    <a href="#buy" class="btn-primary nav-cta">לרכישה עכשיו</a>
   </nav>
 
   <!-- ═══════════════════════════════════════════════════
        HERO
   ════════════════════════════════════════════════════ -->
-  <section class="relative min-h-screen flex items-center overflow-hidden textured pt-28 md:pt-20">
-    <!-- Background gradients -->
+  <section class="hero textured">
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 50%, rgba(42,75,124,0.07) 0%, transparent 65%), radial-gradient(ellipse 60% 80% at 80% 20%, rgba(201,169,110,0.10) 0%, transparent 60%);"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 15% 45%, rgba(42,75,124,0.07) 0%, transparent 65%), radial-gradient(ellipse 60% 80% at 85% 15%, rgba(201,169,110,0.12) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 60% 100%, rgba(248,243,234,0.9) 0%, transparent 70%);"></div>
     </div>
 
-    <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10 w-full py-16">
-      <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+    <div class="wrap">
+      <div class="hero-grid">
 
         <!-- Text column -->
-        <div class="flex-1 order-2 md:order-1 text-center md:text-right">
-          <p class="font-body text-xs font-medium tracking-[0.25em] text-muted uppercase mb-4">BY ODEYA TSUR</p>
+        <div class="hero-copy">
+          <p class="eyebrow">BY ODEYA TSUR</p>
 
-          <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-navy font-medium leading-[1.05] mb-6" style="letter-spacing:-0.02em;">
+          <h1 class="h-display hero-title">
             חזיות הנקה<br>
-            <span style="color:#3D6BA8;">בקצב שלך</span>
+            <span style="color:#3D6BA8; font-style:italic; font-weight:300;">בקצב שלך</span>
           </h1>
 
-          <p class="font-body text-lg text-body-text/80 leading-relaxed mb-8 max-w-md mx-auto md:mx-0">
+          <p class="hero-lede">
             חזיית הנקה סופגת בגזרת מעטפת.<br>הנקה במקסימום נוחות ומינימום חולצות מתחלפות, עם הכיס שמחזיק את כל מה שצריך בדיוק במקום הנכון.
           </p>
 
-          <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 mb-8">
+          <div class="hero-actions">
             <a href="#buy" class="btn-primary">לרכישה עכשיו</a>
             <a href="#story" class="btn-ghost">קראי עוד</a>
           </div>
 
-          <!-- Tagline pill -->
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-navy/20 bg-navy/5">
-            <span class="font-body italic text-xs tracking-[0.18em] text-navy/70">YOU'VE GOT THE FLOW</span>
+          <div class="hero-pill">
+            <span>YOU'VE GOT THE FLOW</span>
           </div>
         </div>
 
-        <!-- Gallery column -->
-        <div class="flex-shrink-0 order-1 md:order-2 w-full md:w-auto flex justify-center">
-          <div class="hero-gallery relative rounded-3xl overflow-hidden shadow-[0_8px_48px_rgba(42,75,124,0.15),0_2px_12px_rgba(42,75,124,0.08)]"
-               style="width:min(320px,92vw); height:480px;">
-            <!-- Fade edges -->
-            <div class="absolute inset-x-0 top-0 z-10 pointer-events-none" style="height:64px;background:linear-gradient(to bottom,#F2E8D5 0%,transparent 100%);"></div>
-            <div class="absolute inset-x-0 bottom-0 z-10 pointer-events-none" style="height:64px;background:linear-gradient(to top,#F2E8D5 0%,transparent 100%);"></div>
-
-            <div style="display:flex;gap:10px;height:100%;">
-              <!-- Column 1 — scrolls up -->
-              <div style="flex:1;overflow:hidden;">
-                <div class="gallery-col-up" style="display:flex;flex-direction:column;gap:10px;">
-                  <img src="picture/pic_13.JPG" alt="אמהות עם תינוקות לובשות חזיית הנקה Flow Mama" fetchpriority="high" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_1.JPG"  alt="אמא מניקה עם תינוק לובשת חזיית הנקה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_5.JPG"  alt="אמא מחייכת עם ילדים לובשת חזיית הנקה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_12.JPG" alt="שתי אמהות עם תינוקות ב-Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_7.JPG"  alt="אמא עם תינוק לובשת חזיית הנקה אפורה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_16.JPG" alt="חזיות הנקה Flow Mama עם אריזות מתנה" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <!-- duplicate -->
-                  <img src="picture/pic_13.JPG" alt="אמהות עם תינוקות לובשות חזיית הנקה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_1.JPG"  alt="אמא מניקה עם תינוק לובשת חזיית הנקה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_5.JPG"  alt="אמא מחייכת עם ילדים לובשת חזיית הנקה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_12.JPG" alt="שתי אמהות עם תינוקות ב-Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_7.JPG"  alt="אמא עם תינוק לובשת חזיית הנקה אפורה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_16.JPG" alt="חזיות הנקה Flow Mama עם אריזות מתנה" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                </div>
-              </div>
-              <!-- Column 2 — scrolls down -->
-              <div style="flex:1;overflow:hidden;">
-                <div class="gallery-col-down" style="display:flex;flex-direction:column;gap:10px;">
-                  <img src="picture/pic_4.JPG"  alt="הנקה שכובה עם חזיית הנקה אפורה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_6.JPG"  alt="אמא עם תינוק על שמיכה לובשת חזיית הנקה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_8.JPG"  alt="אמא מחייכת עם תינוק לובשת חזיית הנקה לבנה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_14.JPG" alt="אמא מרימה תינוק לובשת חזיית הנקה אפורה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_9.JPG"  alt="אמא לובשת חזיית הנקה לבנה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_17.JPG" alt="אריזת מתנה של חזיית הנקה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <!-- duplicate -->
-                  <img src="picture/pic_4.JPG"  alt="הנקה שכובה עם חזיית הנקה אפורה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_6.JPG"  alt="אמא עם תינוק על שמיכה לובשת חזיית הנקה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_8.JPG"  alt="אמא מחייכת עם תינוק לובשת חזיית הנקה לבנה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_14.JPG" alt="אמא מרימה תינוק לובשת חזיית הנקה אפורה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_9.JPG"  alt="אמא לובשת חזיית הנקה לבנה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                  <img src="picture/pic_17.JPG" alt="אריזת מתנה של חזיית הנקה Flow Mama" style="width:100%;height:220px;object-fit:cover;border-radius:14px;flex-shrink:0;display:block;">
-                </div>
-              </div>
-            </div>
+        <!-- Visual column -->
+        <div class="hero-visual">
+          <div class="hero-outline" aria-hidden="true"></div>
+          <div class="arch hero-main">
+            <img src="picture/pic_7.JPG" alt="אמא עם תינוק לובשת חזיית הנקה אפורה Flow Mama" width="675" height="900" fetchpriority="high">
+          </div>
+          <div class="arch hero-second">
+            <img src="picture/pic_8.JPG" alt="אמא מחייכת עם תינוק לובשת חזיית הנקה לבנה Flow Mama" width="675" height="900">
           </div>
         </div>
 
@@ -598,44 +774,86 @@
   </section>
 
   <!-- ═══════════════════════════════════════════════════
+       PHOTO RIBBON
+  ════════════════════════════════════════════════════ -->
+  <div class="ribbon bg-cream">
+    <div class="ribbon-track">
+      <img src="picture/pic_13.JPG" alt="אמהות עם תינוקות לובשות חזיית הנקה Flow Mama" loading="lazy" decoding="async">
+      <img src="picture/pic_1.JPG"  alt="אמא מניקה עם תינוק לובשת חזיית הנקה Flow Mama" loading="lazy" decoding="async">
+      <img src="picture/pic_5.JPG"  alt="אמא מחייכת עם ילדים לובשת חזיית הנקה Flow Mama" loading="lazy" decoding="async">
+      <img src="picture/pic_12.JPG" alt="שתי אמהות עם תינוקות ב-Flow Mama" loading="lazy" decoding="async">
+      <img src="picture/pic_16.JPG" alt="חזיות הנקה Flow Mama עם אריזות מתנה" loading="lazy" decoding="async">
+      <img src="picture/pic_4.JPG"  alt="הנקה שכובה עם חזיית הנקה אפורה Flow Mama" loading="lazy" decoding="async">
+      <img src="picture/pic_6.JPG"  alt="אמא עם תינוק על שמיכה לובשת חזיית הנקה Flow Mama" loading="lazy" decoding="async">
+      <img src="picture/pic_14.JPG" alt="אמא מרימה תינוק לובשת חזיית הנקה אפורה Flow Mama" loading="lazy" decoding="async">
+      <img src="picture/pic_3.JPG"  alt="אמא בחזיית הנקה לבנה Flow Mama וחולצה פתוחה" loading="lazy" decoding="async">
+      <img src="picture/pic_18.JPG" alt="חזיות הנקה Flow Mama באריזות מתנה" loading="lazy" decoding="async">
+      <!-- duplicate set for the seamless loop (decorative) -->
+      <img src="picture/pic_13.JPG" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <img src="picture/pic_1.JPG"  alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <img src="picture/pic_5.JPG"  alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <img src="picture/pic_12.JPG" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <img src="picture/pic_16.JPG" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <img src="picture/pic_4.JPG"  alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <img src="picture/pic_6.JPG"  alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <img src="picture/pic_14.JPG" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <img src="picture/pic_3.JPG"  alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <img src="picture/pic_18.JPG" alt="" aria-hidden="true" loading="lazy" decoding="async">
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
        BRAND SENTENCE
   ════════════════════════════════════════════════════ -->
-  <div class="bg-cream py-10 px-6 text-center overflow-hidden">
-    <p class="font-display text-navy/70 leading-relaxed mx-auto" style="font-size:clamp(1.1rem,3.5vw,1.75rem); font-weight:300; font-style:italic; letter-spacing:0.04em; max-width:900px;">
+  <div class="sentence bg-cream">
+    <div class="ornament" aria-hidden="true"><i></i></div>
+    <p class="my-7">
       אם כבר כובשות את העולם אז שיהיה לנו נוח
     </p>
+    <div class="ornament" aria-hidden="true"><i></i></div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════
        BRAND STORY
   ════════════════════════════════════════════════════ -->
-  <section id="story" class="relative py-24 bg-cream-light overflow-hidden textured">
-    <!-- Decorative gradient -->
+  <section id="story" class="sec bg-cream-light textured">
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 90% 50%, rgba(201,169,110,0.07) 0%, transparent 60%);"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 90% 40%, rgba(201,169,110,0.08) 0%, transparent 60%), radial-gradient(ellipse 50% 50% at 5% 90%, rgba(42,75,124,0.05) 0%, transparent 60%);"></div>
     </div>
 
-    <!-- Big decorative quote mark -->
-    <div class="absolute top-8 start-8 font-display text-[180px] leading-none select-none pointer-events-none" style="color:rgba(42,75,124,0.06);" aria-hidden="true">"</div>
+    <div class="quote-mark" aria-hidden="true">"</div>
 
-    <div class="relative z-10 max-w-4xl mx-auto px-6 md:px-10">
-      <div class="reveal">
-        <p class="font-body text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-4 text-center">הסיפור שלנו</p>
-        <h2 class="font-display text-4xl md:text-5xl text-navy font-normal text-center mb-12 leading-tight" style="letter-spacing:-0.01em;">
-          נולדה מלילות ארוכים<br>ומסירות אימהית
-        </h2>
-      </div>
+    <div class="wrap">
+      <div class="story-grid">
 
-      <div class="reveal max-w-2xl mx-auto space-y-5">
-        <p class="font-body text-base text-body-text/85 leading-[1.85]">Flow Mama נולדה מתוך רגעים אמיתיים של אמהות.<br>לילות בלי שינה, הנקות באמצע היום, החלפות חולצה בגלל נזילות, וחיפוש בלתי נגמר אחרי חזיית הנקה שתהיה נוחה וגם תרגיש טוב על הגוף.</p>
-        <p class="font-body text-base text-body-text/85 leading-[1.85]">אודיה צור נעים מאוד, אמא צעירה. הבנתי שחזיות ההנקה הקיימות פשוט לא מתאימות לחיים האמיתיים של אמא מניקה.<br>הן הרגישו מסורבלות, לא מחמיאות ובעיקר לא מספיק נוחות.</p>
-        <p class="font-body text-base text-body-text/85 leading-[1.85]">אז החלטתי ליצור את החזייה שחיפשתי.</p>
-        <p class="font-body text-base text-body-text/85 leading-[1.85]">חזיית הנקה רכה, מחבקת ומחמיאה, שנועדה ללוות אמהות מהבוקר העמוס ועד הלילה הארוך.<br>כזאת שאפשר לישון איתה, להניק איתה, לצאת איתה ולהרגיש בה טוב באמת.</p>
-        <p class="font-body text-base text-body-text/85 leading-[1.85]">והכי חשוב?<br>פיתוח חכם שעושה הבדל ענק ביום־יום:<br>כיס פנימי נסתר, שמחזיק את רפידת ההנקה בדיוק במקום.<br>בלי תזוזות. בלי נזילות על הבגד. בלי אי־נוחות מול העור.<br>רק תחושת ביטחון, ניקיון ושקט.</p>
-        <p class="font-body text-base text-body-text/85 leading-[1.85]">החזייה עשויה מ־92% כותנה רכה ונושמת ו־8% לייקרה גמישה, כדי להתאים את עצמה לגוף המשתנה של אמא בלי ללחוץ, בלי להכביד ובלי להתפשר על נוחות.</p>
-        <p class="font-body text-base text-body-text/85 leading-[1.85]">בלי אבזמים מסובכים.<br>בלי הסתבכויות מיותרות.<br>פשוט ללבוש, לשלוף ולהניק.</p>
-        <p class="font-body text-base text-body-text/85 leading-[1.85]">כי אמא מניקה צריכה להרגיש יפה, נוחה ובטוחה בעצמה גם ברגעים הכי עמוסים של היום.</p>
-        <p class="font-display text-xl text-navy/80 italic mt-6">תהנו, אודיה</p>
+        <div class="story-photo reveal">
+          <div class="hero-outline" aria-hidden="true"></div>
+          <div class="arch">
+            <img src="picture/pic_9.JPG" alt="אמא לובשת חזיית הנקה לבנה Flow Mama" width="675" height="900" loading="lazy" decoding="async">
+          </div>
+        </div>
+
+        <div>
+          <div class="story-head reveal">
+            <p class="eyebrow">הסיפור שלנו</p>
+            <h2 class="h-display">
+              נולדה מלילות ארוכים<br>ומסירות אימהית
+            </h2>
+          </div>
+
+          <div class="story-body reveal">
+            <p class="lead">Flow Mama נולדה מתוך רגעים אמיתיים של אמהות.<br>לילות בלי שינה, הנקות באמצע היום, החלפות חולצה בגלל נזילות, וחיפוש בלתי נגמר אחרי חזיית הנקה שתהיה נוחה וגם תרגיש טוב על הגוף.</p>
+            <p>אודיה צור נעים מאוד, אמא צעירה. הבנתי שחזיות ההנקה הקיימות פשוט לא מתאימות לחיים האמיתיים של אמא מניקה.<br>הן הרגישו מסורבלות, לא מחמיאות ובעיקר לא מספיק נוחות.</p>
+            <p class="statement">אז החלטתי ליצור את החזייה שחיפשתי.</p>
+            <p>חזיית הנקה רכה, מחבקת ומחמיאה, שנועדה ללוות אמהות מהבוקר העמוס ועד הלילה הארוך.<br>כזאת שאפשר לישון איתה, להניק איתה, לצאת איתה ולהרגיש בה טוב באמת.</p>
+            <p class="panel">והכי חשוב?<br>פיתוח חכם שעושה הבדל ענק ביום־יום:<br>כיס פנימי נסתר, שמחזיק את רפידת ההנקה בדיוק במקום.<br>בלי תזוזות. בלי נזילות על הבגד. בלי אי־נוחות מול העור.<br>רק תחושת ביטחון, ניקיון ושקט.</p>
+            <p>החזייה עשויה מ־92% כותנה רכה ונושמת ו־8% לייקרה גמישה, כדי להתאים את עצמה לגוף המשתנה של אמא בלי ללחוץ, בלי להכביד ובלי להתפשר על נוחות.</p>
+            <p>בלי אבזמים מסובכים.<br>בלי הסתבכויות מיותרות.<br>פשוט ללבוש, לשלוף ולהניק.</p>
+            <p>כי אמא מניקה צריכה להרגיש יפה, נוחה ובטוחה בעצמה גם ברגעים הכי עמוסים של היום.</p>
+            <p class="signature">תהנו, אודיה</p>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -643,47 +861,46 @@
   <!-- ═══════════════════════════════════════════════════
        PRODUCT FEATURES
   ════════════════════════════════════════════════════ -->
-  <section id="product" class="relative py-24 bg-cream overflow-hidden textured">
+  <section id="product" class="sec bg-cream textured">
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%, rgba(42,75,124,0.04) 0%, transparent 60%);"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%, rgba(42,75,124,0.05) 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 100% 100%, rgba(201,169,110,0.08) 0%, transparent 60%);"></div>
     </div>
 
-    <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
-      <div class="text-center mb-14 reveal">
-        <h2 class="font-display text-4xl md:text-5xl text-navy font-normal leading-tight" style="letter-spacing:-0.01em;">הפרטים החשובים</h2>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="ornament" aria-hidden="true"><i></i></div>
+        <h2 class="h-display">הפרטים החשובים</h2>
       </div>
 
-      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 reveal-stagger">
+      <div class="features reveal-stagger">
 
         <!-- Card 1: Materials -->
-        <div class="reveal feature-card bg-cream-light rounded-3xl p-8 shadow-[0_2px_8px_rgba(42,75,124,0.06),0_6px_28px_rgba(42,75,124,0.07)] relative overflow-hidden">
-          <div class="w-14 h-14 rounded-2xl bg-navy/08 flex items-center justify-center mb-6" style="background:rgba(42,75,124,0.08);">
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 3C8.477 3 4 7.477 4 13s4.477 10 10 10 10-4.477 10-10S19.523 3 14 3z" stroke="#2A4B7C" stroke-width="1.6"/><path d="M14 8v10M9 13h10" stroke="#2A4B7C" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <div class="reveal feature-card">
+          <div class="feature-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 3C8.477 3 4 7.477 4 13s4.477 10 10 10 10-4.477 10-10S19.523 3 14 3z" stroke="#2A4B7C" stroke-width="1.4"/><path d="M14 8v10M9 13h10" stroke="#2A4B7C" stroke-width="1.4" stroke-linecap="round"/></svg>
           </div>
-          <h3 class="font-display text-xl text-navy font-medium mb-3">92% כותנה · 8% לייקרה</h3>
+          <h3>92% כותנה · 8% לייקרה</h3>
         </div>
 
         <!-- Card 2: Fit -->
-        <div class="reveal feature-card bg-cream-light rounded-3xl p-8 shadow-[0_2px_8px_rgba(42,75,124,0.06),0_6px_28px_rgba(42,75,124,0.07)] relative overflow-hidden">
-          <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6" style="background:rgba(42,75,124,0.08);">
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 14h16M14 6l-8 8 8 8" stroke="#2A4B7C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="reveal feature-card">
+          <div class="feature-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 14h16M14 6l-8 8 8 8" stroke="#2A4B7C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <h3 class="font-display text-xl text-navy font-medium mb-3">נלבשת כמו חולצה</h3>
-          <p class="font-body text-sm text-body-text/80 leading-relaxed">גזרת מעטפת להנקה קדמית ולשליפה קלה</p>
+          <h3>נלבשת כמו חולצה</h3>
+          <p>גזרת מעטפת להנקה קדמית ולשליפה קלה</p>
         </div>
 
-        <!-- Card 3: Patent Pocket (inverted) -->
-        <div class="reveal feature-card rounded-3xl p-8 shadow-[0_2px_8px_rgba(42,75,124,0.06),0_10px_36px_rgba(42,75,124,0.10)] relative overflow-hidden" style="background:linear-gradient(155deg,#E4EBF4 0%,#F8F3EA 100%); border:1px solid rgba(42,75,124,0.12);">
-          <div class="relative">
-            <div class="flex items-start gap-3 mb-6">
-              <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:rgba(255,255,255,0.7);">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="5" y="8" width="18" height="13" rx="2.5" stroke="#A8864A" stroke-width="1.6"/><path d="M9 8V7a5 5 0 0110 0v1" stroke="#A8864A" stroke-width="1.6"/><circle cx="14" cy="14.5" r="2" fill="#A8864A"/></svg>
-              </div>
-              <span class="mt-1 text-xs font-semibold tracking-[0.18em] uppercase px-3 py-1 rounded-full" style="color:#8C6A2F; background:rgba(201,169,110,0.16); border:1px solid rgba(201,169,110,0.45);">פטנט</span>
+        <!-- Card 3: Patent Pocket -->
+        <div class="reveal feature-card is-patent">
+          <div class="flex items-center gap-3">
+            <div class="feature-icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="5" y="8" width="18" height="13" rx="2.5" stroke="#A8864A" stroke-width="1.4"/><path d="M9 8V7a5 5 0 0110 0v1" stroke="#A8864A" stroke-width="1.4"/><circle cx="14" cy="14.5" r="2" fill="#A8864A"/></svg>
             </div>
-            <h3 class="font-display text-xl text-navy font-medium mb-3">כיס הקסם</h3>
-            <p class="font-body text-sm text-body-text/80 leading-relaxed">כיס פנימי בגובה של הפטמה דרכו אנחנו מכניסות את הרפידה. הרפידה פוגשת את הפטמה ובכך מונעת טפטופים ורטיבות של החולצה והגוף.</p>
+            <span class="patent-tag">פטנט</span>
           </div>
+          <h3>כיס הקסם</h3>
+          <p>כיס פנימי בגובה של הפטמה דרכו אנחנו מכניסות את הרפידה. הרפידה פוגשת את הפטמה ובכך מונעת טפטופים ורטיבות של החולצה והגוף.</p>
         </div>
 
       </div>
@@ -693,21 +910,34 @@
   <!-- ═══════════════════════════════════════════════════
        VIDEO
   ════════════════════════════════════════════════════ -->
-  <section class="relative py-24 bg-cream-light overflow-hidden textured">
-    <div class="max-w-3xl mx-auto px-6 md:px-10">
-      <div class="text-center mb-10 reveal">
-        <h2 class="font-display text-3xl md:text-4xl text-navy font-normal leading-snug" style="letter-spacing:-0.01em;">רגע לפני שמזמינות —<br>תראו איך זה עובד 🤍</h2>
+  <section class="sec bg-cream-light textured">
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 60%, rgba(42,75,124,0.06) 0%, transparent 65%), radial-gradient(ellipse 40% 40% at 0% 0%, rgba(201,169,110,0.07) 0%, transparent 60%);"></div>
+    </div>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2 class="h-display" style="font-size:clamp(1.9rem,4.4vw,2.75rem); line-height:1.3;">רגע לפני שמזמינות —<br>תראו איך זה עובד 🤍</h2>
       </div>
-      <div class="reveal rounded-3xl overflow-hidden shadow-[0_8px_48px_rgba(42,75,124,0.18)]">
-        <video
-          controls
-          playsinline
-          preload="none"
-          poster="picture/pic_13.JPG"
-          class="w-full block"
-          style="max-height:520px; object-fit:contain; background:#1a1a1a;">
-          <source src="picture/movie.mp4" type="video/mp4">
-        </video>
+      <div class="video-stage reveal">
+        <div class="video-side" aria-hidden="true">
+          <div class="arch"><img src="picture/pic_16.JPG" alt="" width="675" height="900" loading="lazy" decoding="async"></div>
+        </div>
+        <div class="video-frame">
+          <video
+            id="demo-video"
+            controls
+            playsinline
+            preload="none"
+            poster="picture/pic_15.JPG">
+            <source src="picture/movie.mp4" type="video/mp4">
+          </video>
+          <button id="video-play-btn" class="video-play" type="button" aria-label="Play" hidden>
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><path d="M9 5.5v15l12-7.5-12-7.5Z" fill="#2A4B7C"/></svg>
+          </button>
+        </div>
+        <div class="video-side" aria-hidden="true">
+          <div class="arch"><img src="picture/pic_10.JPG" alt="" width="675" height="900" loading="lazy" decoding="async"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -715,43 +945,44 @@
   <!-- ═══════════════════════════════════════════════════
        RECOMMENDATIONS
   ════════════════════════════════════════════════════ -->
-  <section class="relative py-20 bg-cream overflow-hidden">
-    <div class="max-w-5xl mx-auto px-6 md:px-10">
-      <div class="text-center mb-12 reveal">
-        <p class="font-body text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-3">מה אומרות הלקוחות</p>
-        <h2 class="font-display text-3xl md:text-4xl text-navy font-normal" style="letter-spacing:-0.01em;">הן כבר מרגישות את ה-Flow ❤️</h2>
+  <section class="sec bg-cream textured">
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(248,243,234,0.8) 0%, transparent 65%), radial-gradient(ellipse 40% 50% at 100% 80%, rgba(42,75,124,0.05) 0%, transparent 60%);"></div>
+    </div>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow eyebrow-rule">מה אומרות הלקוחות</p>
+        <h2 class="h-display" style="font-size:clamp(1.9rem,4.4vw,2.75rem);">הן כבר מרגישות את ה-Flow ❤️</h2>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 reveal">
-        <div class="rounded-3xl overflow-hidden shadow-[0_4px_24px_rgba(42,75,124,0.10)] bg-white">
-          <img src="recomends/recomend1.jpeg" alt="המלצת לקוחה על חזיית הנקה Flow Mama עם כיס פטנט — ביקורת 5 כוכבים" class="w-full h-auto block" loading="lazy">
+      <div class="testi-row reveal">
+        <div class="testi-card">
+          <img src="recomends/recomend1.jpeg" alt="המלצת לקוחה על חזיית הנקה Flow Mama עם כיס פטנט — ביקורת 5 כוכבים" width="900" height="761" loading="lazy" decoding="async">
         </div>
-        <div class="rounded-3xl overflow-hidden shadow-[0_4px_24px_rgba(42,75,124,0.10)] bg-white">
-          <img src="recomends/recomend2.jpeg" alt="חוות דעת על חזיית הנקה Flow Mama 92% כותנה — לקוחה מרוצה" class="w-full h-auto block" loading="lazy">
+        <div class="testi-card">
+          <img src="recomends/recomend2.jpeg" alt="חוות דעת על חזיית הנקה Flow Mama 92% כותנה — לקוחה מרוצה" width="791" height="900" loading="lazy" decoding="async">
         </div>
-        <div class="rounded-3xl overflow-hidden shadow-[0_4px_24px_rgba(42,75,124,0.10)] bg-white">
-          <img src="recomends/recomend3.jpeg" alt="לקוחה ממליצה על חזיית הנקה Flow Mama — נוחה לשינה ולהנקה" class="w-full h-auto block" loading="lazy">
+        <div class="testi-card">
+          <img src="recomends/recomend3.jpeg" alt="לקוחה ממליצה על חזיית הנקה Flow Mama — נוחה לשינה ולהנקה" width="900" height="703" loading="lazy" decoding="async">
         </div>
       </div>
 
       <!-- Audio testimonial -->
-      <div class="reveal mt-6 flex justify-center">
-        <div class="w-full max-w-sm rounded-3xl shadow-[0_2px_8px_rgba(42,75,124,0.06),0_8px_32px_rgba(42,75,124,0.09)] bg-cream-light px-7 py-6 flex flex-col items-center gap-4" style="border:1px solid rgba(42,75,124,0.10);">
-          <div class="w-12 h-12 rounded-2xl flex items-center justify-center" style="background:rgba(42,75,124,0.07);">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 1a4 4 0 0 1 4 4v7a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4Z" stroke="#2A4B7C" stroke-width="1.6"/>
-              <path d="M19 11a7 7 0 0 1-14 0" stroke="#2A4B7C" stroke-width="1.6" stroke-linecap="round"/>
-              <line x1="12" y1="18" x2="12" y2="22" stroke="#2A4B7C" stroke-width="1.6" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div class="text-center">
-            <p class="font-display text-lg font-medium text-navy">המלצה קולית מלקוחה</p>
-            <p class="font-body text-xs text-muted mt-1">הקשיבי מה היא אמרה 🤍</p>
-          </div>
-          <audio controls preload="metadata" class="w-full" style="accent-color:#C9A96E;">
-            <source src="recomends/audio-recommend.m4a" type="audio/mp4">
-          </audio>
+      <div class="audio-card reveal">
+        <div class="feature-icon" style="width:52px; height:52px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 1a4 4 0 0 1 4 4v7a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4Z" stroke="#2A4B7C" stroke-width="1.4"/>
+            <path d="M19 11a7 7 0 0 1-14 0" stroke="#2A4B7C" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="12" y1="18" x2="12" y2="22" stroke="#2A4B7C" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
         </div>
+        <div>
+          <p class="font-display text-xl text-navy" style="font-weight:500;">המלצה קולית מלקוחה</p>
+          <p class="font-body text-xs text-muted mt-1">הקשיבי מה היא אמרה 🤍</p>
+        </div>
+        <audio controls preload="metadata">
+          <source src="recomends/audio-recommend.m4a" type="audio/mp4">
+        </audio>
       </div>
 
     </div>
@@ -760,105 +991,106 @@
   <!-- ═══════════════════════════════════════════════════
        PRODUCT SELECTION + ORDER
   ════════════════════════════════════════════════════ -->
-  <section id="buy" class="relative py-24 bg-cream-light overflow-hidden textured">
+  <section id="buy" class="sec bg-cream-light textured">
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%, rgba(42,75,124,0.05) 0%, transparent 60%);"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%, rgba(42,75,124,0.06) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 100% 0%, rgba(201,169,110,0.08) 0%, transparent 60%);"></div>
     </div>
 
-    <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
-      <div class="text-center mb-14 reveal">
-        <p class="font-body text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-3">בחרי את שלך</p>
-        <h2 class="font-display text-4xl md:text-5xl text-navy font-normal" style="letter-spacing:-0.01em;">לרכישה</h2>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow eyebrow-rule">בחרי את שלך</p>
+        <h2 class="h-display">לרכישה</h2>
       </div>
 
-      <div class="reveal flex flex-col lg:flex-row gap-12 items-start">
+      <div class="buy-grid reveal">
 
         <!-- Product image + thumbnails -->
-        <div class="w-full lg:w-5/12 flex flex-col items-center gap-5">
-          <div class="relative rounded-3xl overflow-hidden w-full max-w-sm shadow-[0_8px_40px_rgba(42,75,124,0.12),0_2px_10px_rgba(42,75,124,0.07)]">
-            <img id="product-main-img" src="picture/gray.JPG" alt="חזיית הנקה Flow Mama אפורה עם תחרה שחורה — כיס פטנט, 92% כותנה, מידה M L XL" class="w-full block object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-navy/15 via-transparent to-transparent pointer-events-none"></div>
+        <div class="buy-media">
+          <div class="buy-photo">
+            <img id="product-main-img" src="picture/gray.JPG" alt="חזיית הנקה Flow Mama אפורה עם תחרה שחורה — כיס פטנט, 92% כותנה, מידה M L XL">
           </div>
 
           <!-- Color thumbnails -->
           <div class="flex gap-3">
-            <button class="thumb-btn w-16 h-16 rounded-2xl overflow-hidden ring-offset-2 ring-offset-cream-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy transition-all duration-200" data-color="gray" aria-label="אפור עם תחרה שחורה">
-              <img src="picture/gray.JPG" alt="אפור" class="w-full h-full object-cover object-center">
+            <button class="thumb-btn" data-color="gray" aria-label="אפור עם תחרה שחורה">
+              <img src="picture/gray.JPG" alt="אפור" loading="lazy">
             </button>
-            <button class="thumb-btn w-16 h-16 rounded-2xl overflow-hidden ring-offset-2 ring-offset-cream-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy transition-all duration-200" data-color="white" aria-label="לבן עם תחרה לבנה">
-              <img src="picture/white.JPG" alt="לבן" class="w-full h-full object-cover object-center">
+            <button class="thumb-btn" data-color="white" aria-label="לבן עם תחרה לבנה">
+              <img src="picture/white.JPG" alt="לבן" loading="lazy">
             </button>
-            <button class="thumb-btn w-16 h-16 rounded-2xl overflow-hidden ring-offset-2 ring-offset-cream-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy transition-all duration-200" data-color="yellow" aria-label="צהוב בננה קלאסי">
-              <img src="picture/yallow.JPG" alt="צהוב בננה" class="w-full h-full object-cover object-top">
+            <button class="thumb-btn" data-color="yellow" aria-label="צהוב בננה קלאסי">
+              <img src="picture/yallow.JPG" alt="צהוב בננה" loading="lazy" style="object-position:top;">
             </button>
           </div>
         </div>
 
         <!-- Selection controls -->
-        <div class="flex-1 w-full">
-          <p class="font-body text-xs font-semibold tracking-[0.2em] text-muted uppercase mb-2">חזיית הנקה</p>
-          <h3 class="font-display text-3xl text-navy font-medium mb-1">Flow Mama</h3>
-          <p class="font-display text-2xl text-navy-light font-medium mb-8">₪250</p>
+        <div>
+          <div style="padding-bottom:1.6rem;">
+            <p class="eyebrow">חזיית הנקה</p>
+            <h3 class="h-display buy-title">Flow Mama</h3>
+            <p class="buy-price">₪250</p>
+          </div>
 
           <!-- Color selector -->
-          <div class="mb-7">
-            <label class="font-body text-xs font-semibold tracking-[0.12em] text-muted uppercase mb-3 block">
-              צבע: <span id="selected-color-label" class="text-navy normal-case tracking-normal font-medium"></span>
+          <div class="opt-group">
+            <label class="opt-label">
+              צבע: <span id="selected-color-label"></span>
             </label>
-            <div class="flex gap-3 items-center flex-wrap">
-              <button class="swatch-btn w-11 h-11 rounded-full border-2 border-[#9A9A9A] focus-visible:outline-none" data-color="gray" data-color-label="אפור עם תחרה שחורה" aria-label="אפור עם תחרה שחורה" style="background:#9A9A9A;"></button>
-              <button class="swatch-btn w-11 h-11 rounded-full border-2 border-[#d8cfc8] focus-visible:outline-none" data-color="white" data-color-label="לבן עם תחרה לבנה" aria-label="לבן עם תחרה לבנה" style="background:#F5F0EC;"></button>
-              <button class="swatch-btn w-11 h-11 rounded-full border-2 border-[#e8cc2a] focus-visible:outline-none" data-color="yellow" data-color-label="צהוב בננה קלאסי" aria-label="צהוב בננה קלאסי" style="background:#F5DC5A;"></button>
+            <div class="flex gap-4 items-center flex-wrap">
+              <button class="swatch-btn" data-color="gray" data-color-label="אפור עם תחרה שחורה" aria-label="אפור עם תחרה שחורה" style="background:#9A9A9A; border:1px solid #8a8a8a;"></button>
+              <button class="swatch-btn" data-color="white" data-color-label="לבן עם תחרה לבנה" aria-label="לבן עם תחרה לבנה" style="background:#F5F0EC; border:1px solid #d8cfc8;"></button>
+              <button class="swatch-btn" data-color="yellow" data-color-label="צהוב בננה קלאסי" aria-label="צהוב בננה קלאסי" style="background:#F5DC5A; border:1px solid #e8cc2a;"></button>
             </div>
             <p id="color-error" class="field-error">יש לבחור צבע</p>
           </div>
 
           <!-- Size selector -->
-          <div class="mb-7">
-            <div class="flex items-baseline justify-between mb-3">
-              <label class="font-body text-xs font-semibold tracking-[0.12em] text-muted uppercase">מידה</label>
-              <button type="button" class="font-body text-xs text-navy/70 underline underline-offset-2 hover:text-navy transition-colors duration-200" onclick="document.getElementById('size-guide').classList.toggle('hidden')">מדריך מידות</button>
+          <div class="opt-group">
+            <div class="flex items-baseline justify-between">
+              <label class="opt-label">מידה</label>
+              <button type="button" class="size-guide-link" onclick="document.getElementById('size-guide').classList.toggle('hidden')">מדריך מידות</button>
             </div>
-            <!-- Size guide tooltip -->
-            <div id="size-guide" class="hidden mb-4 bg-cream rounded-2xl p-4 border border-cream-dark text-xs font-body text-body-text/80 leading-relaxed">
+            <!-- Size guide -->
+            <div id="size-guide" class="hidden">
               <strong class="text-navy">מדריך מידות:</strong><br>
               M — מידה 38–40 · L — מידה 40–42 · XL — מידה 42–44
             </div>
-            <div class="flex gap-2 flex-wrap">
-              <button class="size-btn px-5 py-2.5 rounded-full border-2 border-cream-dark font-body text-sm font-medium text-body-text" data-size="M">M</button>
-              <button class="size-btn px-5 py-2.5 rounded-full border-2 border-cream-dark font-body text-sm font-medium text-body-text" data-size="L">L</button>
-              <button class="size-btn px-5 py-2.5 rounded-full border-2 border-cream-dark font-body text-sm font-medium text-body-text" data-size="XL">XL</button>
+            <div class="flex gap-3 flex-wrap">
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
             </div>
             <p id="size-error" class="field-error">יש לבחור מידה</p>
           </div>
 
-          <!-- Delivery toggle -->
-          <div class="mb-8">
-            <label class="font-body text-xs font-semibold tracking-[0.12em] text-muted uppercase mb-3 block">אופן קבלה</label>
-            <div class="grid grid-cols-3 w-full rounded-2xl bg-cream-dark p-1 gap-1">
-              <button class="delivery-btn text-center px-2 py-2 rounded-xl font-body text-xs font-medium text-body-text transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" data-delivery="selfpickup">איסוף עצמי חינם</button>
-              <button class="delivery-btn text-center px-2 py-2 rounded-xl font-body text-xs font-medium text-body-text transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" data-delivery="pickup">משלוח לבית ₪45</button>
-              <button class="delivery-btn active text-center px-2 py-2 rounded-xl font-body text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" data-delivery="shipping">נקודת איסוף ₪20</button>
+          <!-- Delivery options -->
+          <div class="opt-group">
+            <label class="opt-label">אופן קבלה</label>
+            <div class="delivery-list">
+              <button class="delivery-btn" data-delivery="selfpickup"><span class="dot" aria-hidden="true"></span><span class="lbl">איסוף עצמי</span> <span class="amt">חינם</span></button>
+              <button class="delivery-btn" data-delivery="pickup"><span class="dot" aria-hidden="true"></span><span class="lbl">משלוח לבית</span> <span class="amt">₪45</span></button>
+              <button class="delivery-btn active" data-delivery="shipping"><span class="dot" aria-hidden="true"></span><span class="lbl">נקודת איסוף</span> <span class="amt">₪20</span></button>
             </div>
           </div>
 
-          <!-- Price summary -->
-          <div class="flex items-center justify-between py-4 border-t border-b border-cream-dark mb-7">
-            <span class="font-body text-sm text-muted">סה"כ לתשלום</span>
-            <span id="price-total" class="font-display text-2xl text-navy font-bold">₪270</span>
-          </div>
+          <!-- Summary + CTAs -->
+          <div class="summary-card">
+            <div class="summary-row">
+              <span class="font-body text-sm text-muted">סה"כ לתשלום</span>
+              <span id="price-total">₪270</span>
+            </div>
 
-          <!-- CTAs -->
-          <div class="flex flex-col gap-3">
-            <button id="buy-now-btn" type="button" class="btn-primary w-full justify-center text-base py-4">
-              הזמיני עכשיו ←
-            </button>
-            <a id="buy-whatsapp-btn" href="https://wa.me/972504777045?text=היי%20אודיה%2C%20ראיתי%20את%20חזיית%20ההנקה%20ורוצה%20לשמוע%20עוד%20😊" target="_blank" rel="noopener noreferrer"
-               class="flex items-center justify-center gap-2 w-full rounded-2xl border-2 border-navy/20 font-body text-sm font-medium text-navy py-3.5 hover:bg-navy/5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40">
-              <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2a8 8 0 0 0-6.93 11.97L2 18l4.13-1.05A8 8 0 1 0 10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 8.5c.4.9 1 1.8 1.9 2.6.9.8 1.8 1.3 2.8 1.6l1-.9c.1-.1.3-.1.5 0l1.6 1.2c.1.1.1.4 0 .5l-.8 1c-.4.4-1 .5-1.5.3C9.5 13.5 6.5 10.5 6 7.5c-.2-.5 0-1.1.4-1.5l1-.8c.1-.1.4-.1.5 0l1.2 1.6c.1.1.1.3 0 .4L7 8.5Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              הזמיני דרך WhatsApp
-            </a>
-            <p class="font-body text-xs text-center text-muted">התשלום יתואם עמך לאחר קבלת ההזמנה</p>
+            <div class="flex flex-col gap-3">
+              <button id="buy-now-btn" type="button" class="btn-primary w-full justify-center text-base" style="padding-block:1.05rem;">
+                הזמיני עכשיו ←
+              </button>
+              <a id="buy-whatsapp-btn" href="https://wa.me/972504777045?text=היי%20אודיה%2C%20ראיתי%20את%20חזיית%20ההנקה%20ורוצה%20לשמוע%20עוד%20😊" target="_blank" rel="noopener noreferrer" class="wa-btn">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2a8 8 0 0 0-6.93 11.97L2 18l4.13-1.05A8 8 0 1 0 10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 8.5c.4.9 1 1.8 1.9 2.6.9.8 1.8 1.3 2.8 1.6l1-.9c.1-.1.3-.1.5 0l1.6 1.2c.1.1.1.4 0 .5l-.8 1c-.4.4-1 .5-1.5.3C9.5 13.5 6.5 10.5 6 7.5c-.2-.5 0-1.1.4-1.5l1-.8c.1-.1.4-.1.5 0l1.2 1.6c.1.1.1.3 0 .4L7 8.5Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                הזמיני דרך WhatsApp
+              </a>
+              <p class="font-body text-xs text-center text-muted">התשלום יתואם עמך לאחר קבלת ההזמנה</p>
+            </div>
           </div>
         </div>
 
@@ -869,17 +1101,17 @@
   <!-- ═══════════════════════════════════════════════════
        FOOTER
   ════════════════════════════════════════════════════ -->
-  <footer class="relative bg-cream-dark py-16 overflow-hidden" style="border-top:1px solid rgba(42,75,124,0.10);">
+  <footer class="site-footer">
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 100% at 50% 100%, rgba(255,255,255,0.35) 0%, transparent 60%);"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 100% at 50% 100%, rgba(255,255,255,0.35) 0%, transparent 60%), radial-gradient(ellipse 40% 60% at 0% 0%, rgba(42,75,124,0.05) 0%, transparent 60%);"></div>
     </div>
 
-    <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
-      <div class="grid md:grid-cols-3 gap-10 mb-12">
+    <div class="wrap">
+      <div class="footer-grid">
 
         <!-- Brand -->
         <div>
-          <p class="font-display text-2xl font-medium text-navy mb-2" style="letter-spacing:0.04em;">Flow Mama</p>
+          <p class="footer-wm mb-2">Flow Mama</p>
           <p class="font-body italic text-xs tracking-[0.2em] text-navy/70 mb-1">YOU'VE GOT THE FLOW</p>
           <p class="font-body text-xs text-muted">By Odeya Tsur</p>
           <p class="font-body text-xs text-muted mt-3 tracking-[0.12em] uppercase">🇮🇱 Made in Israel</p>
@@ -887,31 +1119,31 @@
 
         <!-- Quick links -->
         <div>
-          <p class="font-body text-xs font-semibold tracking-[0.18em] text-muted uppercase mb-5">ניווט מהיר</p>
+          <p class="footer-h">ניווט מהיר</p>
           <nav class="flex flex-col gap-3">
-            <a href="#story"   class="font-body text-sm text-body-text/80 hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/40 w-fit">אודות</a>
-            <a href="#product" class="font-body text-sm text-body-text/80 hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/40 w-fit">החזייה</a>
-            <a href="#buy"     class="font-body text-sm text-body-text/80 hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/40 w-fit">לרכישה</a>
+            <a href="#story"   class="footer-link">אודות</a>
+            <a href="#product" class="footer-link">החזייה</a>
+            <a href="#buy"     class="footer-link">לרכישה</a>
           </nav>
         </div>
 
         <!-- Contact -->
         <div>
-          <p class="font-body text-xs font-semibold tracking-[0.18em] text-muted uppercase mb-5">צרי קשר</p>
+          <p class="footer-h">צרי קשר</p>
           <div class="space-y-3">
-            <a href="mailto:odeya265@gmail.com" class="flex items-center gap-2 font-body text-sm text-body-text/80 hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/40 w-fit">
+            <a href="mailto:odeya265@gmail.com" class="footer-link">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 5.5l6.5 4 6.5-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
               odeya265@gmail.com
             </a>
-            <a href="https://wa.me/972504777045?text=היי%20אודיה%2C%20ראיתי%20את%20חזיית%20ההנקה%20ורוצה%20לשמוע%20עוד%20😊" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 font-body text-sm text-body-text/80 hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/40 w-fit">
+            <a href="https://wa.me/972504777045?text=היי%20אודיה%2C%20ראיתי%20את%20חזיית%20ההנקה%20ורוצה%20לשמוע%20עוד%20😊" target="_blank" rel="noopener noreferrer" class="footer-link">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A6.5 6.5 0 0 0 2.07 10.9L1.5 14.5l3.7-.57A6.5 6.5 0 1 0 8 1.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M5.5 6.5c.3.7.8 1.4 1.5 2s1.4 1.1 2.2 1.3l.8-.8c.1-.1.3-.1.4 0l1.3 1c.1.1.1.3 0 .4l-.7.8c-.3.3-.8.4-1.2.3C7.4 11 5 8.6 4.5 6.2c-.1-.4 0-.9.3-1.2l.8-.7c.1-.1.3-.1.4 0l1 1.3c.1.1.1.3 0 .4l-.5.5Z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
               050-477-7045
             </a>
-            <a href="https://www.instagram.com/flowmama_bra/?utm_source=qr" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 font-body text-sm text-body-text/80 hover:text-navy transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-navy/40 w-fit">
+            <a href="https://www.instagram.com/flowmama_bra/?utm_source=qr" target="_blank" rel="noopener noreferrer" class="footer-link">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="3.5" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.2"/><circle cx="11.5" cy="4.5" r="0.75" fill="currentColor"/></svg>
               @flowmama_bra
             </a>
-            <div class="font-body text-xs text-muted mt-2 space-y-1">
+            <div class="font-body text-xs text-muted space-y-1" style="padding-top:0.5rem;">
               <p>נקודת איסוף ₪20 | משלוח לבית ₪45 | איסוף עצמי חינם</p>
               <p>ירושלים · מבשרת ציון · טל שחר</p>
             </div>
@@ -920,9 +1152,9 @@
 
       </div>
 
-      <div class="border-t border-navy/10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2">
-        <p class="font-body text-xs text-muted">© <span id="footer-year">2026</span> Flow Mama. כל הזכויות שמורות.</p>
-        <p class="font-body text-xs text-muted/80 italic">עוצב באהבה לכל אמא מיניקה.</p>
+      <div class="footer-bottom">
+        <p>© <span id="footer-year">2026</span> Flow Mama. כל הזכויות שמורות.</p>
+        <p class="italic">עוצב באהבה לכל אמא מיניקה.</p>
       </div>
     </div>
   </footer>
@@ -932,29 +1164,32 @@
   ════════════════════════════════════════════════════ -->
   <div id="checkout-modal" class="fixed inset-0 z-50 flex items-end md:items-center justify-center p-0 md:p-6" role="dialog" aria-modal="true" aria-label="טופס הזמנה" hidden>
     <!-- Backdrop -->
-    <div id="modal-backdrop" class="absolute inset-0 bg-black/80"></div>
+    <div id="modal-backdrop" class="absolute inset-0"></div>
 
     <!-- Panel -->
-    <div id="modal-panel" class="relative bg-white w-full md:max-w-lg rounded-t-3xl md:rounded-3xl shadow-[0_20px_80px_rgba(0,0,0,0.4)] max-h-[92vh] overflow-y-auto">
+    <div id="modal-panel" class="relative w-full md:max-w-lg rounded-t-[32px] md:rounded-[32px] max-h-[92vh] overflow-y-auto">
 
       <!-- Panel header -->
-      <div class="sticky top-0 bg-white border-b border-cream-dark px-6 py-4 flex items-center justify-between rounded-t-3xl md:rounded-t-3xl z-10">
+      <div class="modal-head sticky top-0 z-10 rounded-t-[32px]">
+      <div class="modal-grip" aria-hidden="true"></div>
+      <div class="px-6 py-4 flex items-center justify-between">
         <div>
-          <h2 class="font-display text-xl text-navy font-medium">השלמת הזמנה</h2>
+          <h2 class="font-display text-2xl text-navy font-medium">השלמת הזמנה</h2>
           <div id="order-summary-header" class="flex items-center gap-2 mt-1">
             <span id="modal-color-dot" class="w-3 h-3 rounded-full inline-block" style="background:#9A9A9A;"></span>
             <span id="modal-summary-text" class="font-body text-xs text-muted"></span>
           </div>
         </div>
-        <button id="modal-close-btn" class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-cream-dark transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" aria-label="סגור">
+        <button id="modal-close-btn" class="w-10 h-10 rounded-full flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40" aria-label="סגור">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="transition:transform 0.3s var(--spring);">
             <path d="M4 4l10 10M14 4L4 14" stroke="#2A4B7C" stroke-width="1.8" stroke-linecap="round"/>
           </svg>
         </button>
       </div>
+      </div>
 
       <!-- Form -->
-      <form id="order-form" novalidate class="px-4 py-5 sm:px-6 sm:py-6 space-y-5">
+      <form id="order-form" novalidate class="px-5 py-6 sm:px-7 sm:py-7 space-y-5">
 
         <!-- Honeypot: hidden from real users, bots fill it -->
         <input type="text" name="_honey" id="f-honey" style="display:none;position:absolute;left:-9999px;" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -1013,13 +1248,13 @@
 
         <!-- Divider -->
         <div class="flex items-center gap-3">
-          <div class="flex-1 h-px bg-cream-dark"></div>
-          <span class="font-body text-xs text-muted">סיכום הזמנה</span>
-          <div class="flex-1 h-px bg-cream-dark"></div>
+          <div class="flex-1 h-px" style="background:var(--line);"></div>
+          <span class="eyebrow">סיכום הזמנה</span>
+          <div class="flex-1 h-px" style="background:var(--line);"></div>
         </div>
 
         <!-- Order summary in modal -->
-        <div class="bg-cream-light rounded-2xl p-4 border border-cream-dark">
+        <div class="modal-box">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
               <span id="modal-color-dot2" class="w-5 h-5 rounded-full inline-block border border-cream-dark" style="background:#9A9A9A;"></span>
@@ -1028,15 +1263,15 @@
                 <p class="font-body text-xs text-muted" id="modal-variant-label">—</p>
               </div>
             </div>
-            <p class="font-display text-lg font-bold text-navy" id="modal-price-label">₪270</p>
+            <p class="font-display text-2xl font-medium text-navy" id="modal-price-label">₪270</p>
           </div>
         </div>
 
         <!-- BIT QR payment -->
-        <div class="rounded-2xl border-2 border-cream-dark bg-cream-light p-4 text-center">
+        <div class="modal-box text-center">
           <p class="font-body text-sm font-semibold text-navy mb-1">תשלום ב-BIT 💙</p>
           <p class="font-body text-xs text-muted mb-3">סרקי את הקוד ושלחי <strong id="bit-price" class="text-navy">₪270</strong> לאודיה צור</p>
-          <img src="picture/bit.jpeg" alt="BIT QR תשלום לאודיה צור" class="w-40 mx-auto rounded-xl">
+          <img src="picture/bit.jpeg" alt="BIT QR תשלום לאודיה צור" class="w-44 mx-auto rounded-2xl" width="424" height="600" loading="lazy" style="box-shadow:var(--sh-1);">
         </div>
 
         <!-- Submit -->
@@ -1068,7 +1303,7 @@
   <div id="sticky-buy-bar" aria-hidden="true">
     <div>
       <p class="font-body text-xs text-muted">סה"כ לתשלום</p>
-      <p id="sticky-price" class="font-display text-xl text-navy font-bold">₪270</p>
+      <p id="sticky-price" class="font-display text-2xl text-navy font-medium" style="line-height:1.1;">₪270</p>
     </div>
     <button id="sticky-buy-btn" type="button" class="btn-primary justify-center text-sm py-3 px-6">
       הזמיני עכשיו ←
@@ -1076,22 +1311,18 @@
   </div>
 
   <!-- Floating social buttons -->
-  <div class="fixed left-0 top-1/2 z-40 flex flex-col gap-2" style="transform:translateY(-50%);">
-    <a href="https://www.instagram.com/flowmama_bra/?utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-       class="flex items-center justify-center w-12 h-12 rounded-r-2xl transition-transform duration-200 hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/50"
-       style="background:#2A4B7C; box-shadow:2px 2px 14px rgba(42,75,124,0.3);">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="3" y="3" width="14" height="14" rx="4.5" stroke="white" stroke-width="1.5"/>
-        <circle cx="10" cy="10" r="3.5" stroke="white" stroke-width="1.5"/>
-        <circle cx="14.5" cy="5.5" r="1" fill="white"/>
+  <div class="float-social">
+    <a href="https://www.instagram.com/flowmama_bra/?utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="3" width="14" height="14" rx="4.5" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="10" cy="10" r="3.5" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="14.5" cy="5.5" r="1" fill="currentColor"/>
       </svg>
     </a>
-    <a id="float-whatsapp-btn" href="https://wa.me/972504777045?text=היי%20אודיה%2C%20ראיתי%20את%20חזיית%20ההנקה%20ורוצה%20לשמוע%20עוד%20😊" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
-       class="flex items-center justify-center w-12 h-12 rounded-r-2xl transition-transform duration-200 hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/50"
-       style="background:#2A4B7C; box-shadow:2px 2px 14px rgba(42,75,124,0.3);">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10 2a8 8 0 0 0-6.93 11.97L2 18l4.13-1.05A8 8 0 1 0 10 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-        <path d="M7 8.5c.4.9 1 1.8 1.9 2.6.9.8 1.8 1.3 2.8 1.6l1-.9c.1-.1.3-.1.5 0l1.6 1.2c.1.1.1.4 0 .5l-.8 1c-.4.4-1 .5-1.5.3C9.5 13.5 6.5 10.5 6 7.5c-.2-.5 0-1.1.4-1.5l1-.8c.1-.1.4-.1.5 0l1.2 1.6c.1.1.1.3 0 .4L7 8.5Z" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    <a id="float-whatsapp-btn" href="https://wa.me/972504777045?text=היי%20אודיה%2C%20ראיתי%20את%20חזיית%20ההנקה%20ורוצה%20לשמוע%20עוד%20😊" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 2a8 8 0 0 0-6.93 11.97L2 18l4.13-1.05A8 8 0 1 0 10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M7 8.5c.4.9 1 1.8 1.9 2.6.9.8 1.8 1.3 2.8 1.6l1-.9c.1-.1.3-.1.5 0l1.6 1.2c.1.1.1.4 0 .5l-.8 1c-.4.4-1 .5-1.5.3C9.5 13.5 6.5 10.5 6 7.5c-.2-.5 0-1.1.4-1.5l1-.8c.1-.1.4-.1.5 0l1.2 1.6c.1.1.1.3 0 .4L7 8.5Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </a>
   </div>
@@ -1123,10 +1354,23 @@
     const footerYear = document.getElementById('footer-year');
     if (footerYear) footerYear.textContent = new Date().getFullYear();
 
+    // ── Video play button ──────────────────────────────
+    const demoVideo    = document.getElementById('demo-video');
+    const videoPlayBtn = document.getElementById('video-play-btn');
+    if (demoVideo && videoPlayBtn) {
+      demoVideo.controls = false;
+      videoPlayBtn.hidden = false;
+      videoPlayBtn.addEventListener('click', () => {
+        videoPlayBtn.hidden = true;
+        demoVideo.controls = true;
+        demoVideo.play().catch(() => {});
+      });
+    }
+
     // ── Nav scroll ─────────────────────────────────────
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 80);
+      navbar.classList.toggle('scrolled', window.scrollY > 24);
     }, { passive: true });
 
 
@@ -1171,8 +1415,7 @@
     function updateThumbRings() {
       thumbBtns.forEach(b => {
         const on = b.dataset.color === selectedColor;
-        b.classList.toggle('ring-2', on);
-        b.classList.toggle('ring-navy', on);
+        b.classList.toggle('selected', on);
       });
     }
 
@@ -1274,7 +1517,7 @@
       if (!selectedColor || !selectedSize) {
         if (!selectedColor) showError('color-error');
         if (!selectedSize)  showError('size-error');
-        const shakeTarget = triggerBtn || buyNowBtn;
+        const shakeTarget = (triggerBtn instanceof Element) ? triggerBtn : buyNowBtn;
         shakeTarget.classList.add('shake');
         shakeTarget.addEventListener('animationend', () => shakeTarget.classList.remove('shake'), { once: true });
         document.getElementById('buy').scrollIntoView({ behavior: 'smooth', block: 'start' });
