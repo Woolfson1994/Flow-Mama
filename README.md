@@ -2,7 +2,7 @@
 
 A single-page Hebrew (RTL) e-commerce website for **Flow Mama** — a premium nursing bra designed by Odeya Tsur.
 
-**Live site:** [flow-mama.co.il](https://flow-mama.co.il)
+**Live site:** [www.flow-mama.co.il](https://www.flow-mama.co.il) (the bare `flow-mama.co.il` redirects to `www`, so all canonical/SEO URLs use `www`)
 
 ---
 
@@ -12,7 +12,7 @@ A single-page Hebrew (RTL) e-commerce website for **Flow Mama** — a premium nu
 - **Price:** ₪250 + delivery
 - **Colors:** Gray, White, Yellow (banana) — size L not available in White
 - **Sizes:** M, L, XL
-- **Delivery:** Collection point ₪20 (total ₪270) | Home delivery ₪45 (total ₪295)
+- **Delivery:** Self pickup free (total ₪250 — Jerusalem, Mevasseret Zion, Tal Shahar) | Collection point ₪20 (total ₪270) | Home delivery ₪45 (total ₪295)
 
 ---
 
@@ -45,14 +45,15 @@ Flow-Mama/
 │   ├── serve.mjs       # Local dev server (port 3000)
 │   └── screenshot.mjs  # Puppeteer screenshot utility
 ├── picture/            # Product + lifestyle images and demo video
-│   ├── gray.JPG        # Product photo — gray color
+│   ├── gray.JPG        # Product photo — gray color (keep product photos ≤1400px / ~400KB)
 │   ├── white.JPG       # Product photo — white color
 │   ├── yallow.JPG      # Product photo — yellow color
 │   ├── pic_1–18.JPG    # Lifestyle photos (hero gallery)
 │   ├── movie.mp4       # Product demo video
 │   └── bit.jpeg        # BIT payment QR code
 ├── recomends/          # Customer recommendation screenshots
-│   └── recomend1–3.jpeg
+│   ├── recomend1–3.jpeg
+│   └── audio-recommend.m4a  # Audio testimonial (AAC — plays on all browsers incl. iPhone)
 └── brand_assets/       # Logo
     └── Flow Mama Logo.jpeg
 ```
@@ -88,7 +89,7 @@ git push origin main
 
 1. Customer selects color + size + delivery option on the page
 2. Clicks **הזמיני עכשיו** → checkout modal opens, or **הזמיני דרך WhatsApp** → pre-filled WhatsApp message
-3. Fills in name, phone, email (+ address for home delivery)
+3. Fills in name, phone, email (+ address for home delivery, or a pickup location for self pickup)
 4. Pays via BIT QR code directly to Odeya
 5. Submits form → order saved to Supabase `orders` table with `status: 'pending'`
 6. Odeya follows up manually via WhatsApp
@@ -101,7 +102,8 @@ git push origin main
 - **Key type:** Publishable (safe to expose in client-side code)
 - **RLS:** Enabled — anon users can `INSERT` only; `SELECT` requires authentication
 - **Orders table columns:** `name`, `phone`, `email`, `delivery_type`, `address`, `city`, `postal`, `pickup_location`, `color`, `size`, `total_price`, `status`, `created_at`
-- **`delivery_type` values:** `נקודת איסוף` or `משלוח לבית`
+- **`delivery_type` values:** `נקודת איסוף`, `משלוח לבית`, or `איסוף עצמי` (self pickup — location stored in `pickup_location`)
+- **Heads-up for developers:** in the `index.html` JS, `deliveryType === 'pickup'` means **home delivery**, `'shipping'` means collection point, and `'selfpickup'` means self pickup. Prices are hardcoded in several functions — change them together.
 
 ---
 
@@ -138,7 +140,7 @@ The Meta Pixel base code is installed in `index.html`. To activate it:
 
 1. Go to [Meta Business Manager → Events Manager](https://business.facebook.com/events_manager)
 2. Create a Pixel and copy the ID
-3. In `index.html`, replace both occurrences of `XXXXXXXXXXXXXXXX` with your Pixel ID
+3. In `index.html`, paste the numeric ID into `META_PIXEL_ID` (currently empty — while empty, the pixel doesn't load at all)
 
 ---
 
